@@ -11,7 +11,7 @@ buildscript {
 repositories {
     mavenCentral()
 }
-group 'com.example'
+group 'com.benasher44'
 version '0.0.1'
 
 apply plugin: 'kotlin-multiplatform'
