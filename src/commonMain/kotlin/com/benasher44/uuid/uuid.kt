@@ -1,9 +1,6 @@
 package com.benasher44.uuid
 
-import kotlin.experimental.and
-import kotlin.experimental.or
-
-val UUID_BYTES = 16
+internal val UUID_BYTES = 16
 
 class UUID(
     /** The UUID bytes */
@@ -19,10 +16,10 @@ class UUID(
         private fun genUuid(): ByteArray {
             val bytes = getRandomUUIDBytes()
             // Set the version bit
-            bytes[7] = (bytes[6] and 0x0F.toByte()) or 0x40.toByte()
+            bytes[7] = ((bytes[6].toInt() and 0x0F) or 0x40).toByte()
 
             // Set the 0 and 1 bits
-            bytes[8] = (bytes[8] and 0b00111111.toByte()) or 0b10000000.toByte()
+            bytes[8] = ((bytes[8].toInt() and 0b00111111) or 0b10000000).toByte()
             return bytes
         }
 
@@ -90,9 +87,9 @@ class UUID(
 
         /** Converts an octet pair (in a Byte) into its pair of characters */
         private fun octetPairToString(octetPair: Byte): String {
-            val left = (octetPair.toInt().shr(4).toByte() and 0b00001111).toUByte()
-            val right = (octetPair and 0b00001111).toUByte()
-            return "${uuidChars[left.toInt()]}${uuidChars[right.toInt()]}"
+            val left = octetPair.toInt().shr(4) and 0b00001111
+            val right = octetPair.toInt() and 0b00001111
+            return "${uuidChars[left]}${uuidChars[right]}"
         }
     }
 
