@@ -5,17 +5,28 @@ import kotlin.experimental.or
 
 val UUID_BYTES = 16
 
-class UUID(val uuid: ByteArray) {
+class UUID(
+    /** The UUID bytes */
+    val uuid: ByteArray
+) {
+
+    /** Generates a new UUID */
     constructor(): this(genUuid())
 
     companion object {
+
+        /** Helper that generates the random UUID */
         private fun genUuid(): ByteArray {
             val bytes = getRandomUUIDBytes()
+            // Set the version bit
             bytes[7] = (bytes[6] and 0x0F.toByte()) or 0x40.toByte()
+
+            // Set the 0 and 1 bits
             bytes[8] = (bytes[8] and 0b00111111.toByte()) or 0b10000000.toByte()
             return bytes
         }
 
+        // Ranges of non-hyphen characters in a UUID string
         private val uuidCharRanges: List<IntRange> = listOf(
             0 until 8,
             9 until 13,
@@ -24,8 +35,10 @@ class UUID(val uuid: ByteArray) {
             24 until 36
         )
 
+        // Indices of the hyphen characters in a UUID string
         private val hyphenIndices = listOf(8, 13, 18, 23)
 
+        /** @returns the Int representation of a given UUID character */
         private fun halfByteFromChar(char: Char): Int? {
             return when (char) {
                 in CharRange('0', '9') -> char.toInt() - 48
@@ -35,6 +48,12 @@ class UUID(val uuid: ByteArray) {
             }
         }
 
+        /**
+         * Parses a UUID from a String
+         *
+         * @param from The String, from which to deserialize the UUID
+         * @return a UUID, if the string is a valid UUID string
+         */
         fun parse(from: String): UUID? {
             if (from.length != 36) return null
             if (hyphenIndices.find { from[it] != '-' } != null) return null
@@ -43,9 +62,12 @@ class UUID(val uuid: ByteArray) {
             for (range in uuidCharRanges) {
                var i = range.start
                 while (i < range.endInclusive) {
+                    // Collect each pair of UUID chars and their int representations
                     val left = halfByteFromChar(from[i])
                     val right = halfByteFromChar(from[i + 1])
                     if (left == null || right == null) return null
+
+                    // smash them together into a single byte
                     bytes[byte] = (left.shl(4) or right).toByte()
                     i += 2
                     byte += 1
@@ -54,6 +76,7 @@ class UUID(val uuid: ByteArray) {
             return UUID(bytes)
         }
 
+        /** The ranges of sections of UUID bytes, to be separated by hyphens */
         private val uuidByteRanges: List<IntRange> = listOf(
             0 until 4,
             4 until 6,
@@ -62,8 +85,10 @@ class UUID(val uuid: ByteArray) {
             10 until 16
         )
 
+        /** The UUID chars arranged from smallest to largest, so they can be indexed by their byte representations */
         private val uuidChars = CharRange('0', '9').toList() + CharRange('a', 'f').toList()
 
+        /** Converts an octet pair (in a Byte) into its pair of characters */
         private fun octetPairToString(octetPair: Byte): String {
             val left = (octetPair.toInt().shr(4).toByte() and 0b00001111).toUByte()
             val right = (octetPair and 0b00001111).toUByte()
