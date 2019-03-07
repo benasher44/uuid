@@ -1,15 +1,32 @@
 import com.benasher44.uuid.UUID
-import com.benasher44.uuid.toNativeString
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
+import kotlin.test.*
 
 class UUIDTest {
+    // Ranges of non-hyphen characters
+    private val uuidCharRanges: List<IntRange> = listOf(
+        0 until 8,
+        9 until 13,
+        14 until 18,
+        19 until 23,
+        24 until 36
+    )
+
+    // Indices of the hyphen characters in a UUID string
+    private val hyphenIndices = listOf(8, 13, 18, 23)
+
+    private fun isValidUUIDChar(char: Char): Boolean {
+        return (char in CharRange('0', '9') || char in CharRange('a', 'f'))
+    }
+
     @Test
     fun `generates a UUID`() {
         val uuid = UUID()
-        assertEquals(uuid.toString().length, 36)
-        assertEquals(uuid.toString(), uuid.toNativeString().toLowerCase())
+        val uuidString = uuid.toString()
+        assertEquals(uuidString.length, 36)
+        assertNull(hyphenIndices.find { uuidString[it] != '-' })
+        for (range in uuidCharRanges) {
+            assertNull(range.find { !isValidUUIDChar(uuidString[it]) })
+        }
     }
 
     @Test

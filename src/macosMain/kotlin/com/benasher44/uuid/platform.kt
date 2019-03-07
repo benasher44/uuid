@@ -1,10 +1,7 @@
 package com.benasher44.uuid
 
-import kotlinx.cinterop.UByteVar
 import kotlinx.cinterop.addressOf
-import kotlinx.cinterop.reinterpret
 import kotlinx.cinterop.usePinned
-import platform.Foundation.NSUUID
 import platform.posix.O_RDONLY
 import platform.posix.close
 import platform.posix.open
@@ -18,10 +15,4 @@ internal actual fun getRandomUUIDBytes(): ByteArray {
     }
     close(fd)
     return bytes
-}
-
-actual fun UUID.toNativeString(): String {
-    uuid.usePinned {
-        return NSUUID(it.addressOf(0).reinterpret<UByteVar>()).description!!
-    }
 }
