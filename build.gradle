@@ -4,7 +4,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.11'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.21'
     }
 }
 
@@ -19,9 +19,9 @@ apply plugin: 'maven-publish'
 
 kotlin {
     targets {
-        fromPreset(presets.jvm, 'jvm')
-        fromPreset(presets.js, 'js')
-        fromPreset(presets.macosX64, 'macos')
+        targetFromPreset(presets.jvm, 'jvm')
+        targetFromPreset(presets.js, 'js')
+        targetFromPreset(presets.macosX64, 'macos')
     }
     sourceSets {
         commonMain {
