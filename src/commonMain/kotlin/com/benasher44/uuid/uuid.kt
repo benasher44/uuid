@@ -4,12 +4,8 @@ internal val UUID_BYTES = 16
 
 class UUID(
     /** The UUID bytes */
-    val uuid: ByteArray
+    val uuid: ByteArray = genUuid()
 ) {
-
-    /** Generates a new UUID */
-    constructor(): this(genUuid())
-
     companion object {
 
         /** Helper that generates the random UUID */
@@ -102,5 +98,5 @@ class UUID(
         return other.uuid.contentEquals(uuid)
     }
 
-    override fun hashCode() = uuid.hashCode()
+    override fun hashCode() = uuid.contentHashCode()
 }

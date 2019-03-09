@@ -32,6 +32,9 @@ class UUIDTest {
     @Test
     fun `parses_a_UUID_from_a_string`() {
         val uuid = UUID()
-        assertEquals(uuid, UUID.parse(uuid.toString())!!)
+        val uuidFromStr = UUID.parse(uuid.toString())!!
+        assertEquals(uuid, uuidFromStr)
+        // double check hashcode equality, while we're here
+        assertEquals(uuid.hashCode(), uuidFromStr.hashCode())
     }
 }
