@@ -19,7 +19,7 @@ class UUIDTest {
     }
 
     @Test
-    fun `generates a UUID`() {
+    fun `generates_a_UUID`() {
         val uuid = UUID()
         val uuidString = uuid.toString()
         assertEquals(uuidString.length, 36)
@@ -30,7 +30,7 @@ class UUIDTest {
     }
 
     @Test
-    fun `parses a UUID from a string`() {
+    fun `parses_a_UUID_from_a_string`() {
         val uuid = UUID()
         assertEquals(uuid, UUID.parse(uuid.toString())!!)
     }
