@@ -57,8 +57,10 @@ kotlin {
             }
         }
         macosMain {
+            kotlin.srcDirs += 'src/nativeMain/kotlin'
         }
         macosTest {
+            kotlin.srcDirs += 'src/nativeTest/kotlin'
         }
     }
 }
