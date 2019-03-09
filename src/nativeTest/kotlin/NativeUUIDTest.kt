@@ -1,4 +1,5 @@
 import com.benasher44.uuid.UUID
+import com.benasher44.uuid.UUID_BYTES
 import kotlinx.cinterop.*
 import platform.Foundation.NSUUID
 import platform.posix.memcmp
@@ -11,7 +12,7 @@ class NativeUUIDTest {
     fun `UUID.toString() matches macOS`() {
         val uuidL = UUID()
         val nativeUuidString = uuidL.uuid.usePinned {
-            NSUUID(it.addressOf(0).reinterpret()).description!!
+            NSUUID(it.addressOf(0).reinterpret()).UUIDString
         }.toLowerCase()
         assertEquals(uuidL.toString(), nativeUuidString)
     }
@@ -25,9 +26,8 @@ class NativeUUIDTest {
             memScoped {
                 val bytes = allocArray<UByteVar>(16)
                 nativeUuid.getUUIDBytes(bytes)
-                memcmp(uuidL.uuid.toCValues(), bytes.reinterpret<ByteVar>(), 16) == 0
+                memcmp(uuidL.uuid.toCValues(), bytes.reinterpret<ByteVar>(), UUID_BYTES.toULong()) == 0
             }
         }
-
     }
 }
