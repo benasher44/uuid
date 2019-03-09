@@ -1,6 +1,7 @@
 package com.benasher44.uuid
 
 internal val UUID_BYTES = 16
+internal val UUID_STRING_LENGTH = 36
 
 class UUID(
     /** The UUID bytes */
@@ -48,12 +49,12 @@ class UUID(
          * @return a UUID, if the string is a valid UUID string
          */
         fun parse(from: String): UUID? {
-            if (from.length != 36) return null
+            if (from.length != UUID_STRING_LENGTH) return null
             if (hyphenIndices.find { from[it] != '-' } != null) return null
-            val bytes = ByteArray(16)
+            val bytes = ByteArray(UUID_BYTES)
             var byte = 0
             for (range in uuidCharRanges) {
-               var i = range.start
+                var i = range.start
                 while (i < range.endInclusive) {
                     // Collect each pair of UUID chars and their int representations
                     val left = halfByteFromChar(from[i])
@@ -80,18 +81,26 @@ class UUID(
 
         /** The UUID chars arranged from smallest to largest, so they can be indexed by their byte representations */
         internal val uuidChars = CharRange('0', '9').toList() + CharRange('a', 'f').toList()
-
-        /** Converts an octet pair (in a Byte) into its pair of characters */
-        private fun octetPairToString(octetPair: Byte): String {
-            val left = octetPair.toInt().shr(4) and 0b00001111
-            val right = octetPair.toInt() and 0b00001111
-            return "${uuidChars[left]}${uuidChars[right]}"
-        }
     }
 
-    override fun toString() = uuidByteRanges.map { range -> String
-        range.map { octetPairToString(uuid[it]) }.joinToString("")
-    }.joinToString("-")
+    override fun toString() : String {
+        val characters = CharArray(UUID_STRING_LENGTH)
+        var charIndex = 0
+        for (range in uuidByteRanges) {
+            for (i in range) {
+                val octetPair = uuid[i]
+                // convert the octet pair in this byte into 2 characters
+                val left = octetPair.toInt().shr(4) and 0b00001111
+                val right = octetPair.toInt() and 0b00001111
+                characters[charIndex++] = uuidChars[left]
+                characters[charIndex++] = uuidChars[right]
+            }
+            if (charIndex < UUID_STRING_LENGTH) {
+                characters[charIndex++] = '-'
+            }
+        }
+        return String(characters)
+    }
 
     override fun equals(other: Any?): Boolean {
         if (other !is UUID) return false

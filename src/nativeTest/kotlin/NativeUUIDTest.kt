@@ -24,7 +24,7 @@ class NativeUUIDTest {
 
         assertTrue {
             memScoped {
-                val bytes = allocArray<UByteVar>(16)
+                val bytes = allocArray<UByteVar>(UUID_BYTES)
                 nativeUuid.getUUIDBytes(bytes)
                 memcmp(uuidL.uuid.toCValues(), bytes.reinterpret<ByteVar>(), UUID_BYTES.toULong()) == 0
             }
