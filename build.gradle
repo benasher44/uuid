@@ -9,6 +9,7 @@ buildscript {
 }
 
 repositories {
+    jcenter()
     mavenCentral()
 }
 group 'com.benasher44'
@@ -65,4 +66,27 @@ kotlin {
         iosSimMain { kotlin.srcDirs += 'src/nativeMain/kotlin' }
         iosSimTest { kotlin.srcDirs += 'src/nativeTest/kotlin' }
     }
+}
+
+configurations {
+    ktlint
+}
+
+dependencies {
+    ktlint "com.github.shyiko:ktlint:0.30.0"
+}
+
+task ktlint(type: JavaExec, group: "verification") {
+    description = "Check Kotlin code style."
+    classpath = configurations.ktlint
+    main = "com.github.shyiko.ktlint.Main"
+    args "src/**/*.kt"
+}
+check.dependsOn ktlint
+
+task ktlintFormat(type: JavaExec, group: "formatting") {
+    description = "Fix Kotlin code style deviations."
+    classpath = configurations.ktlint
+    main = "com.github.shyiko.ktlint.Main"
+    args "-F", "src/**/*.kt"
 }

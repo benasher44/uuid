@@ -1,6 +1,8 @@
 import com.benasher44.uuid.UUID
 import com.benasher44.uuid.UUID_STRING_LENGTH
-import kotlin.test.*
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class UUIDTest {
 

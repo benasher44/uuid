@@ -1,6 +1,13 @@
 import com.benasher44.uuid.UUID
 import com.benasher44.uuid.UUID_BYTES
-import kotlinx.cinterop.*
+import kotlinx.cinterop.ByteVar
+import kotlinx.cinterop.UByteVar
+import kotlinx.cinterop.addressOf
+import kotlinx.cinterop.allocArray
+import kotlinx.cinterop.memScoped
+import kotlinx.cinterop.reinterpret
+import kotlinx.cinterop.toCValues
+import kotlinx.cinterop.usePinned
 import platform.Foundation.NSUUID
 import platform.posix.memcmp
 import kotlin.test.Test
