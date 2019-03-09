@@ -20,7 +20,7 @@ class UUID(
         }
 
         // Ranges of non-hyphen characters in a UUID string
-        private val uuidCharRanges: List<IntRange> = listOf(
+        internal val uuidCharRanges: List<IntRange> = listOf(
             0 until 8,
             9 until 13,
             14 until 18,
@@ -29,7 +29,7 @@ class UUID(
         )
 
         // Indices of the hyphen characters in a UUID string
-        private val hyphenIndices = listOf(8, 13, 18, 23)
+        internal val hyphenIndices = listOf(8, 13, 18, 23)
 
         /** @returns the Int representation of a given UUID character */
         private fun halfByteFromChar(char: Char): Int? {
@@ -79,7 +79,7 @@ class UUID(
         )
 
         /** The UUID chars arranged from smallest to largest, so they can be indexed by their byte representations */
-        private val uuidChars = CharRange('0', '9').toList() + CharRange('a', 'f').toList()
+        internal val uuidChars = CharRange('0', '9').toList() + CharRange('a', 'f').toList()
 
         /** Converts an octet pair (in a Byte) into its pair of characters */
         private fun octetPairToString(octetPair: Byte): String {
