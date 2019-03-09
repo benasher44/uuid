@@ -22,6 +22,8 @@ kotlin {
         targetFromPreset(presets.jvm, 'jvm')
         targetFromPreset(presets.js, 'js')
         targetFromPreset(presets.macosX64, 'macos')
+        targetFromPreset(presets.iosX64, 'iosSim')
+        targetFromPreset(presets.iosArm64, 'iosDevice')
     }
     sourceSets {
         commonMain {
@@ -56,11 +58,11 @@ kotlin {
                 implementation 'org.jetbrains.kotlin:kotlin-test-js'
             }
         }
-        macosMain {
-            kotlin.srcDirs += 'src/nativeMain/kotlin'
-        }
-        macosTest {
-            kotlin.srcDirs += 'src/nativeTest/kotlin'
-        }
+        macosMain { kotlin.srcDirs += 'src/nativeMain/kotlin' }
+        macosTest { kotlin.srcDirs += 'src/nativeTest/kotlin' }
+        iosDeviceMain { kotlin.srcDirs += 'src/nativeMain/kotlin' }
+        iosDeviceTest { kotlin.srcDirs += 'src/nativeTest/kotlin' }
+        iosSimMain { kotlin.srcDirs += 'src/nativeMain/kotlin' }
+        iosSimTest { kotlin.srcDirs += 'src/nativeTest/kotlin' }
     }
 }
