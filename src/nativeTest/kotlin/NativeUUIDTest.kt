@@ -1,15 +1,9 @@
 import com.benasher44.uuid.UUID
 import com.benasher44.uuid.UUID_BYTES
-import kotlinx.cinterop.ByteVar
-import kotlinx.cinterop.UByteVar
 import kotlinx.cinterop.addressOf
-import kotlinx.cinterop.allocArray
-import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.reinterpret
-import kotlinx.cinterop.toCValues
 import kotlinx.cinterop.usePinned
 import platform.Foundation.NSUUID
-import platform.posix.memcmp
 import kotlin.native.concurrent.isFrozen
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -29,18 +23,15 @@ class NativeUUIDTest {
     fun `UUID bytes match macOS`() {
         val uuidL = UUID()
         val nativeUuid = NSUUID(uuidL.toString())
-
-        assertTrue {
-            memScoped {
-                val bytes = allocArray<UByteVar>(UUID_BYTES)
-                nativeUuid.getUUIDBytes(bytes)
-                memcmp(uuidL.uuid.toCValues(), bytes.reinterpret<ByteVar>(), UUID_BYTES.toULong()) == 0
-            }
+        val nativeBytes = ByteArray(UUID_BYTES)
+        nativeBytes.usePinned {
+            nativeUuid.getUUIDBytes(it.addressOf(0).reinterpret())
         }
+        assertTrue(uuidL.uuid.contentEquals(nativeBytes))
     }
 
     @Test
-    fun `UUIS is frozen after initialization`() {
+    fun `UUID is frozen after initialization`() {
         assertTrue(UUID().isFrozen)
     }
 }
