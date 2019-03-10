@@ -6,6 +6,7 @@ import platform.posix.O_RDONLY
 import platform.posix.close
 import platform.posix.open
 import platform.posix.read
+import kotlin.native.concurrent.freeze
 
 internal actual fun getRandomUUIDBytes(): ByteArray {
     val bytes = ByteArray(UUID_BYTES)
@@ -16,3 +17,5 @@ internal actual fun getRandomUUIDBytes(): ByteArray {
     close(fd)
     return bytes
 }
+
+internal actual fun <T> T.freeze() = this.freeze()

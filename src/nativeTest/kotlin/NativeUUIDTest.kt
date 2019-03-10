@@ -10,6 +10,7 @@ import kotlinx.cinterop.toCValues
 import kotlinx.cinterop.usePinned
 import platform.Foundation.NSUUID
 import platform.posix.memcmp
+import kotlin.native.concurrent.isFrozen
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -36,5 +37,10 @@ class NativeUUIDTest {
                 memcmp(uuidL.uuid.toCValues(), bytes.reinterpret<ByteVar>(), UUID_BYTES.toULong()) == 0
             }
         }
+    }
+
+    @Test
+    fun `UUIS is frozen after initialization`() {
+        assertTrue(UUID().isFrozen)
     }
 }

@@ -16,6 +16,7 @@ class UUID(val uuid: ByteArray = genUuid()) {
                 "Invalid UUID bytes. Expected $UUID_BYTES bytes; found ${uuid.count()}"
             )
         }
+        this.freeze()
     }
     companion object {
 
