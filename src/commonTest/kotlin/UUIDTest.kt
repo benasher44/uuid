@@ -2,6 +2,7 @@ import com.benasher44.uuid.UUID
 import com.benasher44.uuid.UUID_STRING_LENGTH
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFails
 import kotlin.test.assertNull
 
 class UUIDTest {
@@ -28,5 +29,11 @@ class UUIDTest {
         assertEquals(uuid, uuidFromStr)
         // double check hashcode equality, while we're here
         assertEquals(uuid.hashCode(), uuidFromStr.hashCode())
+    }
+
+    @Test
+    fun `throws when passed invalid number of bytes`() {
+        assertFails { UUID(ByteArray(17)) }
+        assertFails { UUID(ByteArray(15)) }
     }
 }

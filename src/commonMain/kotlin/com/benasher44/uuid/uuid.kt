@@ -7,8 +7,16 @@ internal val UUID_STRING_LENGTH = 36
  * A v4 RFC4122 UUID
  *
  * @param uuid The underlying UUID bytes
+ * @throws IllegalArgumentException, if uuid.count() is not 16
  * */
 class UUID(val uuid: ByteArray = genUuid()) {
+    init {
+        if (uuid.count() != UUID_BYTES) {
+            throw IllegalArgumentException(
+                "Invalid UUID bytes. Expected $UUID_BYTES bytes; found ${uuid.count()}"
+            )
+        }
+    }
     companion object {
 
         /** Generates a random UUID */
