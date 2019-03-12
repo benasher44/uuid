@@ -90,6 +90,9 @@ class UUID(val uuid: ByteArray = genUuid()) {
         internal val uuidChars = ('0'..'9') + ('a'..'f')
     }
 
+    /**
+     * Converts the UUID to a UUID string, per RFC4122
+     */
     override fun toString(): String {
         val characters = CharArray(UUID_STRING_LENGTH)
         var charIndex = 0
@@ -109,10 +112,16 @@ class UUID(val uuid: ByteArray = genUuid()) {
         return String(characters)
     }
 
+    /**
+     * @return true if other is a UUID and its uuid bytes are equal to this one
+     */
     override fun equals(other: Any?): Boolean {
         if (other !is UUID) return false
         return other.uuid.contentEquals(uuid)
     }
 
+    /**
+     * @return The hashCode of the uuid bytes
+     */
     override fun hashCode() = uuid.contentHashCode()
 }
