@@ -9,9 +9,9 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class NativeUUIDTest {
+class CocoaUUIDTest {
     @Test
-    fun `UUID.toString() matches macOS`() {
+    fun `UUID.toString() matches NSUUID`() {
         val uuidL = UUID()
         val nativeUuidString = uuidL.uuid.usePinned {
             NSUUID(it.addressOf(0).reinterpret()).UUIDString
@@ -20,7 +20,7 @@ class NativeUUIDTest {
     }
 
     @Test
-    fun `UUID bytes match macOS`() {
+    fun `UUID bytes match NSUUID`() {
         val uuidL = UUID()
         val nativeUuid = NSUUID(uuidL.toString())
         val nativeBytes = ByteArray(UUID_BYTES)
