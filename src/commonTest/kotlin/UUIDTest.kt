@@ -32,7 +32,7 @@ class UUIDTest {
     }
 
     @Test
-    fun `throws when passed invalid number of bytes`() {
+    fun `throws_when_passed_invalid_number_of_bytes`() {
         assertFails { UUID(ByteArray(17)) }
         assertFails { UUID(ByteArray(15)) }
     }

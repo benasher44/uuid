@@ -60,14 +60,20 @@ kotlin {
                 implementation 'org.jetbrains.kotlin:kotlin-test-js'
             }
         }
-        macosMain { kotlin.srcDirs += 'src/nativeMain/kotlin' }
-        macosTest { kotlin.srcDirs += 'src/nativeTest/kotlin' }
-        iosDevice64Main { kotlin.srcDirs += 'src/nativeMain/kotlin' }
-        iosDevice64Test { kotlin.srcDirs += 'src/nativeTest/kotlin' }
-        iosDevice32Main { kotlin.srcDirs += 'src/nativeMain/kotlin' }
-        iosDevice32Test { kotlin.srcDirs += 'src/nativeTest/kotlin' }
-        iosSimMain { kotlin.srcDirs += 'src/nativeMain/kotlin' }
-        iosSimTest { kotlin.srcDirs += 'src/nativeTest/kotlin' }
+
+        def cocoaMainSourceSets = [
+                'src/nativeMain/kotlin',
+                'src/nixMain/kotlin'
+        ]
+
+        macosMain { kotlin.srcDirs += cocoaMainSourceSets }
+        macosTest { kotlin.srcDirs += 'src/cocoaTest/kotlin' }
+        iosDevice64Main { kotlin.srcDirs += cocoaMainSourceSets }
+        iosDevice64Test { kotlin.srcDirs += 'src/cocoaTest/kotlin' }
+        iosDevice32Main { kotlin.srcDirs += cocoaMainSourceSets }
+        iosDevice32Test { kotlin.srcDirs += 'src/cocoaTest/kotlin' }
+        iosSimMain { kotlin.srcDirs += cocoaMainSourceSets }
+        iosSimTest { kotlin.srcDirs += 'src/cocoaTest/kotlin' }
     }
 }
 
