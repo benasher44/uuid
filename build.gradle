@@ -26,6 +26,9 @@ kotlin {
         targetFromPreset(presets.iosX64, 'iosSim')
         targetFromPreset(presets.iosArm64, 'iosDevice64')
         targetFromPreset(presets.iosArm32, 'iosDevice32')
+        targetFromPreset(presets.mingwX64, 'mingw') {
+            compilations.test.linkerOpts "-Wl,--subsystem,windows, -Bstatic -lbcrypt"
+        }
     }
     sourceSets {
         commonMain {
@@ -74,6 +77,12 @@ kotlin {
         iosDevice32Test { kotlin.srcDirs += 'src/cocoaTest/kotlin' }
         iosSimMain { kotlin.srcDirs += cocoaMainSourceSets }
         iosSimTest { kotlin.srcDirs += 'src/cocoaTest/kotlin' }
+        mingwMain {
+            kotlin.srcDirs += [
+                    'src/nativeMain/kotlin',
+                    'src/mingwMain/kotlin'
+            ]
+        }
     }
 }
 
