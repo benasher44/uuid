@@ -29,6 +29,8 @@ kotlin {
         targetFromPreset(presets.mingwX64, 'mingw') {
             compilations.test.linkerOpts "-Wl,--subsystem,windows, -Bstatic -lbcrypt"
         }
+        targetFromPreset(presets.linuxX64, 'linux64')
+        targetFromPreset(presets.linuxArm32Hfp, 'linux32')
     }
     sourceSets {
         commonMain {
@@ -64,18 +66,23 @@ kotlin {
             }
         }
 
-        def cocoaMainSourceSets = [
+        def nix64MainSourceSets = [
                 'src/nativeMain/kotlin',
-                'src/nixMain/kotlin'
+                'src/nix64Main/kotlin'
         ]
 
-        macosMain { kotlin.srcDirs += cocoaMainSourceSets }
+        def nix32MainSourceSets = [
+                'src/nativeMain/kotlin',
+                'src/nix32Main/kotlin'
+        ]
+
+        macosMain { kotlin.srcDirs += nix64MainSourceSets }
         macosTest { kotlin.srcDirs += 'src/cocoaTest/kotlin' }
-        iosDevice64Main { kotlin.srcDirs += cocoaMainSourceSets }
+        iosDevice64Main { kotlin.srcDirs += nix64MainSourceSets }
         iosDevice64Test { kotlin.srcDirs += 'src/cocoaTest/kotlin' }
-        iosDevice32Main { kotlin.srcDirs += cocoaMainSourceSets }
+        iosDevice32Main { kotlin.srcDirs += nix32MainSourceSets }
         iosDevice32Test { kotlin.srcDirs += 'src/cocoaTest/kotlin' }
-        iosSimMain { kotlin.srcDirs += cocoaMainSourceSets }
+        iosSimMain { kotlin.srcDirs += nix64MainSourceSets }
         iosSimTest { kotlin.srcDirs += 'src/cocoaTest/kotlin' }
         mingwMain {
             kotlin.srcDirs += [
@@ -83,6 +90,8 @@ kotlin {
                     'src/mingwMain/kotlin'
             ]
         }
+        linux64Main { kotlin.srcDirs += nix64MainSourceSets }
+        linux32Main { kotlin.srcDirs += nix32MainSourceSets }
     }
 }
 
