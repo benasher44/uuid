@@ -66,23 +66,23 @@ kotlin {
             }
         }
 
-        def cocoa64MainSourceSets = [
+        def nix64MainSourceSets = [
                 'src/nativeMain/kotlin',
                 'src/nix64Main/kotlin'
         ]
 
-        def cocoa32MainSourceSets = [
+        def nix32MainSourceSets = [
                 'src/nativeMain/kotlin',
                 'src/nix32Main/kotlin'
         ]
 
-        macosMain { kotlin.srcDirs += cocoa64MainSourceSets }
+        macosMain { kotlin.srcDirs += nix64MainSourceSets }
         macosTest { kotlin.srcDirs += 'src/cocoaTest/kotlin' }
-        iosDevice64Main { kotlin.srcDirs += cocoa64MainSourceSets }
+        iosDevice64Main { kotlin.srcDirs += nix64MainSourceSets }
         iosDevice64Test { kotlin.srcDirs += 'src/cocoaTest/kotlin' }
-        iosDevice32Main { kotlin.srcDirs += cocoa32MainSourceSets }
+        iosDevice32Main { kotlin.srcDirs += nix32MainSourceSets }
         iosDevice32Test { kotlin.srcDirs += 'src/cocoaTest/kotlin' }
-        iosSimMain { kotlin.srcDirs += cocoa64MainSourceSets }
+        iosSimMain { kotlin.srcDirs += nix32MainSourceSets }
         iosSimTest { kotlin.srcDirs += 'src/cocoaTest/kotlin' }
         mingwMain {
             kotlin.srcDirs += [
@@ -90,8 +90,8 @@ kotlin {
                     'src/mingwMain/kotlin'
             ]
         }
-        linux64Main { kotlin.srcDirs += 'src/nix64Main/kotlin' }
-        linux32Main { kotlin.srcDirs += 'src/nix32Main/kotlin' }
+        linux64Main { kotlin.srcDirs += nix64MainSourceSets }
+        linux32Main { kotlin.srcDirs += nix32MainSourceSets }
     }
 }
 
