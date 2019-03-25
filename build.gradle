@@ -82,7 +82,7 @@ kotlin {
         iosDevice64Test { kotlin.srcDirs += 'src/cocoaTest/kotlin' }
         iosDevice32Main { kotlin.srcDirs += nix32MainSourceSets }
         iosDevice32Test { kotlin.srcDirs += 'src/cocoaTest/kotlin' }
-        iosSimMain { kotlin.srcDirs += nix32MainSourceSets }
+        iosSimMain { kotlin.srcDirs += nix64MainSourceSets }
         iosSimTest { kotlin.srcDirs += 'src/cocoaTest/kotlin' }
         mingwMain {
             kotlin.srcDirs += [
