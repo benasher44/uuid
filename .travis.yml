@@ -14,7 +14,7 @@ matrix:
     script:
     - powershell -Command "cmd /c travis_win.bat"
     after_success:
-    - powershell -Command "cmd /c scripts\\publishWin.bat"
+    - powershell -Command "\$env:SONATYPE_USERNAME='$SONATYPE_USERNAME'; \$env:SONATYPE_PASSWORD='$SONATYPE_PASSWORD'; cmd /c scripts\\publishWin.bat"
   - os: osx
     env: JAVA_OPTS=-Xmx2g
     language: java
