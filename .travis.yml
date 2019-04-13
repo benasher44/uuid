@@ -7,11 +7,15 @@ matrix:
     env:
       JAVA_OPTS=-Xmx2g
     script:
-    - ./gradlew -s -i check build
+    - ./gradlew -s check build
+    after_success:
+    - ./scripts/publishLinux.sh
   - os: windows
     language: shell # java is not supported but jdk is installed
     script:
     - powershell -Command "cmd /c travis_win.bat"
+    after_success:
+    - powershell -Command "cmd /c scripts\\publishWin.bat"
   - os: osx
     env:
       JAVA_OPTS=-Xmx2g
@@ -20,5 +24,7 @@ matrix:
     before_install:
     - cp $(/usr/libexec/java_home)/lib/security/cacerts "${JAVA_HOME}/lib/security/cacerts"
     script:
-    - ./gradlew -s -i check build
+    - ./gradlew -s check build
+    after_success:
+    - ./scripts/publishCocoa.sh
 
