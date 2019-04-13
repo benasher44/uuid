@@ -1,5 +1,6 @@
-
 #!/bin/sh
+
+set -e
 
 ../gradlew publishIosDevice32PublicationToMavenRepository -PSONATYPE_USERNAME=$SONATYPE_USERNAME -PSONATYPE_PASSWORD=$SONATYPE_PASSWORD
 ../gradlew publishIosDevice64PublicationToMavenRepository -PSONATYPE_USERNAME=$SONATYPE_USERNAME -PSONATYPE_PASSWORD=$SONATYPE_PASSWORD
