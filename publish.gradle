@@ -79,11 +79,11 @@ def getSnapshotRepositoryUrl() {
 }
 
 def getRepositoryUsername() {
-  return hasProperty('SONATYPE_USERNAME') ? SONATYPE_USERNAME : ''
+  return project.findProperty('SONATYPE_USERNAME') ?: ''
 }
 
 def getRepositoryPassword() {
-  return hasProperty('SONATYPE_PASSWORD') ? SONATYPE_PASSWORD : ''
+  return project.findProperty('SONATYPE_PASSWORD') ?: ''
 }
 
 task emptySourcesJar(type: Jar) {
