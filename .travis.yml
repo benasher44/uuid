@@ -4,12 +4,11 @@ matrix:
   - os: linux
     language: java
     jdk: oraclejdk8
-    env:
-      JAVA_OPTS=-Xmx2g
+    env: JAVA_OPTS=-Xmx2g
     script:
-    - ./gradlew -s check build
+    - "./gradlew -s check build"
     after_success:
-    - ./scripts/publishLinux.sh
+    - "./scripts/publishLinux.sh"
   - os: windows
     language: shell # java is not supported but jdk is installed
     script:
@@ -17,14 +16,16 @@ matrix:
     after_success:
     - powershell -Command "cmd /c scripts\\publishWin.bat"
   - os: osx
-    env:
-      JAVA_OPTS=-Xmx2g
+    env: JAVA_OPTS=-Xmx2g
     language: java
     jdk: openjdk10
     before_install:
     - cp $(/usr/libexec/java_home)/lib/security/cacerts "${JAVA_HOME}/lib/security/cacerts"
     script:
-    - ./gradlew -s check build
+    - "./gradlew -s check build"
     after_success:
-    - ./scripts/publishCocoa.sh
-
+    - "./scripts/publishCocoa.sh"
+env:
+  global:
+  - secure: gHHF+oOuLhFM13iV+njQ04TY261DfNp5F469+CMB12fAkvdNVIYGEIKvjlqDsXZ9GROc/kC0Vh8fjGFcM8YrfY221+nNuxcz0cOtUC5H3im3YBUvLDaLf1VSFXCASEXbY4nWSGQuzWAbbA0hE718OpF9zTM7Gqcaxtly2jwOlp5LcVDI6guoqZdxqZjBVsO1Uzh0cvnnXqewaFqCyH6EEDCZRUiN9DRhwnTHBow4+ngXTvIC9R3Csmpp2eQm33lLkdJps+8IzCMxr6u/dYJctftpdlBSSZnp1VyKg3vE0pSYFARGBG4cjgAPSFrWTSbviWc8+RjE9b5J/cPQu0uBBsO0hxu8PGWa8v0FO2FYLXpmmxNLtktyQlxcWMayCrWEst6iXIUa/phxBZXoCerBdo79CMV8nj0fpeBX1DPQ2X0ZCD1HoDMmGnedX/EgI1+wzVCTg5z74adNBsGI2LeCfb0s35jngjprwQ6j/d3h2VcugiLTxm3GEbhANo6tyBhmTTFFAPi4zED2svuo8ApHbNyKNZjKBKAqPVgUtaGVLywRAfn5Oe5d7MePEB8j4p88M8paGcoCOQ/k48AjLRzGLRXX2gaj2lZHTf1rKchcopDbvGmAxkubs8XBJKIAGMPdaqgzB3LAreK3pKrm3sAcaN424ehPJld77aDhBqSJxU8=
+  - secure: TJHNSCye2S/oNh2/y58GI0fg8K6fM8F0vjiHEEQ/lRWglbr6Re6XYClwBN1cq/+Mi7dbgUUM6yatInSFBXyDs6JgdWr+OS3xZ6C+0xkz1uJpoTUpZi5IZnSmbmg/k8Zn9qfQyRFklZrF4mBG5NAmacb61F7Z4g9KPZUohwcECkVs6J2WJhyzzDZkyUmgjQFEsbA5o/Qb5xwQ3wxv5pTH7fbVR8NaFbtN0fRHKOtg2RCWqMLO1F50cJVQ2l157mbKCO+LkhRAfcc3eBkMRSK+bDGR+dTkB7Msq1qImPOUOFv/V4vtUVgsezHK55Krk4NYd+Xl1EjFPOdL3LIYQ8/m++A9MTIg2waQ1fpBHf1iTZsNZYhC7ZjmODr88s5Lx4y/pHuL3dkkH5HpXqdPb2hgzfRQ8jGmQJ12lz27AWQ+iF/TyXRu0FpA26p8DQofUU6uBn8ueI1XclBdTUcbbe/SByvFHKwpNf9k8CueOvy7ryff73+Py+DXf1xy6uy9zpf9luX9LmBWcn0/fr4kc9iHZvFDlYUrSjrUKi78QVF0BVGi89L/NXYXbAiKLrB3ZFS8CJkw77wsWJ7O/aiogsKRLJzT4l0EF/x0HRPOGf3KxE/kmFcOKWrmsvSDSbkv1qGMgOwsqeuB/m1fcm7UwHV5GiOr7jjFmg45PPveZUh9w50=
