@@ -5,26 +5,38 @@ matrix:
     language: java
     jdk: oraclejdk8
     env: JAVA_OPTS=-Xmx2g
+    cache:
+      directories:
+        - ~/.konan/cache
+        - ~/.gradle/caches
     script:
-    - "./gradlew -s check build"
+      - "./gradlew -s check build"
     after_success:
-    - "./scripts/publishLinux.sh"
+      - "./scripts/publishLinux.sh"
   - os: windows
     language: shell # java is not supported but jdk is installed
+    cache:
+      directories:
+        - ~/.konan/cache
+        - ~/.gradle/caches
     script:
-    - powershell -Command "cmd /c travis_win.bat"
+      - powershell -Command "cmd /c travis_win.bat"
     after_success:
-    - powershell -Command "cmd /c 'set SONATYPE_USERNAME=$SONATYPE_USERNAMEE && set SONATYPE_PASSWORD=$SONATYPE_PASSWORD && scripts\\publishWin.bat'"
+      - powershell -Command "cmd /c 'set SONATYPE_USERNAME=$SONATYPE_USERNAME && set SONATYPE_PASSWORD=$SONATYPE_PASSWORD && scripts\\publishWin.bat'"
   - os: osx
     env: JAVA_OPTS=-Xmx2g
     language: java
     jdk: openjdk10
+    cache:
+      directories:
+        - ~/.konan/cache
+        - ~/.gradle/caches
     before_install:
-    - cp $(/usr/libexec/java_home)/lib/security/cacerts "${JAVA_HOME}/lib/security/cacerts"
+      - cp $(/usr/libexec/java_home)/lib/security/cacerts "${JAVA_HOME}/lib/security/cacerts"
     script:
-    - "./gradlew -s check build"
+      - "./gradlew -s check build"
     after_success:
-    - "./scripts/publishCocoa.sh"
+      - "./scripts/publishCocoa.sh"
 env:
   global:
   - secure: gHHF+oOuLhFM13iV+njQ04TY261DfNp5F469+CMB12fAkvdNVIYGEIKvjlqDsXZ9GROc/kC0Vh8fjGFcM8YrfY221+nNuxcz0cOtUC5H3im3YBUvLDaLf1VSFXCASEXbY4nWSGQuzWAbbA0hE718OpF9zTM7Gqcaxtly2jwOlp5LcVDI6guoqZdxqZjBVsO1Uzh0cvnnXqewaFqCyH6EEDCZRUiN9DRhwnTHBow4+ngXTvIC9R3Csmpp2eQm33lLkdJps+8IzCMxr6u/dYJctftpdlBSSZnp1VyKg3vE0pSYFARGBG4cjgAPSFrWTSbviWc8+RjE9b5J/cPQu0uBBsO0hxu8PGWa8v0FO2FYLXpmmxNLtktyQlxcWMayCrWEst6iXIUa/phxBZXoCerBdo79CMV8nj0fpeBX1DPQ2X0ZCD1HoDMmGnedX/EgI1+wzVCTg5z74adNBsGI2LeCfb0s35jngjprwQ6j/d3h2VcugiLTxm3GEbhANo6tyBhmTTFFAPi4zED2svuo8ApHbNyKNZjKBKAqPVgUtaGVLywRAfn5Oe5d7MePEB8j4p88M8paGcoCOQ/k48AjLRzGLRXX2gaj2lZHTf1rKchcopDbvGmAxkubs8XBJKIAGMPdaqgzB3LAreK3pKrm3sAcaN424ehPJld77aDhBqSJxU8=
