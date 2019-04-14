@@ -7,7 +7,7 @@ matrix:
     env: JAVA_OPTS=-Xmx2g
     cache:
       directories:
-        - ~/.konan/cache
+        - ~/.konan
         - ~/.gradle/caches
     script:
       - "./gradlew -s check build"
@@ -17,7 +17,7 @@ matrix:
     language: shell # java is not supported but jdk is installed
     cache:
       directories:
-        - ~/.konan/cache
+        - ~/.konan
         - ~/.gradle/caches
     script:
       - powershell -Command "cmd /c travis_win.bat"
@@ -29,7 +29,7 @@ matrix:
     jdk: openjdk10
     cache:
       directories:
-        - ~/.konan/cache
+        - ~/.konan
         - ~/.gradle/caches
     before_install:
       - cp $(/usr/libexec/java_home)/lib/security/cacerts "${JAVA_HOME}/lib/security/cacerts"
