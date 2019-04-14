@@ -22,7 +22,7 @@ matrix:
     script:
       - powershell -Command "cmd /c travis_win.bat"
     after_success:
-      - powershell -Command "cmd /c 'set SONATYPE_USERNAME=$SONATYPE_USERNAME && set SONATYPE_PASSWORD=$SONATYPE_PASSWORD && scripts\\publishWin.bat'"
+      - powershell -Command "cmd /c 'set SONATYPE_USERNAME=\'$SONATYPE_USERNAME\' && set SONATYPE_PASSWORD=\'$SONATYPE_PASSWORD\' && scripts\\publishWin.bat'"
   - os: osx
     env: JAVA_OPTS=-Xmx2g
     language: java
