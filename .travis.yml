@@ -7,8 +7,8 @@ matrix:
     env: JAVA_OPTS=-Xmx2g
     cache:
       directories:
-        - ~/.konan
-        - ~/.gradle/caches
+        - "~/.konan"
+        - "~/.gradle/caches"
     script:
       - "./gradlew -s check build"
     after_success:
@@ -17,8 +17,8 @@ matrix:
     language: shell # java is not supported but jdk is installed
     cache:
       directories:
-        - ~/.konan
-        - ~/.gradle/caches
+        - "~/.konan"
+        - "~/.gradle/caches"
     script:
       - powershell -Command "cmd /c travis_win.bat"
     after_success:
@@ -29,8 +29,8 @@ matrix:
     jdk: openjdk10
     cache:
       directories:
-        - ~/.konan
-        - ~/.gradle/caches
+        - "~/.konan"
+        - "~/.gradle/caches"
     before_install:
       - cp $(/usr/libexec/java_home)/lib/security/cacerts "${JAVA_HOME}/lib/security/cacerts"
     script:
@@ -39,5 +39,5 @@ matrix:
       - "./scripts/publishCocoa.sh"
 env:
   global:
-  - secure: gHHF+oOuLhFM13iV+njQ04TY261DfNp5F469+CMB12fAkvdNVIYGEIKvjlqDsXZ9GROc/kC0Vh8fjGFcM8YrfY221+nNuxcz0cOtUC5H3im3YBUvLDaLf1VSFXCASEXbY4nWSGQuzWAbbA0hE718OpF9zTM7Gqcaxtly2jwOlp5LcVDI6guoqZdxqZjBVsO1Uzh0cvnnXqewaFqCyH6EEDCZRUiN9DRhwnTHBow4+ngXTvIC9R3Csmpp2eQm33lLkdJps+8IzCMxr6u/dYJctftpdlBSSZnp1VyKg3vE0pSYFARGBG4cjgAPSFrWTSbviWc8+RjE9b5J/cPQu0uBBsO0hxu8PGWa8v0FO2FYLXpmmxNLtktyQlxcWMayCrWEst6iXIUa/phxBZXoCerBdo79CMV8nj0fpeBX1DPQ2X0ZCD1HoDMmGnedX/EgI1+wzVCTg5z74adNBsGI2LeCfb0s35jngjprwQ6j/d3h2VcugiLTxm3GEbhANo6tyBhmTTFFAPi4zED2svuo8ApHbNyKNZjKBKAqPVgUtaGVLywRAfn5Oe5d7MePEB8j4p88M8paGcoCOQ/k48AjLRzGLRXX2gaj2lZHTf1rKchcopDbvGmAxkubs8XBJKIAGMPdaqgzB3LAreK3pKrm3sAcaN424ehPJld77aDhBqSJxU8=
-  - secure: TJHNSCye2S/oNh2/y58GI0fg8K6fM8F0vjiHEEQ/lRWglbr6Re6XYClwBN1cq/+Mi7dbgUUM6yatInSFBXyDs6JgdWr+OS3xZ6C+0xkz1uJpoTUpZi5IZnSmbmg/k8Zn9qfQyRFklZrF4mBG5NAmacb61F7Z4g9KPZUohwcECkVs6J2WJhyzzDZkyUmgjQFEsbA5o/Qb5xwQ3wxv5pTH7fbVR8NaFbtN0fRHKOtg2RCWqMLO1F50cJVQ2l157mbKCO+LkhRAfcc3eBkMRSK+bDGR+dTkB7Msq1qImPOUOFv/V4vtUVgsezHK55Krk4NYd+Xl1EjFPOdL3LIYQ8/m++A9MTIg2waQ1fpBHf1iTZsNZYhC7ZjmODr88s5Lx4y/pHuL3dkkH5HpXqdPb2hgzfRQ8jGmQJ12lz27AWQ+iF/TyXRu0FpA26p8DQofUU6uBn8ueI1XclBdTUcbbe/SByvFHKwpNf9k8CueOvy7ryff73+Py+DXf1xy6uy9zpf9luX9LmBWcn0/fr4kc9iHZvFDlYUrSjrUKi78QVF0BVGi89L/NXYXbAiKLrB3ZFS8CJkw77wsWJ7O/aiogsKRLJzT4l0EF/x0HRPOGf3KxE/kmFcOKWrmsvSDSbkv1qGMgOwsqeuB/m1fcm7UwHV5GiOr7jjFmg45PPveZUh9w50=
+  - secure: Bo4hp1prRs3WT86x/SIKRD1a2tbqWYVDpgqI7K4iXCTKLuVeB5nLsBCjSSCFfrPz7c186+M9jGZpLPWt8W0EV/e9ULl6l2pI5D4/4SiessJFHPyqDLJWTe2Y+em6HRs9ON9LdQ+p7UCkO0S5r2kYAcI4cj1Kp7B3phK8h3ikeYNPEjh1PnBVDuAZLFt5bOFW3/NRdPPaE2Pwn3H546AQbc740xJbmVNMpdKbXEyYDZ9yvv/iist93ary+t0z8VRxwb2b4JrJ+1As0KCeh5+ZkTyg0vZbnNwlJGvu8HWfGYLPlUtIMvueS6UBFOG93rpILGnT2d5X6avToYI/WSulQgha+dK1ippW/HfgkBMTw9IPGq/9HJrY7v3qAfa9/wLrx4KTAdmiK2UVSAxmtHxHrGkSdeLneJhdjhG5liuqSvbKs/GzUDvovicxXWimuPU4IRAN8KONZ/jvARL+GGMfxqtdMUVOuUoMvyoyXJ5dKw+elGJibp4yPDAbc2wKYkOhQIxfDwpkrY01FOrDcuunfMSQhjxNsmhZnxiacEU1Al1XFLKAY/vGGHIT9kJMRJD6Yz+UX8cT7LbKkLmYlHDLXTjA0/OLlpKUgMHafnqrK1AlwnmfAXfX0M6E1eQAM2tnCAnAIEfqLHcNUCQpUOBlZNiLwBr6rmTyzgLiklltvmE=
+  - secure: pFwhcudDwFAN44Dt37nhxFgJQxVo7GiwWr4yhAH/Ly0Le73Hs6mSPxbeZcsXecZEX3zzZv++wpVDKQb2zLFC9Oi10rpwnSsqwgTgi1kcgLqOAuOLPV+V/El0M569dsLBs2tlLTvC+UrCm97LnD1SOdMj6PIzp+ItuMEBXMdNkGqhFgi6njVxgEiYKvyxE7VJI56zDu2EIO5D0wmtpzKOSXBIKgJobk9tTKp/ztRXCnG/Uj9xaIID3apV8Q4r+UkXPcGmpWUGa/xrXX6DlEIDcCYIA/C3XWZrcS4W5oc9aHeo8JuMrXk7JetDwUMUv51EorEHJy2TP4lfM5t2ChqliqEyvCSs449JLEt2RNj4SnRSEyK7EvByEqNoOCs2w2byn/HV9szXHNxMA6VUiogV8HTnIarBqyJKDsIk6hmznubS0RFYzXZos8N4NSCF7Ls2XbHlnR9uQuP52WVEGUMXMFnrnHtzvDXv3lWtjn+qut9wXRbRlI2MbOLUH3/ecZSbwp2qbdcVDhCtbAQWHwRJIdOOvOZgmOfzZ7FO20p4vzezmMqUqgTB8N2iu7v7Jo8dS6sY3Apihx3HMj6aUOWCuAwB6YTqDzk8Q+qjaHY8cSzab+rgteewRJQr/9VQQihvpLNRSrYoC+3IaIo4n3bKQncjMZwTmX6dIcXw3BA2bPI=
