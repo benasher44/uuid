@@ -9,4 +9,4 @@ REM SET GRADLE_ERROR_LEVEL=%errorlevel%
 REM CALL gradlew.bat --stop
 REM exit /b %GRADLE_ERROR_LEVEL%
 
-CALL gradlew.bat --no-daemon -s publishMingwPublicationToMavenRepository -PSONATYPE_USERNAME=$env:SONATYPE_USERNAME -PSONATYPE_PASSWORD=$env:SONATYPE_PASSWORD
+CALL gradlew.bat --no-daemon -s publishMingwPublicationToMavenRepository -PSONATYPE_USERNAME=%SONATYPE_USERNAME% -PSONATYPE_PASSWORD=%SONATYPE_PASSWORD%
