@@ -14,7 +14,7 @@ matrix:
     after_success:
       - "./scripts/publishLinux.sh"
   - os: windows
-    language: shell # java is not supported but jdk is installed
+    language: bash # java is not supported but jdk is installed
     cache:
       directories:
         - "~/.konan"
