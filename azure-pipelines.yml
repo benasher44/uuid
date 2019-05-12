@@ -38,7 +38,7 @@ steps:
       gradleWrapperFile: 'gradlew'
       gradleOptions: '-Xmx3072m'
       tasks: 'publishMac'
-    condition: and(eq(variables['Agent.OS'], 'Darwin'), succeeded(), eq(variables['Build.SourceBranch'], 'refs/pull/basher/publish'))
+    condition: and(eq(variables['Agent.OS'], 'Darwin'), succeeded(), eq(variables['Build.SourceBranch'], 'refs/pull/11/merge'))
     displayName: 'Publish Mac Artifacts'
     env:
       SONATYPE_USERNAME: $(SONATYPE_USERNAME)
@@ -50,7 +50,7 @@ steps:
       gradleWrapperFile: 'gradlew'
       gradleOptions: '-Xmx3072m'
       tasks: 'publishLinux'
-    condition: and(eq(variables['Agent.OS'], 'Linux'), succeeded(), eq(variables['Build.SourceBranch'], 'refs/pull/basher/publish'))
+    condition: and(eq(variables['Agent.OS'], 'Linux'), succeeded(), eq(variables['Build.SourceBranch'], 'refs/pull/11/merge'))
     displayName: 'Publish Linux Artifacts'
     env:
       SONATYPE_USERNAME: $(SONATYPE_USERNAME)
@@ -62,7 +62,7 @@ steps:
       gradleWrapperFile: 'gradlew'
       gradleOptions: '-Xmx3072m'
       tasks: 'publishWindows'
-    condition: and(eq(variables['Agent.OS'], 'Windows_NT'), succeeded(), eq(variables['Build.SourceBranch'], 'refs/pull/basher/publish'))
+    condition: and(eq(variables['Agent.OS'], 'Windows_NT'), succeeded(), eq(variables['Build.SourceBranch'], 'refs/pull/11/merge'))
     displayName: 'Publish Windows Artifacts'
     env:
       SONATYPE_USERNAME: $(SONATYPE_USERNAME)
