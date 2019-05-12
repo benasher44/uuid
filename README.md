@@ -1,6 +1,6 @@
 # A Cross Platform UUID for K/N
 
-[![Build Status](https://travis-ci.org/benasher44/uuid.svg?branch=master)](https://travis-ci.org/benasher44/uuid)
+[![Build Status](https://dev.azure.com/benasher44/benasher44.uuid/_apis/build/status/benasher44.uuid?branchName=master)](https://dev.azure.com/benasher44/benasher44.uuid/_build/latest?definitionId=1&branchName=master)
 
 K/N doesn't have a UUID yet. This brings a random (v4) UUID that matches UUIDs on various platforms:
 
