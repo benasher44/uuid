@@ -40,6 +40,9 @@ steps:
       tasks: 'publishMac'
     condition: and(eq(variables['Agent.OS'], 'Darwin'), succeeded(), eq(variables['Build.SourceBranch'], 'refs/pull/basher/publish'))
     displayName: 'Publish Mac Artifacts'
+    env:
+      SONATYPE_USERNAME: $(SONATYPE_USERNAME)
+      SONATYPE_PASSWORD: $(SONATYPE_PASSWORD)
 
   - task: Gradle@2
     inputs:
@@ -49,6 +52,9 @@ steps:
       tasks: 'publishLinux'
     condition: and(eq(variables['Agent.OS'], 'Linux'), succeeded(), eq(variables['Build.SourceBranch'], 'refs/pull/basher/publish'))
     displayName: 'Publish Linux Artifacts'
+    env:
+      SONATYPE_USERNAME: $(SONATYPE_USERNAME)
+      SONATYPE_PASSWORD: $(SONATYPE_PASSWORD)
 
   - task: Gradle@2
     inputs:
@@ -58,3 +64,9 @@ steps:
       tasks: 'publishWindows'
     condition: and(eq(variables['Agent.OS'], 'Windows_NT'), succeeded(), eq(variables['Build.SourceBranch'], 'refs/pull/basher/publish'))
     displayName: 'Publish Windows Artifacts'
+    env:
+      SONATYPE_USERNAME: $(SONATYPE_USERNAME)
+      SONATYPE_PASSWORD: $(SONATYPE_PASSWORD)
+
+variables:
+  - group: 'Sonatype Credentials'
