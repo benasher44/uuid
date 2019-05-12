@@ -32,6 +32,11 @@ steps:
       tasks: 'build'
     displayName: 'Build'
 
+  - task: DownloadSecureFile@1
+    inputs:
+      secureFile: sonatype_key.gpg
+    condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+
   - task: Gradle@2
     inputs:
       workingDirectory: ''
@@ -43,8 +48,9 @@ steps:
     env:
       SONATYPE_USERNAME: "$(SONATYPE_USERNAME)"
       SONATYPE_PASSWORD: "$(SONATYPE_PASSWORD)"
-      SIGNING_KEY: "$(SIGNING_KEY)"
+      SIGNING_KEYID: "$(SIGNING_KEYID)"
       SIGNING_PASSWORD: "$(SIGNING_PASSWORD)"
+      SIGNING_KEYRING: "$env:DOWNLOADSECUREFILE_SECUREFILEPATH"
 
   - task: Gradle@2
     inputs:
@@ -57,8 +63,9 @@ steps:
     env:
       SONATYPE_USERNAME: "$(SONATYPE_USERNAME)"
       SONATYPE_PASSWORD: "$(SONATYPE_PASSWORD)"
-      SIGNING_KEY: "$(SIGNING_KEY)"
+      SIGNING_KEYID: "$(SIGNING_KEYID)"
       SIGNING_PASSWORD: "$(SIGNING_PASSWORD)"
+      SIGNING_KEYRING: "$env:DOWNLOADSECUREFILE_SECUREFILEPATH"
 
   - task: Gradle@2
     inputs:
@@ -71,8 +78,9 @@ steps:
     env:
       SONATYPE_USERNAME: "$(SONATYPE_USERNAME)"
       SONATYPE_PASSWORD: "$(SONATYPE_PASSWORD)"
-      SIGNING_KEY: "$(SIGNING_KEY)"
+      SIGNING_KEYID: "$(SIGNING_KEYID)"
       SIGNING_PASSWORD: "$(SIGNING_PASSWORD)"
+      SIGNING_KEYRING: "$env:DOWNLOADSECUREFILE_SECUREFILEPATH"
 
 variables:
   - group: 'Sonatype Credentials'

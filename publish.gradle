@@ -150,7 +150,6 @@ publishing {
 
 signing {
     required { isReleaseBuild() }
-    useInMemoryPgpKeys(System.getenv('SIGNING_KEY'), System.getenv('SIGNING_PASSWORD'))
     sign(publishing.publications)
 }
 
