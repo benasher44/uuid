@@ -1,0 +1,33 @@
+trigger:
+  branches:
+    include:
+      - '*'
+
+strategy:
+  matrix:
+    linux:
+      imageName: 'ubuntu-16.04'
+    mac:
+      imageName: 'macos-10.14'
+    windows:
+      imageName: 'vs2017-win2016'
+
+pool:
+  vmImage: $(imageName)
+
+steps:
+  - bash: sudo apt install build-essential
+    condition: eq(variables['Agent.OS'], 'Linux')
+    displayName: 'Install build dependencies'
+
+  - script: choco install mingw
+    condition: eq(variables['Agent.OS'], 'Windows_NT')
+    displayName: 'Install build dependencies'
+
+  - task: Gradle@2
+    inputs:
+      workingDirectory: ''
+      gradleWrapperFile: 'gradlew'
+      gradleOptions: '-Xmx3072m'
+      tasks: 'build'
+    displayName: 'Build'
