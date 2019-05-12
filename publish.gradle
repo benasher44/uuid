@@ -149,8 +149,9 @@ publishing {
 }
 
 signing {
-  required { isReleaseBuild() }
-  sign(publishing.publications)
+    required { isReleaseBuild() }
+    useInMemoryPgpKeys(System.getenv('SIGNING_KEY'), System.getenv('SIGNING_PASSWORD'))
+    sign(publishing.publications)
 }
 
 tasks.register('publishMac') {

@@ -43,6 +43,8 @@ steps:
     env:
       SONATYPE_USERNAME: $(SONATYPE_USERNAME)
       SONATYPE_PASSWORD: $(SONATYPE_PASSWORD)
+      SIGNING_KEY: $(SIGNING_KEY)
+      SIGNING_PASSWORD: $(SIGNING_PASSWORD)
 
   - task: Gradle@2
     inputs:
@@ -55,6 +57,8 @@ steps:
     env:
       SONATYPE_USERNAME: $(SONATYPE_USERNAME)
       SONATYPE_PASSWORD: $(SONATYPE_PASSWORD)
+      SIGNING_KEY: $(SIGNING_KEY)
+      SIGNING_PASSWORD: $(SIGNING_PASSWORD)
 
   - task: Gradle@2
     inputs:
@@ -67,6 +71,8 @@ steps:
     env:
       SONATYPE_USERNAME: $(SONATYPE_USERNAME)
       SONATYPE_PASSWORD: $(SONATYPE_PASSWORD)
+      SIGNING_KEY: $(SIGNING_KEY)
+      SIGNING_PASSWORD: $(SIGNING_PASSWORD)
 
 variables:
   - group: 'Sonatype Credentials'
