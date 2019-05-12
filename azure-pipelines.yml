@@ -50,7 +50,7 @@ steps:
       SONATYPE_PASSWORD: "$(SONATYPE_PASSWORD)"
       SIGNING_KEYID: "$(SIGNING_KEYID)"
       SIGNING_PASSWORD: "$(SIGNING_PASSWORD)"
-      SIGNING_KEYRING: "$env:DOWNLOADSECUREFILE_SECUREFILEPATH"
+      SIGNING_KEYRING: "$(DownloadSecureFile.secureFilePath)"
 
   - task: Gradle@2
     inputs:
@@ -65,7 +65,7 @@ steps:
       SONATYPE_PASSWORD: "$(SONATYPE_PASSWORD)"
       SIGNING_KEYID: "$(SIGNING_KEYID)"
       SIGNING_PASSWORD: "$(SIGNING_PASSWORD)"
-      SIGNING_KEYRING: "$env:DOWNLOADSECUREFILE_SECUREFILEPATH"
+      SIGNING_KEYRING: "$(DownloadSecureFile.secureFilePath)"
 
   - task: Gradle@2
     inputs:
@@ -80,7 +80,7 @@ steps:
       SONATYPE_PASSWORD: "$(SONATYPE_PASSWORD)"
       SIGNING_KEYID: "$(SIGNING_KEYID)"
       SIGNING_PASSWORD: "$(SIGNING_PASSWORD)"
-      SIGNING_KEYRING: "$env:DOWNLOADSECUREFILE_SECUREFILEPATH"
+      SIGNING_KEYRING: "$(DownloadSecureFile.secureFilePath)"
 
 variables:
   - group: 'Sonatype Credentials'
