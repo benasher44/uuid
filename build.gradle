@@ -4,7 +4,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.30'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.31'
     }
 }
 
@@ -27,7 +27,7 @@ kotlin {
         targetFromPreset(presets.iosArm64, 'iosDevice64')
         targetFromPreset(presets.iosArm32, 'iosDevice32')
         targetFromPreset(presets.mingwX64, 'mingw') {
-            compilations.test.linkerOpts "-Wl,--subsystem,windows, -Bstatic -lbcrypt"
+            binaries.findExecutable("test", DEBUG).linkerOpts = ["-Wl,--subsystem,windows, -Bstatic -lbcrypt"]
         }
         targetFromPreset(presets.linuxX64, 'linux64')
         targetFromPreset(presets.linuxArm32Hfp, 'linux32')
@@ -100,20 +100,24 @@ configurations {
 }
 
 dependencies {
-    ktlint "com.github.shyiko:ktlint:0.30.0"
+    ktlint "com.pinterest:ktlint:0.32.0"
 }
 
-task ktlint(type: JavaExec, group: "verification") {
+tasks.register("ktlint", JavaExec) {
+    group = "verification"
     description = "Check Kotlin code style."
     classpath = configurations.ktlint
-    main = "com.github.shyiko.ktlint.Main"
+    main = "com.pinterest.ktlint.Main"
     args "src/**/*.kt"
 }
-check.dependsOn ktlint
+check.configure {
+    dependsOn "ktlint"
+}
 
-task ktlintFormat(type: JavaExec, group: "formatting") {
+tasks.register("ktlintFormat", JavaExec) {
+    group = "formatting"
     description = "Fix Kotlin code style deviations."
     classpath = configurations.ktlint
-    main = "com.github.shyiko.ktlint.Main"
+    main = "com.pinterest.ktlint.Main"
     args "-F", "src/**/*.kt"
 }
