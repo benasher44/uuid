@@ -110,6 +110,17 @@ class UUID(val uuid: ByteArray = genUuid()) {
         internal val uuidChars = ('0'..'9') + ('a'..'f')
     }
 
+    /**
+     * The version number describes how this [UUID] was generated.
+     *
+     * Possible values:
+     * 1 => Time-based
+     * 2 => DCE security
+     * 3 => Name-based
+     * 4 => Randomly generated
+     *
+     * @return  The version number associated with this [UUID]
+     */
     fun version(): Int = ((mostSignificantBits shr 12) and 0x0f).toInt()
 
     /**
