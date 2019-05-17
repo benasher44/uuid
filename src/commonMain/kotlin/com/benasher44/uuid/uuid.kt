@@ -11,7 +11,7 @@ internal val UUID_STRING_LENGTH = 36
  * */
 class UUID(val uuid: ByteArray = genUuid()) {
 
-    val mostSignificantBits:Long by lazy {
+    val mostSignificantBits: Long by lazy {
         var msb = 0L
         for (i in 0..7)
             msb = msb shl 8 or (uuid[i].toLong() and 0xff)
@@ -19,7 +19,7 @@ class UUID(val uuid: ByteArray = genUuid()) {
         msb
     }
 
-    val leastSignificantBits:Long by lazy {
+    val leastSignificantBits: Long by lazy {
         var lsb = 0L
         for (i in 8..15)
             lsb = lsb shl 8 or (uuid[i].toLong() and 0xff)

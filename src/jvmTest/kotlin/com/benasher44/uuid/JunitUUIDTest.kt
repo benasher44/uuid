@@ -8,7 +8,7 @@ class JunitUUIDTest {
     @Test
     fun shouldMatchPlatformUUIDString() {
         val uuidL = UUID()
-        val platformUuid = java.util.UUID(uuidL.mostSignificantBits,uuidL.leastSignificantBits)
+        val platformUuid = java.util.UUID(uuidL.mostSignificantBits, uuidL.leastSignificantBits)
 
         assertEquals(uuidL.toString(), platformUuid.toString())
     }
