@@ -11,6 +11,7 @@ internal val UUID_STRING_LENGTH = 36
  * */
 class UUID(val uuid: ByteArray = genUuid()) {
 
+    /** The most significant 64 bits of this UUID's 128 bit value. */
     val mostSignificantBits: Long by lazy {
         var msb = 0L
         for (i in 0..7)
@@ -19,6 +20,7 @@ class UUID(val uuid: ByteArray = genUuid()) {
         msb
     }
 
+    /** The least significant 64 bits of this UUID's 128 bit value. */
     val leastSignificantBits: Long by lazy {
         var lsb = 0L
         for (i in 8..15)
@@ -41,7 +43,7 @@ class UUID(val uuid: ByteArray = genUuid()) {
         private fun genUuid(): ByteArray {
             val bytes = getRandomUUIDBytes()
             // Set the version bit
-            bytes[7] = ((bytes[6].toInt() and 0x0F) or 0x40).toByte()
+            bytes[6] = ((bytes[6].toInt() and 0x0F) or 0x40).toByte()
 
             // Set the 0 and 1 bits
             bytes[8] = ((bytes[8].toInt() and 0b00111111) or 0b10000000).toByte()
