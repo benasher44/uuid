@@ -36,4 +36,11 @@ class UUIDTest {
         assertFails { UUID(ByteArray(17)) }
         assertFails { UUID(ByteArray(15)) }
     }
+
+    @Test
+    fun `generates a UUID with correct version bit`() {
+        val uuid = UUID()
+
+        assertEquals(uuid.version(), 4)
+    }
 }
