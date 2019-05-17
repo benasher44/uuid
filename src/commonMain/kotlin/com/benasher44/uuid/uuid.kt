@@ -110,7 +110,7 @@ class UUID(val uuid: ByteArray = genUuid()) {
         internal val uuidChars = ('0'..'9') + ('a'..'f')
     }
 
-    fun version():Int = ((mostSignificantBits shr 12) and 0x0f).toInt()
+    fun version(): Int = ((mostSignificantBits shr 12) and 0x0f).toInt()
 
     /**
      * Converts the UUID to a UUID string, per RFC4122
