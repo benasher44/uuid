@@ -1,5 +1,7 @@
 package com.benasher44.uuid
 
+import kotlin.experimental.and
+
 internal val UUID_BYTES = 16
 internal val UUID_STRING_LENGTH = 36
 
@@ -10,6 +12,23 @@ internal val UUID_STRING_LENGTH = 36
  * @throws IllegalArgumentException, if uuid.count() is not 16
  * */
 class UUID(val uuid: ByteArray = genUuid()) {
+
+    val mostSignificantBits:Long by lazy {
+        var msb = 0L
+        for (i in 0..7)
+            msb = msb shl 8 or (uuid[i].toLong() and 0xff)
+
+        msb
+    }
+
+    val leastSignificantBits:Long by lazy {
+        var lsb = 0L
+        for (i in 8..15)
+            lsb = lsb shl 8 or (uuid[i].toLong() and 0xff)
+
+        lsb
+    }
+
     init {
         if (uuid.count() != UUID_BYTES) {
             throw IllegalArgumentException(
