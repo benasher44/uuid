@@ -1,7 +1,5 @@
 package com.benasher44.uuid
 
-import kotlin.experimental.and
-
 internal val UUID_BYTES = 16
 internal val UUID_STRING_LENGTH = 36
 

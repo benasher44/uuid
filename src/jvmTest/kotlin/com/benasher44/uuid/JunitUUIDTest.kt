@@ -13,4 +13,12 @@ class JunitUUIDTest {
         assertEquals(uuidL.toString(), platformUuid.toString())
     }
 
+    @Test
+    fun shouldMatchPlatformUUIDbytes() {
+        val uuidL = UUID()
+        val platformUuid = java.util.UUID.fromString(uuidL.toString())
+
+        assertEquals(uuidL.mostSignificantBits, platformUuid.mostSignificantBits)
+        assertEquals(uuidL.leastSignificantBits, platformUuid.leastSignificantBits)
+    }
 }
