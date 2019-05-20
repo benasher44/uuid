@@ -36,6 +36,7 @@ steps:
     inputs:
       secureFile: sonatype_key.gpg
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    enabled: 'false'
 
   - task: Gradle@2
     inputs:
@@ -45,6 +46,7 @@ steps:
       tasks: 'publishMac'
     condition: and(eq(variables['Agent.OS'], 'Darwin'), succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: 'Publish Mac Artifacts'
+    enabled: 'false'
     env:
       SONATYPE_USERNAME: "$(SONATYPE_USERNAME)"
       SONATYPE_PASSWORD: "$(SONATYPE_PASSWORD)"
@@ -59,6 +61,7 @@ steps:
       gradleOptions: '-Xmx3072m'
       tasks: 'publishLinux'
     condition: and(eq(variables['Agent.OS'], 'Linux'), succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    enabled: 'false'
     displayName: 'Publish Linux Artifacts'
     env:
       SONATYPE_USERNAME: "$(SONATYPE_USERNAME)"
@@ -74,6 +77,7 @@ steps:
       gradleOptions: '-Xmx3072m'
       tasks: 'publishWindows'
     condition: and(eq(variables['Agent.OS'], 'Windows_NT'), succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+    enabled: 'false'
     displayName: 'Publish Windows Artifacts'
     env:
       SONATYPE_USERNAME: "$(SONATYPE_USERNAME)"
