@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink
+import org.jetbrains.kotlin.konan.target.HostManager
+
 plugins {
     kotlin("multiplatform") version "1.3.31"
     id("org.jetbrains.dokka") version "0.9.18"
@@ -115,18 +118,39 @@ val ktlint by tasks.registering(JavaExec::class) {
     args = listOf("src/**/*.kt")
 }
 
-tasks.getByName("check") {
-    configure {
-        dependsOn(ktlint)
-    }
-}
-
 val ktlintformat by tasks.registering(JavaExec::class) {
     group = "formatting"
     description = "Fix Kotlin code style deviations."
     classpath = ktlintConfig
     main = "com.pinterest.ktlint.Main"
     args = listOf("-F", "src/**/*.kt")
+}
+
+tasks.getByName("check") {
+    configure {
+        dependsOn(ktlint)
+    }
+}
+
+if (HostManager.hostIsMac) {
+    val linkTestDebugExecutableIosSim by tasks.getting(KotlinNativeLink::class)
+    val testIosSim by tasks.registering(Exec::class) {
+        group = "verification"
+        dependsOn(linkTestDebugExecutableIosSim)
+        executable("xcrun")
+        args = listOf(
+            "simctl",
+            "spawn",
+            "iPad Air 2",
+            linkTestDebugExecutableIosSim.outputFile.get()
+        )
+    }
+
+    tasks.getByName("check") {
+        configure {
+            dependsOn(testIosSim)
+        }
+    }
 }
 
 apply(from = "publish.gradle")
