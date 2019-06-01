@@ -1,22 +1,13 @@
 plugins {
     kotlin("multiplatform") version "1.3.31"
     id("org.jetbrains.dokka") version "0.9.18"
+    id("maven-publish")
+    id("signing")
 }
 
 repositories {
     mavenCentral()
     jcenter()
-}
-
-//buildscript {
-//    ext."signing.keyId" = System.getenv("SIGNING_KEYID")
-//    ext."signing.password" = System.getenv("SIGNING_PASSWORD")
-//    ext."signing.secretKeyRingFile" = System.getenv("SIGNING_KEYRING")
-//}
-
-repositories {
-    jcenter()
-    mavenCentral()
 }
 
 kotlin {

@@ -3,30 +3,30 @@ package com.benasher44.uuid
 import org.junit.Test
 import kotlin.test.assertEquals
 
-class JunitUUIDTest {
+class JVMUUIDTest {
 
     @Test
-    fun shouldSetCorrectVersionBit() {
+    fun `sets correct version bit`() {
         val uuidL = UUID()
         val platformUuid = java.util.UUID(uuidL.mostSignificantBits, uuidL.leastSignificantBits)
 
-        assertEquals(platformUuid.version(), 4)
+        assertEquals(4, platformUuid.version())
     }
 
     @Test
-    fun shouldMatchPlatformUUIDString() {
+    fun `matches platform UUID string`() {
         val uuidL = UUID()
         val platformUuid = java.util.UUID(uuidL.mostSignificantBits, uuidL.leastSignificantBits)
 
-        assertEquals(uuidL.toString(), platformUuid.toString())
+        assertEquals(platformUuid.toString(), uuidL.toString())
     }
 
     @Test
-    fun shouldMatchPlatformUUIDbytes() {
+    fun `matches platform UUID bytes`() {
         val uuidL = UUID()
         val platformUuid = java.util.UUID.fromString(uuidL.toString())
 
-        assertEquals(uuidL.mostSignificantBits, platformUuid.mostSignificantBits)
-        assertEquals(uuidL.leastSignificantBits, platformUuid.leastSignificantBits)
+        assertEquals(platformUuid.mostSignificantBits, uuidL.mostSignificantBits)
+        assertEquals(platformUuid.leastSignificantBits, uuidL.leastSignificantBits)
     }
 }
