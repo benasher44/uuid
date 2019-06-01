@@ -123,5 +123,5 @@ class UUID(val uuid: ByteArray = genUuid()) {
     /**
      * @return The hashCode of the uuid bytes
      */
-    override fun hashCode() = uuid.contentHashCode()
+    override fun hashCode(): Int = uuid.contentHashCode()
 }
