@@ -14,20 +14,16 @@ class UUID(val uuid: ByteArray = genUuid()) {
 
     /** The most significant 64 bits of this UUID's 128 bit value. */
     val mostSignificantBits: Long by lazy {
-        var msb = 0L
-        for (i in 0..7)
-            msb = msb shl 8 or (uuid[i].toLong() and 0xff)
-
-        msb
+        (0..7).fold(0L) { bits, i ->
+            bits shl 8 or (uuid[i].toLong() and 0xff)
+        }
     }
 
     /** The least significant 64 bits of this UUID's 128 bit value. */
     val leastSignificantBits: Long by lazy {
-        var lsb = 0L
-        for (i in 8..15)
-            lsb = lsb shl 8 or (uuid[i].toLong() and 0xff)
-
-        lsb
+        (8..15).fold(0L) { bits, i ->
+            bits shl 8 or (uuid[i].toLong() and 0xff)
+        }
     }
 
     init {
@@ -171,5 +167,5 @@ class UUID(val uuid: ByteArray = genUuid()) {
     /**
      * @return The hashCode of the uuid bytes
      */
-    override fun hashCode() = uuid.contentHashCode()
+    override fun hashCode(): Int = uuid.contentHashCode()
 }
