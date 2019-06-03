@@ -14,6 +14,14 @@ class JunitUUIDTest {
     }
 
     @Test
+    fun shouldSetCorrectVariantBit() {
+        val uuidL = UUID()
+        val platformUuid = java.util.UUID(uuidL.mostSignificantBits, uuidL.leastSignificantBits)
+
+        assertEquals(platformUuid.variant(), 2)
+    }
+
+    @Test
     fun shouldMatchPlatformUUIDString() {
         val uuidL = UUID()
         val platformUuid = java.util.UUID(uuidL.mostSignificantBits, uuidL.leastSignificantBits)

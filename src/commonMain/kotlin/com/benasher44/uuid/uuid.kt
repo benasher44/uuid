@@ -107,6 +107,34 @@ class UUID(val uuid: ByteArray = genUuid()) {
     }
 
     /**
+     * The version number describes how this [UUID] was generated.
+     *
+     * Possible values:
+     * 1 => Time-based
+     * 2 => DCE security
+     * 3 => Name-based
+     * 4 => Randomly generated
+     *
+     * @return The version number associated with this [UUID]
+     */
+    fun version(): Int = ((mostSignificantBits shr 12) and 0x0f).toInt()
+
+    /**
+     * The variant number describes the layout of the [UUID].
+     *
+     * Possible values:
+     * 0 => Reserved for NCS backward compatibility
+     * 2 => IETF RFC 4122 (Leach-Salz)
+     * 6 => Reserved, Microsoft Corporation backward compatibility
+     * 7 => Reserved for future definition
+     *
+     * @return The variant number associated with this [UUID]
+     */
+    fun variant(): Int = (
+            leastSignificantBits.ushr((64 - (leastSignificantBits ushr 62)).toInt()) and (leastSignificantBits shr 63)
+            ).toInt()
+
+    /**
      * Converts the UUID to a UUID string, per RFC4122
      */
     override fun toString(): String {
