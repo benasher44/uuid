@@ -12,7 +12,7 @@ class UUIDTest {
     private fun isValidUUIDChar(char: Char) = uuidChars.contains(char)
 
     @Test
-    fun `generates_a_UUID`() {
+    fun generates_a_UUID() {
         val uuid = UUID()
         val uuidString = uuid.toString()
         assertEquals(uuidString.length, UUID_STRING_LENGTH)
@@ -23,7 +23,7 @@ class UUIDTest {
     }
 
     @Test
-    fun `parses_a_UUID_from_a_string`() {
+    fun parses_a_UUID_from_a_string() {
         val uuid = UUID()
         val uuidFromStr = UUID.parse(uuid.toString())!!
         assertEquals(uuid, uuidFromStr)
@@ -32,8 +32,15 @@ class UUIDTest {
     }
 
     @Test
-    fun `throws_when_passed_invalid_number_of_bytes`() {
+    fun throws_when_passed_invalid_number_of_bytes() {
         assertFails { UUID(ByteArray(17)) }
         assertFails { UUID(ByteArray(15)) }
+    }
+
+    @Test
+    fun provides_higher_and_lower_bits() {
+        val uuid = UUID.parse("c480d6ab-cb0c-427b-a9a6-19c5f8a146bd")!!
+        assertEquals(-6222257497095190851, uuid.leastSignificantBits)
+        assertEquals(-4287190811922382213, uuid.mostSignificantBits)
     }
 }
