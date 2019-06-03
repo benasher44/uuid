@@ -115,7 +115,7 @@ class UUID(val uuid: ByteArray = genUuid()) {
      * 3 => Name-based
      * 4 => Randomly generated
      *
-     * @return  The version number associated with this [UUID]
+     * @return The version number associated with this [UUID]
      */
     fun version(): Int = ((mostSignificantBits shr 12) and 0x0f).toInt()
 
@@ -128,7 +128,7 @@ class UUID(val uuid: ByteArray = genUuid()) {
      * 6 => Reserved, Microsoft Corporation backward compatibility
      * 7 => Reserved for future definition
      *
-     * @return  The variant number associated with this [UUID]
+     * @return The variant number associated with this [UUID]
      */
     fun variant(): Int = (
             leastSignificantBits.ushr((64 - (leastSignificantBits ushr 62)).toInt()) and (leastSignificantBits shr 63)
