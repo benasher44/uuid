@@ -6,15 +6,16 @@ import kotlin.test.assertEquals
 class JVMUUIDTest {
 
     @Test
-    fun `sets correct version bit`() {
+    fun `should set correct version and variant bits`() {
         val uuidL = UUID()
         val platformUuid = java.util.UUID(uuidL.mostSignificantBits, uuidL.leastSignificantBits)
 
         assertEquals(4, platformUuid.version())
+        assertEquals(2, platformUuid.variant())
     }
 
     @Test
-    fun `matches platform UUID string`() {
+    fun `should match platform UUID string`() {
         val uuidL = UUID()
         val platformUuid = java.util.UUID(uuidL.mostSignificantBits, uuidL.leastSignificantBits)
 
@@ -22,7 +23,7 @@ class JVMUUIDTest {
     }
 
     @Test
-    fun `matches platform UUID bytes`() {
+    fun `should match platform UUID bytes`() {
         val uuidL = UUID()
         val platformUuid = java.util.UUID.fromString(uuidL.toString())
 
