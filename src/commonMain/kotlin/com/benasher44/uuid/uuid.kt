@@ -1,7 +1,33 @@
 package com.benasher44.uuid
 
-internal val UUID_BYTES = 16
-internal val UUID_STRING_LENGTH = 36
+internal const val UUID_BYTES = 16
+internal const val UUID_STRING_LENGTH = 36
+
+/**
+ * Construct new [UUID] instance using the given data.
+ *
+ * @param msb The 64 most significant bits of the [UUID].
+ * @param lsb The 64 least significant bits of the [UUID].
+ */
+@Suppress("FunctionName")
+fun UUID(msb: Long, lsb: Long): UUID {
+    var x: Long
+    val bytes = ByteArray(UUID_BYTES)
+
+    x = msb
+    for (i in 7 downTo 0) {
+        bytes[i] = (x and 0xff).toByte()
+        x = x shr 8
+    }
+
+    x = lsb
+    for (i in 15 downTo 8) {
+        bytes[i] = (x and 0xff).toByte()
+        x = x shr 8
+    }
+
+    return UUID(bytes)
+}
 
 /**
  * A v4 RFC4122 UUID
