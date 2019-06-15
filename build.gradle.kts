@@ -1,3 +1,4 @@
+import org.jetbrains.dokka.gradle.DokkaTask
 import org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink
 import org.jetbrains.kotlin.konan.target.HostManager
 
@@ -11,6 +12,10 @@ plugins {
 repositories {
     mavenCentral()
     jcenter()
+}
+
+tasks.dokka {
+    samples = listOf("src/commonTest/kotlin")
 }
 
 kotlin {

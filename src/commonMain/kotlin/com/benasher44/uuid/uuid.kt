@@ -1,3 +1,5 @@
+@file:Suppress("RedundantVisibilityModifier", "MemberVisibilityCanBePrivate")
+
 package com.benasher44.uuid
 
 internal val UUID_BYTES = 16
@@ -11,7 +13,6 @@ internal val UUID_STRING_LENGTH = 36
  * @throws IllegalArgumentException, if uuid.count() is not 16
  * */
 class UUID(val uuid: ByteArray = genUuid()) {
-
     /** The most significant 64 bits of this UUID's 128 bit value. */
     val mostSignificantBits: Long by lazy {
         (0..7).fold(0L) { bits, i ->
@@ -26,33 +27,50 @@ class UUID(val uuid: ByteArray = genUuid()) {
         }
     }
 
-    /**
-     * The version number describes how this [UUID] was generated.
-     *
-     * Possible values:
-     * 1 => Time-based
-     * 2 => DCE security
-     * 3 => Name-based
-     * 4 => Randomly generated
-     *
-     * @return The version number associated with this [UUID]
-     */
-    val version: Int by lazy { ((mostSignificantBits shr 12) and 0x0f).toInt() }
+    /** @see variant */
+    @Deprecated("Use the variant function instead.", ReplaceWith("variant()"))
+    public inline val variant: Int
+        get() = variant()
+
+    /** @see version */
+    @Deprecated("Use the version function instead.", ReplaceWith("version()"))
+    public inline val version: Int
+        get() = version()
 
     /**
-     * The variant number describes the layout of the [UUID].
+     * The variant of the [UUID], determines the interpretation of the bits.
      *
-     * Possible values:
-     * 0 => Reserved for NCS backward compatibility
-     * 2 => IETF RFC 4122 (Leach-Salz)
-     * 6 => Reserved, Microsoft Corporation backward compatibility
-     * 7 => Reserved for future definition
+     * - **`0`** – special case for the Nil UUID as well as reserved for NCS
+     * - **`2`** – Leach-Salz, as defined in [RFC 4122](https://tools.ietf.org/html/rfc4122) and used by this class
+     * - **`6`** – reserved for Microsoft (GUID) backwards compatibility
+     * - **`7`** – reserved for future extension
      *
-     * @return The variant number associated with this [UUID]
+     * @return The variant number of this [UUID].
+     * @sample UUIDTest.variants
+     * @see <a href="https://tools.ietf.org/html/rfc4122#section-4.1.1">RFC 4122: Section 4.1.1</a>
      */
-    val variant: Int by lazy { (
-            leastSignificantBits.ushr((64 - (leastSignificantBits ushr 62)).toInt()) and (leastSignificantBits shr 63)
-            ).toInt() }
+    public fun variant(): Int =
+        (leastSignificantBits.ushr((64 - (leastSignificantBits ushr 62)).toInt()) and (leastSignificantBits shr 63)).toInt()
+
+    /**
+     * The version of the [UUID], denoting the generating algorithm.
+     *
+     * - **`0`** – special case for the Nil UUID
+     * - **`1`** – time-based
+     * - **`2`** – DCE security
+     * - **`3`** – name-based using MD5 hashing
+     * - **`4`** – random or pseudo-random
+     * - **`5`** – name-based using SHA-1 hashing
+     *
+     * Note that the version returned by this function is only meaningful if the [UUID.variant] is
+     * [RFC 4122](https://tools.ietf.org/html/rfc4122).
+     *
+     * @return The version number of this [UUID].
+     * @sample UUIDTest.versions
+     * @see <a href="https://tools.ietf.org/html/rfc4122#section-4.1.3">RFC 4122: Section 4.1.3</a>
+     */
+    public fun version(): Int =
+        ((mostSignificantBits shr 12) and 0x0f).toInt()
 
     init {
         if (uuid.count() != UUID_BYTES) {
