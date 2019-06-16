@@ -1,3 +1,5 @@
+@file:Suppress("RedundantVisibilityModifier")
+
 package com.benasher44.uuid
 
 internal const val UUID_BYTES = 16
@@ -9,8 +11,9 @@ internal const val UUID_STRING_LENGTH = 36
  * @param msb The 64 most significant bits of the [UUID].
  * @param lsb The 64 least significant bits of the [UUID].
  */
+//@SinceKotlin("1.x")
 @Suppress("FunctionName")
-fun UUID(msb: Long, lsb: Long): UUID {
+public fun UUID(msb: Long, lsb: Long): UUID {
     var x: Long
     val bytes = ByteArray(UUID_BYTES)
 
