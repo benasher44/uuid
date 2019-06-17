@@ -7,7 +7,7 @@ import platform.posix.close
 import platform.posix.open
 import platform.posix.read
 
-internal actual fun getRandomUUIDBytes(): ByteArray {
+internal actual fun getRandomUuidBytes(): ByteArray {
     val bytes = ByteArray(UUID_BYTES)
     val fd = open("/dev/urandom", O_RDONLY)
     bytes.usePinned {
