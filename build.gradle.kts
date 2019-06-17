@@ -132,13 +132,13 @@ if (HostManager.hostIsMac) {
     val testIosSim by tasks.registering(Exec::class) {
         group = "verification"
         dependsOn(linkTestDebugExecutableIosSim)
-        commandLine = listOf(
-            "xcrun",
+        executable = "xcrun"
+        setArgs(listOf(
             "simctl",
             "spawn",
             "iPad Air 2",
             linkTestDebugExecutableIosSim.outputFile.get()
-        )
+        ))
     }
 
     tasks.getByName("check") {
