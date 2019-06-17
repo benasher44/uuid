@@ -27,7 +27,6 @@ class UUID(val uuid: ByteArray = genUuid()) {
         }
     }
 
-
     /**
      * The variant of the [UUID], determines the interpretation of the bits.
      *
