@@ -9,7 +9,6 @@ plugins {
 }
 
 repositories {
-    mavenCentral()
     jcenter()
 }
 
@@ -133,8 +132,8 @@ if (HostManager.hostIsMac) {
     val testIosSim by tasks.registering(Exec::class) {
         group = "verification"
         dependsOn(linkTestDebugExecutableIosSim)
-        executable("xcrun")
-        args = listOf(
+        commandLine = listOf(
+            "xcrun",
             "simctl",
             "spawn",
             "iPad Air 2",
