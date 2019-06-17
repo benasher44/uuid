@@ -20,11 +20,7 @@ tasks.dokka {
 kotlin {
     targets {
         jvm {
-            compilations.all {
-                kotlinOptions {
-                    jvmTarget = "1.8"
-                }
-            }
+            // Intentionally left blank.
         }
         js {
             compilations.all {
@@ -59,7 +55,7 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+                implementation("org.jetbrains.kotlin:kotlin-stdlib")
             }
         }
         val jvmTest by getting {
