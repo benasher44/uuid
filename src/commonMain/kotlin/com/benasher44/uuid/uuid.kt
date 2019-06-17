@@ -39,7 +39,7 @@ class UUID(val uuid: ByteArray = genUuid()) {
      * @sample UUIDTest.variants
      * @see <a href="https://tools.ietf.org/html/rfc4122#section-4.1.1">RFC 4122: Section 4.1.1</a>
      */
-    public inline val variant: Int
+    public val variant: Int
         get() = (leastSignificantBits.ushr((64 - (leastSignificantBits ushr 62)).toInt()) and (leastSignificantBits shr 63)).toInt()
 
     /**
@@ -59,7 +59,7 @@ class UUID(val uuid: ByteArray = genUuid()) {
      * @sample UUIDTest.versions
      * @see <a href="https://tools.ietf.org/html/rfc4122#section-4.1.3">RFC 4122: Section 4.1.3</a>
      */
-    public inline val version: Int
+    public val version: Int
         get() = ((mostSignificantBits shr 12) and 0x0f).toInt()
 
     init {
