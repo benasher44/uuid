@@ -11,26 +11,19 @@ internal const val UUID_STRING_LENGTH = 36
  * @param msb The 64 most significant bits of the [UUID].
  * @param lsb The 64 least significant bits of the [UUID].
  */
-//@SinceKotlin("1.x")
+// @SinceKotlin("1.x")
 @Suppress("FunctionName")
-public fun UUID(msb: Long, lsb: Long): UUID {
-    var x: Long
-    val bytes = ByteArray(UUID_BYTES)
-
-    x = msb
-    for (i in 7 downTo 0) {
-        bytes[i] = (x and 0xff).toByte()
-        x = x shr 8
-    }
-
-    x = lsb
-    for (i in 15 downTo 8) {
-        bytes[i] = (x and 0xff).toByte()
-        x = x shr 8
-    }
-
-    return UUID(bytes)
-}
+public fun UUID(msb: Long, lsb: Long): UUID =
+    UUID(ByteArray(UUID_BYTES).also { bytes ->
+        (7 downTo 0).fold(msb) { x, i ->
+            bytes[i] = (x and 0xff).toByte()
+            x shr 8
+        }
+        (15 downTo 8).fold(lsb) { x, i ->
+            bytes[i] = (x and 0xff).toByte()
+            x shr 8
+        }
+    })
 
 /**
  * A v4 RFC4122 UUID
