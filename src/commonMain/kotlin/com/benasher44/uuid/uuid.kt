@@ -11,20 +11,24 @@ internal val UUID_STRING_LENGTH = 36
  * @throws IllegalArgumentException, if uuid.count() is not 16
  * */
 class UUID(val uuid: ByteArray = genUuid()) {
+    /** The 64 most significant bits of this [UUID]. */
+    public val msb: Long
+        get() = (0..7).fold(0L) { bits, i -> bits shl 8 or (uuid[i].toLong() and 0xff) }
 
-    /** The most significant 64 bits of this UUID's 128 bit value. */
-    val mostSignificantBits: Long by lazy {
-        (0..7).fold(0L) { bits, i ->
-            bits shl 8 or (uuid[i].toLong() and 0xff)
-        }
-    }
+    /** The 64 most significant bits of this [UUID]. */
+    public val lsb: Long
+        get() = (0..15).fold(0L) { bits, i -> bits shl 8 or (uuid[i].toLong() and 0xff) }
 
+    /** @see msb */
+    @Deprecated("Use the short `msb` form instead.", ReplaceWith("msb"))
+    public inline val mostSignificantBits: Long
+        get() = msb
+
+    /** @see lsb */
+    @Deprecated("Use the short `lsb` form instead.", ReplaceWith("lsb"))
     /** The least significant 64 bits of this UUID's 128 bit value. */
-    val leastSignificantBits: Long by lazy {
-        (8..15).fold(0L) { bits, i ->
-            bits shl 8 or (uuid[i].toLong() and 0xff)
-        }
-    }
+    public inline val leastSignificantBits: Long
+        get() = lsb
 
     /**
      * The version number describes how this [UUID] was generated.
@@ -37,7 +41,7 @@ class UUID(val uuid: ByteArray = genUuid()) {
      *
      * @return The version number associated with this [UUID]
      */
-    val version: Int by lazy { ((mostSignificantBits shr 12) and 0x0f).toInt() }
+    val version: Int by lazy { ((msb shr 12) and 0x0f).toInt() }
 
     /**
      * The variant number describes the layout of the [UUID].
@@ -50,9 +54,7 @@ class UUID(val uuid: ByteArray = genUuid()) {
      *
      * @return The variant number associated with this [UUID]
      */
-    val variant: Int by lazy { (
-            leastSignificantBits.ushr((64 - (leastSignificantBits ushr 62)).toInt()) and (leastSignificantBits shr 63)
-            ).toInt() }
+    val variant: Int by lazy { (lsb.ushr((64 - (lsb ushr 62)).toInt()) and (lsb shr 63)).toInt() }
 
     init {
         if (uuid.count() != UUID_BYTES) {

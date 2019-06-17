@@ -40,8 +40,8 @@ class UUIDTest {
     @Test
     fun provides_higher_and_lower_bits() {
         val uuid = UUID.parse("c480d6ab-cb0c-427b-a9a6-19c5f8a146bd")!!
-        assertEquals(-6222257497095190851, uuid.leastSignificantBits)
-        assertEquals(-4287190811922382213, uuid.mostSignificantBits)
+        assertEquals(-6222257497095190851, uuid.lsb)
+        assertEquals(-4287190811922382213, uuid.msb)
     }
 
     @Test
