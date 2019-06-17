@@ -27,15 +27,6 @@ class UUID(val uuid: ByteArray = genUuid()) {
         }
     }
 
-    /** @see variant */
-    @Deprecated("Use the variant function instead.", ReplaceWith("variant()"))
-    public inline val variant: Int
-        get() = variant()
-
-    /** @see version */
-    @Deprecated("Use the version function instead.", ReplaceWith("version()"))
-    public inline val version: Int
-        get() = version()
 
     /**
      * The variant of the [UUID], determines the interpretation of the bits.
@@ -49,8 +40,8 @@ class UUID(val uuid: ByteArray = genUuid()) {
      * @sample UUIDTest.variants
      * @see <a href="https://tools.ietf.org/html/rfc4122#section-4.1.1">RFC 4122: Section 4.1.1</a>
      */
-    public fun variant(): Int =
-        (leastSignificantBits.ushr((64 - (leastSignificantBits ushr 62)).toInt()) and (leastSignificantBits shr 63)).toInt()
+    public inline val variant: Int
+        get() = (leastSignificantBits.ushr((64 - (leastSignificantBits ushr 62)).toInt()) and (leastSignificantBits shr 63)).toInt()
 
     /**
      * The version of the [UUID], denoting the generating algorithm.
@@ -69,8 +60,8 @@ class UUID(val uuid: ByteArray = genUuid()) {
      * @sample UUIDTest.versions
      * @see <a href="https://tools.ietf.org/html/rfc4122#section-4.1.3">RFC 4122: Section 4.1.3</a>
      */
-    public fun version(): Int =
-        ((mostSignificantBits shr 12) and 0x0f).toInt()
+    public inline val version: Int
+        get() = ((mostSignificantBits shr 12) and 0x0f).toInt()
 
     init {
         if (uuid.count() != UUID_BYTES) {
