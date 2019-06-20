@@ -54,6 +54,7 @@ public class Uuid(val uuid: ByteArray = genUuid()) {
      * - **`3`** – name-based using MD5 hashing
      * - **`4`** – random or pseudo-random
      * - **`5`** – name-based using SHA-1 hashing
+     * - **`6`–`15`** – reserved for future extension
      *
      * Note that the version returned by this function is only meaningful if the [UUID.variant] is
      * [RFC 4122](https://tools.ietf.org/html/rfc4122).
