@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink
 import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
-    kotlin("multiplatform") version "1.3.31"
+    kotlin("multiplatform") version "1.3.40"
     id("org.jetbrains.dokka") version "0.9.18"
     id("maven-publish")
     id("signing")
@@ -31,7 +31,7 @@ kotlin {
         iosArm64("iosDevice64")
         iosArm32("iosDevice32")
         mingwX64("mingw") {
-            binaries.findExecutable("test", DEBUG)!!.linkerOpts = mutableListOf("-Wl,--subsystem,windows, -Bstatic -lbcrypt")
+            binaries.findTest(DEBUG)!!.linkerOpts = mutableListOf("-Wl,--subsystem,windows")
         }
         linuxX64("linux64")
         linuxArm32Hfp("linux32")
@@ -128,16 +128,16 @@ tasks.getByName("check") {
 }
 
 if (HostManager.hostIsMac) {
-    val linkTestDebugExecutableIosSim by tasks.getting(KotlinNativeLink::class)
+    val linkDebugTestIosSim by tasks.getting(KotlinNativeLink::class)
     val testIosSim by tasks.registering(Exec::class) {
         group = "verification"
-        dependsOn(linkTestDebugExecutableIosSim)
+        dependsOn(linkDebugTestIosSim)
         executable = "xcrun"
         setArgs(listOf(
             "simctl",
             "spawn",
             "iPad Air 2",
-            linkTestDebugExecutableIosSim.outputFile.get()
+            linkDebugTestIosSim.outputFile.get()
         ))
     }
 
