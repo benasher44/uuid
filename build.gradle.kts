@@ -13,6 +13,10 @@ repositories {
     jcenter()
 }
 
+tasks.dokka {
+    samples = listOf("src/commonTest/kotlin")
+}
+
 kotlin {
     targets {
         jvm {
