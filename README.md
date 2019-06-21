@@ -17,7 +17,6 @@ K/N doesn't have a UUID yet. This brings a random (v4) UUID that matches UUIDs o
 - Tested
 - Tested against macOS/iOS UUID to verify correctness
 
-
 ### Setup
 
 In your build.gradle(.kts):
