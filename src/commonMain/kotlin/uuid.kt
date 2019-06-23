@@ -3,11 +3,31 @@
 
 package com.benasher44.uuid
 
-internal val UUID_BYTES = 16
-internal val UUID_STRING_LENGTH = 36
+internal const val UUID_BYTES = 16
+internal const val UUID_STRING_LENGTH = 36
 
 @Deprecated("Use `Uuid` instead.", ReplaceWith("Uuid"))
 public typealias UUID = Uuid
+
+/**
+ * Construct new [UUID] instance using the given data.
+ *
+ * @param msb The 64 most significant bits of the [UUID].
+ * @param lsb The 64 least significant bits of the [UUID].
+ */
+// @SinceKotlin("1.x")
+@Suppress("FunctionName")
+public fun Uuid(msb: Long, lsb: Long): Uuid =
+    Uuid(ByteArray(UUID_BYTES).also { bytes ->
+        (7 downTo 0).fold(msb) { x, i ->
+            bytes[i] = (x and 0xff).toByte()
+            x shr 8
+        }
+        (15 downTo 8).fold(lsb) { x, i ->
+            bytes[i] = (x and 0xff).toByte()
+            x shr 8
+        }
+    })
 
 /**
  * A v4 RFC4122 UUID
