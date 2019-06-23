@@ -38,7 +38,7 @@ public fun Uuid(msb: Long, lsb: Long): Uuid =
  * */
 public class Uuid(val uuid: ByteArray) {
     @Deprecated("use uuid4 instead", ReplaceWith("uuid4()"))
-    constructor(): this(genUuid())
+    constructor() : this(genUuid())
 
     /** The most significant 64 bits of this UUID's 128 bit value. */
     val mostSignificantBits: Long by lazy {
@@ -98,6 +98,7 @@ public class Uuid(val uuid: ByteArray) {
         }
         this.freeze()
     }
+
     companion object {
 
         /** Generates a random UUID */
