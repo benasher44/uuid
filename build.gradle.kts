@@ -18,27 +18,33 @@ tasks.dokka {
 
 kotlin {
     targets {
-        jvm {
-            // Intentionally left blank.
-        }
-        js {
-            compilations.all {
-                kotlinOptions {
-                    sourceMap = true
-                    moduleKind = "umd"
-                    metaInfo = true
+        if (HostManager.hostIsMac) {
+            jvm {
+                // Intentionally left blank.
+            }
+            js {
+                compilations.all {
+                    kotlinOptions {
+                        sourceMap = true
+                        moduleKind = "umd"
+                        metaInfo = true
+                    }
                 }
             }
+            macosX64("macos")
+            iosX64("iosSim")
+            iosArm64("iosDevice64")
+            iosArm32("iosDevice32")
         }
-        macosX64("macos")
-        iosX64("iosSim")
-        iosArm64("iosDevice64")
-        iosArm32("iosDevice32")
-        mingwX64("mingw") {
-            binaries.findTest(DEBUG)!!.linkerOpts = mutableListOf("-Wl,--subsystem,windows")
+        if (HostManager.hostIsMingw) {
+            mingwX64("mingw") {
+                binaries.findTest(DEBUG)!!.linkerOpts = mutableListOf("-Wl,--subsystem,windows")
+            }
         }
-        linuxX64("linux64")
-        linuxArm32Hfp("linux32")
+        if (HostManager.hostIsLinux) {
+            linuxX64("linux64")
+            linuxArm32Hfp("linux32")
+        }
     }
     sourceSets {
         commonMain {
@@ -52,54 +58,63 @@ kotlin {
                 implementation("org.jetbrains.kotlin:kotlin-test-annotations-common")
             }
         }
-        val jvmMain by getting {
-            dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib")
-            }
-        }
-        val jvmTest by getting {
-            dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-test")
-                implementation("org.jetbrains.kotlin:kotlin-test-junit")
-            }
-        }
-        val jsMain by getting {
-            dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-js")
-            }
-        }
-        val jsTest by getting {
-            dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-test-js")
-            }
-        }
 
         val nix64MainSourceSets = listOf(
-                "src/nativeMain/kotlin",
-                "src/nix64Main/kotlin"
+            "src/nativeMain/kotlin",
+            "src/nix64Main/kotlin"
         )
 
         val nix32MainSourceSets = listOf(
-                "src/nativeMain/kotlin",
-                "src/nix32Main/kotlin"
+            "src/nativeMain/kotlin",
+            "src/nix32Main/kotlin"
         )
 
-        val macosMain by getting { kotlin.srcDirs(nix64MainSourceSets) }
-        val macosTest by getting { kotlin.srcDir("src/cocoaTest/kotlin") }
-        val iosDevice64Main by getting  { kotlin.srcDirs(nix64MainSourceSets) }
-        val iosDevice64Test by getting  { kotlin.srcDir("src/cocoaTest/kotlin") }
-        val iosDevice32Main by getting  { kotlin.srcDirs(nix32MainSourceSets) }
-        val iosDevice32Test by getting  { kotlin.srcDir("src/cocoaTest/kotlin") }
-        val iosSimMain by getting { kotlin.srcDirs(nix64MainSourceSets) }
-        val iosSimTest by getting { kotlin.srcDir("src/cocoaTest/kotlin") }
-        val mingwMain by getting {
-            kotlin.srcDirs(listOf(
-                "src/nativeMain/kotlin",
-                "src/mingwMain/kotlin"
-            ))
+        if (HostManager.hostIsMac) {
+            val jvmMain by getting {
+                dependencies {
+                    implementation("org.jetbrains.kotlin:kotlin-stdlib")
+                }
+            }
+            val jvmTest by getting {
+                dependencies {
+                    implementation("org.jetbrains.kotlin:kotlin-test")
+                    implementation("org.jetbrains.kotlin:kotlin-test-junit")
+                }
+            }
+            val jsMain by getting {
+                dependencies {
+                    implementation("org.jetbrains.kotlin:kotlin-stdlib-js")
+                }
+            }
+            val jsTest by getting {
+                dependencies {
+                    implementation("org.jetbrains.kotlin:kotlin-test-js")
+                }
+            }
+
+            val macosMain by getting { kotlin.srcDirs(nix64MainSourceSets) }
+            val macosTest by getting { kotlin.srcDir("src/cocoaTest/kotlin") }
+            val iosDevice64Main by getting { kotlin.srcDirs(nix64MainSourceSets) }
+            val iosDevice64Test by getting { kotlin.srcDir("src/cocoaTest/kotlin") }
+            val iosDevice32Main by getting { kotlin.srcDirs(nix32MainSourceSets) }
+            val iosDevice32Test by getting { kotlin.srcDir("src/cocoaTest/kotlin") }
+            val iosSimMain by getting { kotlin.srcDirs(nix64MainSourceSets) }
+            val iosSimTest by getting { kotlin.srcDir("src/cocoaTest/kotlin") }
         }
-        val linux64Main by getting { kotlin.srcDirs(nix64MainSourceSets) }
-        val linux32Main by getting { kotlin.srcDirs(nix32MainSourceSets) }
+        if (HostManager.hostIsMingw) {
+            val mingwMain by getting {
+                kotlin.srcDirs(
+                    listOf(
+                        "src/nativeMain/kotlin",
+                        "src/mingwMain/kotlin"
+                    )
+                )
+            }
+        }
+        if (HostManager.hostIsLinux) {
+            val linux64Main by getting { kotlin.srcDirs(nix64MainSourceSets) }
+            val linux32Main by getting { kotlin.srcDirs(nix32MainSourceSets) }
+        }
     }
 }
 
