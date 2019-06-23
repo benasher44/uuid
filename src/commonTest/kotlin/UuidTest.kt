@@ -1,3 +1,5 @@
+package com.benasher44.uuid
+
 import com.benasher44.uuid.Uuid
 import com.benasher44.uuid.UUID_STRING_LENGTH
 import kotlin.test.Test
