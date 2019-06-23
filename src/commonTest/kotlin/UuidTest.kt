@@ -52,6 +52,13 @@ class UuidTest {
         assertEquals(2, uuid.variant)
     }
 
+    @Test fun uuid_construction_from_msb_and_lsb() {
+        assertEquals("00000000-0000-0000-0000-000000000000", Uuid(0, 0).toString(), "min")
+        assertEquals("00000000-0000-0000-ffff-ffffffffffff", Uuid(0, -1).toString(), "lsb")
+        assertEquals("ffffffff-ffff-ffff-0000-000000000000", Uuid(-1, 0).toString(), "msb")
+        assertEquals("ffffffff-ffff-ffff-ffff-ffffffffffff", Uuid(-1, -1).toString(), "max")
+    }
+
     @Test fun variants() {
         assertEquals(0, Uuid.parse("00000000-0000-0000-0000-000000000000")!!.variant, "Nil or NCS")
         assertEquals(2, Uuid.parse("00000000-0000-0000-8000-000000000000")!!.variant, "RFC 4122")
