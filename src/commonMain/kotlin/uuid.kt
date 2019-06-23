@@ -63,7 +63,7 @@ public class Uuid(val uuid: ByteArray) {
      * - **`7`** – reserved for future extension
      *
      * @return The variant number of this [Uuid].
-     * @sample UUIDTest.variants
+     * @sample com.benasher44.uuid.UuidTest.variants
      * @see <a href="https://tools.ietf.org/html/rfc4122#section-4.1.1">RFC 4122: Section 4.1.1</a>
      */
     public val variant: Int
@@ -80,11 +80,11 @@ public class Uuid(val uuid: ByteArray) {
      * - **`5`** – name-based using SHA-1 hashing
      * - **`6`–`15`** – reserved for future extension
      *
-     * Note that the version returned by this function is only meaningful if the [UUID.variant] is
+     * Note that the version returned by this function is only meaningful if the [Uuid.variant] is
      * [RFC 4122](https://tools.ietf.org/html/rfc4122).
      *
      * @return The version number of this [Uuid].
-     * @sample UUIDTest.versions
+     * @sample com.benasher44.uuid.UuidTest.versions
      * @see <a href="https://tools.ietf.org/html/rfc4122#section-4.1.3">RFC 4122: Section 4.1.3</a>
      */
     public val version: Int
@@ -144,8 +144,8 @@ public class Uuid(val uuid: ByteArray) {
             val bytes = ByteArray(UUID_BYTES)
             var byte = 0
             for (range in uuidCharRanges) {
-                var i = range.start
-                while (i < range.endInclusive) {
+                var i = range.first
+                while (i < range.last) {
                     // Collect each pair of UUID chars and their int representations
                     val left = halfByteFromChar(from[i++])
                     val right = halfByteFromChar(from[i++])
@@ -232,7 +232,7 @@ internal inline fun ByteArray.setVersion(version: Int) = apply {
  * source of the platform.
  *
  * @return New version 4 [UUID][Uuid] of random data.
- * @sample UuidTest.uuid4_generation
+ * @sample com.benasher44.uuid.UuidTest.uuid4_generation
  * @see <a href="https://tools.ietf.org/html/rfc4122#section-4.4">RFC 4122: Section 4.4</a>
  */
 // @SinceKotlin("1.x")

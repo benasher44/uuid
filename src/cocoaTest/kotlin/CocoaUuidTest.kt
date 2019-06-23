@@ -1,5 +1,5 @@
-import com.benasher44.uuid.Uuid
-import com.benasher44.uuid.UUID_BYTES
+package com.benasher44.uuid
+
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.reinterpret
 import kotlinx.cinterop.usePinned
@@ -12,7 +12,7 @@ import kotlin.test.assertTrue
 class CocoaUuidTest {
     @Test
     fun `UUID.toString() matches NSUUID`() {
-        val uuidL = Uuid()
+        val uuidL = uuid4()
         val nativeUuidString = uuidL.uuid.usePinned {
             NSUUID(it.addressOf(0).reinterpret()).UUIDString
         }.toLowerCase()
@@ -21,7 +21,7 @@ class CocoaUuidTest {
 
     @Test
     fun `UUID bytes match NSUUID`() {
-        val uuidL = Uuid()
+        val uuidL = uuid4()
         val nativeUuid = NSUUID(uuidL.toString())
         val nativeBytes = ByteArray(UUID_BYTES)
         nativeBytes.usePinned {
@@ -32,6 +32,6 @@ class CocoaUuidTest {
 
     @Test
     fun `UUID is frozen after initialization`() {
-        assertTrue(Uuid().isFrozen)
+        assertTrue(uuid4().isFrozen)
     }
 }
