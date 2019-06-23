@@ -44,9 +44,8 @@ class UuidTest {
         assertEquals(-4287190811922382213, uuid.mostSignificantBits)
     }
 
-    @Test
-    fun generates_a_UUID_with_correct_version_and_variant_bits() {
-        val uuid = Uuid()
+    @Test fun uuid4() {
+        val uuid = uuid4()
 
         assertEquals(4, uuid.version)
         assertEquals(2, uuid.variant)
