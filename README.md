@@ -25,3 +25,7 @@ In your build.gradle(.kts):
 - Add `implementation "com.benasher44:uuid:<version>"` as a dependency in your `commonMain` `sourceSets`.
 
 This library publishes gradle module metadata, so you should have `enableFeaturePreview("GRADLE_METADATA")` in your settings.gradle(.kts).
+
+### Future Goals
+
+Develop UUID functionality that can be contributed back to the Kotlin stdlib. Checkout the latest issues, PRs, and CHANGELOG.md for updated info.
