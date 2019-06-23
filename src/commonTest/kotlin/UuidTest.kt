@@ -1,5 +1,5 @@
-import com.benasher44.uuid.Uuid
-import com.benasher44.uuid.UUID_STRING_LENGTH
+package com.benasher44.uuid
+
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
@@ -13,7 +13,7 @@ class UuidTest {
 
     @Test
     fun generates_a_UUID() {
-        val uuid = Uuid()
+        val uuid = uuid4()
         val uuidString = uuid.toString()
         assertEquals(uuidString.length, UUID_STRING_LENGTH)
         assertNull(Uuid.hyphenIndices.find { uuidString[it] != '-' })
@@ -24,7 +24,7 @@ class UuidTest {
 
     @Test
     fun parses_a_UUID_from_a_string() {
-        val uuid = Uuid()
+        val uuid = uuid4()
         val uuidFromStr = Uuid.parse(uuid.toString())!!
         assertEquals(uuid, uuidFromStr)
         // double check hashcode equality, while we're here
@@ -44,9 +44,8 @@ class UuidTest {
         assertEquals(-4287190811922382213, uuid.mostSignificantBits)
     }
 
-    @Test
-    fun generates_a_UUID_with_correct_version_and_variant_bits() {
-        val uuid = Uuid()
+    @Test fun uuid4_generation() {
+        val uuid = uuid4()
 
         assertEquals(4, uuid.version)
         assertEquals(2, uuid.variant)
