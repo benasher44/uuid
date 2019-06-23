@@ -211,7 +211,7 @@ internal inline fun ByteArray.setVersion(version: Int) = apply {
  * source of the platform.
  *
  * @return New version 4 [UUID][Uuid] of random data.
- * @sample UuidTest.uuid4
+ * @sample UuidTest.uuid4_generation
  * @see <a href="https://tools.ietf.org/html/rfc4122#section-4.4">RFC 4122: Section 4.4</a>
  */
 // @SinceKotlin("1.x")

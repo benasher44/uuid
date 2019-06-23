@@ -44,7 +44,7 @@ class UuidTest {
         assertEquals(-4287190811922382213, uuid.mostSignificantBits)
     }
 
-    @Test fun uuid4() {
+    @Test fun uuid4_generation() {
         val uuid = uuid4()
 
         assertEquals(4, uuid.version)
