@@ -7,7 +7,7 @@ class JvmUuidTest {
 
     @Test
     fun `should set correct version and variant bits`() {
-        val uuidL = Uuid()
+        val uuidL = uuid4()
         val platformUuid = java.util.UUID(uuidL.mostSignificantBits, uuidL.leastSignificantBits)
 
         assertEquals(4, platformUuid.version())
@@ -16,7 +16,7 @@ class JvmUuidTest {
 
     @Test
     fun `should match platform UUID string`() {
-        val uuidL = Uuid()
+        val uuidL = uuid4()
         val platformUuid = java.util.UUID(uuidL.mostSignificantBits, uuidL.leastSignificantBits)
 
         assertEquals(platformUuid.toString(), uuidL.toString())
@@ -24,7 +24,7 @@ class JvmUuidTest {
 
     @Test
     fun `should match platform UUID bytes`() {
-        val uuidL = Uuid()
+        val uuidL = uuid4()
         val platformUuid = java.util.UUID.fromString(uuidL.toString())
 
         assertEquals(platformUuid.mostSignificantBits, uuidL.mostSignificantBits)

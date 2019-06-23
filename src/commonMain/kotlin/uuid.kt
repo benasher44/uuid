@@ -37,7 +37,7 @@ public fun Uuid(msb: Long, lsb: Long): Uuid =
  * @throws IllegalArgumentException, if uuid.count() is not 16
  * */
 public class Uuid(val uuid: ByteArray) {
-    @Deprecated("use uuid4 instead", ReplaceWith("uuid4"))
+    @Deprecated("use uuid4 instead", ReplaceWith("uuid4()"))
     constructor(): this(genUuid())
 
     /** The most significant 64 bits of this UUID's 128 bit value. */
@@ -236,4 +236,4 @@ internal inline fun ByteArray.setVersion(version: Int) = apply {
  */
 // @SinceKotlin("1.x")
 public fun uuid4(): Uuid =
-    Uuid(getRandomUuidBytes().setVersion(0x40))
+    Uuid(getRandomUuidBytes().setVersion(4))

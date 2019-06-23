@@ -15,7 +15,7 @@ class UuidTest {
 
     @Test
     fun generates_a_UUID() {
-        val uuid = Uuid()
+        val uuid = uuid4()
         val uuidString = uuid.toString()
         assertEquals(uuidString.length, UUID_STRING_LENGTH)
         assertNull(Uuid.hyphenIndices.find { uuidString[it] != '-' })
@@ -26,7 +26,7 @@ class UuidTest {
 
     @Test
     fun parses_a_UUID_from_a_string() {
-        val uuid = Uuid()
+        val uuid = uuid4()
         val uuidFromStr = Uuid.parse(uuid.toString())!!
         assertEquals(uuid, uuidFromStr)
         // double check hashcode equality, while we're here
