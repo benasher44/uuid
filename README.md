@@ -28,4 +28,4 @@ This library publishes gradle module metadata, so you should have `enableFeature
 
 ### Future Goals
 
-- Develop UUID functionality that can be contributed back to the Kotlin stdlib. Checkout the latest issues, PRs, and CHANGELOG.md for updated info.
+- Develop UUID functionality that can be contributed back to the Kotlin stdlib (see latest issues, PRs, and CHANGELOG.md for updates)
