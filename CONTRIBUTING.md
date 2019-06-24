@@ -43,7 +43,7 @@ Code/comments should adhere to the following rules:
 * All changes should have a CHANGELOG.md entry.
 * All changes require test coverage to ensure it does not break during refactor
   work, as well as ensure consistent behavior across supported platforms.
-* Comments are required for public APIs and use JavaDoc format.
+* Comments are required for public APIs and use KDoc format.
 * When documenting APIs and/or source code, don't make assumptions or make
   implications about race, gender, religion, political orientation, or anything
   else that isn't relevant to the project.
