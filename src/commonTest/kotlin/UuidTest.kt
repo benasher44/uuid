@@ -96,11 +96,11 @@ class UuidTest {
     }
 
     @Test
-    fun uuid_construction_from_msb_and_lsb() {
-        assertEquals("00000000-0000-0000-0000-000000000000", Uuid(0, 0).toString(), "min")
-        assertEquals("00000000-0000-0000-ffff-ffffffffffff", Uuid(0, -1).toString(), "lsb")
-        assertEquals("ffffffff-ffff-ffff-0000-000000000000", Uuid(-1, 0).toString(), "msb")
-        assertEquals("ffffffff-ffff-ffff-ffff-ffffffffffff", Uuid(-1, -1).toString(), "max")
+    fun uuidOf_from_msb_and_lsb() {
+        assertEquals("00000000-0000-0000-0000-000000000000", uuidOf(0, 0).toString(), "min")
+        assertEquals("00000000-0000-0000-ffff-ffffffffffff", uuidOf(0, -1).toString(), "lsb")
+        assertEquals("ffffffff-ffff-ffff-0000-000000000000", uuidOf(-1, 0).toString(), "msb")
+        assertEquals("ffffffff-ffff-ffff-ffff-ffffffffffff", uuidOf(-1, -1).toString(), "max")
     }
 
     @Test
