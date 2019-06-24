@@ -118,6 +118,14 @@ kotlin {
     }
 }
 
+kotlin {
+    targets.all {
+        compilations.all {
+            kotlinOptions.allWarningsAsErrors = true
+        }
+    }
+}
+
 val ktlintConfig by configurations.creating
 
 dependencies {
