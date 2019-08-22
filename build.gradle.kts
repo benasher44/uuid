@@ -162,6 +162,7 @@ if (HostManager.hostIsMac) {
         setArgs(listOf(
             "simctl",
             "spawn",
+            "-s",
             "iPad Air 2",
             linkDebugTestIosSim.outputFile.get()
         ))
