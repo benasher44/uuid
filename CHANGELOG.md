@@ -5,9 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [0.0.4] - 2019-08-22
 ### Added
 - `uuid4` function (#42)
+### Changed
+- Kotlin version to 1.3.50 (#54)
 ### Deprecated
 - no-args constructor in favor of `uuid4` (#42)
 

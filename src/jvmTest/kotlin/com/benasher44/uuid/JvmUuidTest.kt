@@ -1,7 +1,7 @@
 package com.benasher44.uuid
 
-import org.junit.Test
 import kotlin.test.assertEquals
+import org.junit.Test
 
 class JvmUuidTest {
 

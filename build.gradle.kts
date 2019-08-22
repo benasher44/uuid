@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink
 import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
-    kotlin("multiplatform") version "1.3.40"
+    kotlin("multiplatform") version "1.3.50"
     id("org.jetbrains.dokka") version "0.9.18"
     id("maven-publish")
     id("signing")
@@ -129,7 +129,7 @@ kotlin {
 val ktlintConfig by configurations.creating
 
 dependencies {
-    ktlintConfig("com.pinterest:ktlint:0.32.0")
+    ktlintConfig("com.pinterest:ktlint:0.34.2")
 }
 
 val ktlint by tasks.registering(JavaExec::class) {
@@ -148,10 +148,9 @@ val ktlintformat by tasks.registering(JavaExec::class) {
     args = listOf("-F", "src/**/*.kt")
 }
 
-tasks.getByName("check") {
-    configure {
-        dependsOn(ktlint)
-    }
+val checkTask = tasks.named("check")
+checkTask.configure {
+    dependsOn(ktlint)
 }
 
 if (HostManager.hostIsMac) {
@@ -163,15 +162,14 @@ if (HostManager.hostIsMac) {
         setArgs(listOf(
             "simctl",
             "spawn",
+            "-s",
             "iPad Air 2",
             linkDebugTestIosSim.outputFile.get()
         ))
     }
 
-    tasks.getByName("check") {
-        configure {
-            dependsOn(testIosSim)
-        }
+    checkTask.configure {
+        dependsOn(testIosSim)
     }
 }
 
