@@ -1,13 +1,13 @@
 package com.benasher44.uuid
 
-import kotlinx.cinterop.addressOf
-import kotlinx.cinterop.reinterpret
-import kotlinx.cinterop.usePinned
-import platform.Foundation.NSUUID
 import kotlin.native.concurrent.isFrozen
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+import kotlinx.cinterop.addressOf
+import kotlinx.cinterop.reinterpret
+import kotlinx.cinterop.usePinned
+import platform.Foundation.NSUUID
 
 class CocoaUuidTest {
     @Test
