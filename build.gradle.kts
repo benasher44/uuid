@@ -36,12 +36,12 @@ kotlin {
             iosArm64("iosDevice64")
             iosArm32("iosDevice32")
         }
-        if (HostManager.hostIsMingw) {
+        if (HostManager.hostIsMingw || HostManager.hostIsMac) {
             mingwX64("mingw") {
                 binaries.findTest(DEBUG)!!.linkerOpts = mutableListOf("-Wl,--subsystem,windows")
             }
         }
-        if (HostManager.hostIsLinux) {
+        if (HostManager.hostIsLinux || HostManager.hostIsMac) {
             linuxX64("linux64")
             linuxArm32Hfp("linux32")
         }
@@ -101,7 +101,7 @@ kotlin {
             val iosSimMain by getting { kotlin.srcDirs(nix64MainSourceSets) }
             val iosSimTest by getting { kotlin.srcDir("src/cocoaTest/kotlin") }
         }
-        if (HostManager.hostIsMingw) {
+        if (HostManager.hostIsMingw || HostManager.hostIsMac) {
             val mingwMain by getting {
                 kotlin.srcDirs(
                     listOf(
@@ -111,7 +111,7 @@ kotlin {
                 )
             }
         }
-        if (HostManager.hostIsLinux) {
+        if (HostManager.hostIsLinux || HostManager.hostIsMac) {
             val linux64Main by getting { kotlin.srcDirs(nix64MainSourceSets) }
             val linux32Main by getting { kotlin.srcDirs(nix32MainSourceSets) }
         }
