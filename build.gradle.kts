@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink
 import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
-    kotlin("multiplatform") version "1.3.50"
+    kotlin("multiplatform") version "1.3.60"
     id("org.jetbrains.dokka") version "0.9.18"
     id("maven-publish")
     id("signing")
@@ -129,7 +129,7 @@ kotlin {
 val ktlintConfig by configurations.creating
 
 dependencies {
-    ktlintConfig("com.pinterest:ktlint:0.34.2")
+    ktlintConfig("com.pinterest:ktlint:0.35.0")
 }
 
 val ktlint by tasks.registering(JavaExec::class) {
