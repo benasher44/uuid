@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.0.7] - 2019-12-14
+### Changed
+- Deprecate Uuid.parse() in favor of Uuid.fromString(), which returns a non-null Uuid or throws an error for an invalid string, in line with Java's UUID.fromString().
+
 ## [0.0.6] - 2019-11-21
 ### Changed
 - Upgrade to Kotlin 1.3.60 (#56)

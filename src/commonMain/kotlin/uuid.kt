@@ -3,6 +3,8 @@
 
 package com.benasher44.uuid
 
+import kotlin.DeprecationLevel.WARNING
+
 internal const val UUID_BYTES = 16
 internal const val UUID_STRING_LENGTH = 36
 
@@ -138,9 +140,33 @@ public class Uuid(val uuid: ByteArray) {
          * @param from The String, from which to deserialize the UUID
          * @return a UUID, if the string is a valid UUID string
          */
+        @Deprecated(
+            message = "Use Uuid.fromString() instead.",
+            replaceWith = ReplaceWith("Uuid.fromString(from)"),
+            level = WARNING
+        )
         fun parse(from: String): Uuid? {
-            if (from.length != UUID_STRING_LENGTH) return null
-            if (hyphenIndices.find { from[it] != '-' } != null) return null
+            return try {
+                fromString(from)
+            } catch (_: Throwable) {
+                null
+            }
+        }
+
+        /**
+         * Parses a UUID from a String
+         *
+         * @param from The String, from which to deserialize the UUID
+         * @return a UUID, if the string is a valid UUID string or throws an [IllegalArgumentException]
+         */
+        fun fromString(from: String): Uuid {
+            require(from.length == UUID_STRING_LENGTH) {
+                "Uuid string has invalid length: $from"
+            }
+            require(hyphenIndices.all { from[it] == '-' }) {
+                "Uuid string has invalid format: $from"
+            }
+
             val bytes = ByteArray(UUID_BYTES)
             var byte = 0
             for (range in uuidCharRanges) {
@@ -149,7 +175,9 @@ public class Uuid(val uuid: ByteArray) {
                     // Collect each pair of UUID chars and their int representations
                     val left = halfByteFromChar(from[i++])
                     val right = halfByteFromChar(from[i++])
-                    if (left == null || right == null) return null
+                    if (left == null || right == null) {
+                        throw IllegalArgumentException("Uuid string has invalid characters: $from")
+                    }
 
                     // smash them together into a single byte
                     bytes[byte++] = (left.shl(4) or right).toByte()
