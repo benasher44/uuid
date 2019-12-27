@@ -156,10 +156,10 @@ signing {
 }
 
 tasks.register('publishMac') {
-    dependsOn 'publishIosDevice32PublicationToMavenRepository'
-    dependsOn 'publishIosDevice64PublicationToMavenRepository'
-    dependsOn 'publishIosSimPublicationToMavenRepository'
-    dependsOn 'publishMacosPublicationToMavenRepository'
+    dependsOn 'publishIosArm32PublicationToMavenRepository'
+    dependsOn 'publishIosArm64PublicationToMavenRepository'
+    dependsOn 'publishIosX64PublicationToMavenRepository'
+    dependsOn 'publishMacosX64PublicationToMavenRepository'
     dependsOn 'publishJvmPublicationToMavenRepository'
     dependsOn 'publishJsPublicationToMavenRepository'
     dependsOn 'publishMetadataPublicationToMavenRepository'
@@ -167,10 +167,10 @@ tasks.register('publishMac') {
 }
 
 tasks.register('publishWindows') {
-    dependsOn 'publishMingwPublicationToMavenRepository'
+    dependsOn 'publishMingwX64PublicationToMavenRepository'
 }
 
 tasks.register('publishLinux') {
-    dependsOn 'publishLinux64PublicationToMavenRepository'
-    dependsOn 'publishLinux32PublicationToMavenRepository'
+    dependsOn 'publishLinuxX64PublicationToMavenRepository'
+    dependsOn 'publishLinuxArm32HfpPublicationToMavenRepository'
 }
