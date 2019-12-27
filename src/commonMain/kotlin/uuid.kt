@@ -93,10 +93,8 @@ public class Uuid(val uuid: ByteArray) {
         get() = ((mostSignificantBits shr 12) and 0x0f).toInt()
 
     init {
-        if (uuid.count() != UUID_BYTES) {
-            throw IllegalArgumentException(
-                "Invalid UUID bytes. Expected $UUID_BYTES bytes; found ${uuid.count()}"
-            )
+        require(uuid.count() == UUID_BYTES) {
+            "Invalid UUID bytes. Expected $UUID_BYTES bytes; found ${uuid.count()}"
         }
         this.freeze()
     }
@@ -175,8 +173,8 @@ public class Uuid(val uuid: ByteArray) {
                     // Collect each pair of UUID chars and their int representations
                     val left = halfByteFromChar(from[i++])
                     val right = halfByteFromChar(from[i++])
-                    if (left == null || right == null) {
-                        throw IllegalArgumentException("Uuid string has invalid characters: $from")
+                    require(left != null && right != null) {
+                        "Uuid string has invalid characters: $from"
                     }
 
                     // smash them together into a single byte
