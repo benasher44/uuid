@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink
 import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
-    kotlin("multiplatform") version "1.3.60"
+    kotlin("multiplatform") version "1.3.61"
     id("org.jetbrains.dokka") version "0.9.18"
     id("maven-publish")
     id("signing")
@@ -31,31 +31,31 @@ kotlin {
                     }
                 }
             }
-            macosX64("macos")
-            iosX64("iosSim")
-            iosArm64("iosDevice64")
-            iosArm32("iosDevice32")
+            macosX64()
+            iosX64()
+            iosArm64()
+            iosArm32()
         }
         if (HostManager.hostIsMingw || HostManager.hostIsMac) {
-            mingwX64("mingw") {
+            mingwX64() {
                 binaries.findTest(DEBUG)!!.linkerOpts = mutableListOf("-Wl,--subsystem,windows")
             }
         }
         if (HostManager.hostIsLinux || HostManager.hostIsMac) {
-            linuxX64("linux64")
-            linuxArm32Hfp("linux32")
+            linuxX64()
+            linuxArm32Hfp()
         }
     }
     sourceSets {
         commonMain {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-stdlib-common")
+                implementation(kotlin("stdlib-common"))
             }
         }
         commonTest {
             dependencies {
-                implementation("org.jetbrains.kotlin:kotlin-test-common")
-                implementation("org.jetbrains.kotlin:kotlin-test-annotations-common")
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
             }
         }
 
@@ -72,37 +72,36 @@ kotlin {
         if (HostManager.hostIsMac) {
             val jvmMain by getting {
                 dependencies {
-                    implementation("org.jetbrains.kotlin:kotlin-stdlib")
+                    implementation(kotlin("stdlib"))
                 }
             }
             val jvmTest by getting {
                 dependencies {
-                    implementation("org.jetbrains.kotlin:kotlin-test")
-                    implementation("org.jetbrains.kotlin:kotlin-test-junit")
+                    implementation(kotlin("test-junit"))
                 }
             }
             val jsMain by getting {
                 dependencies {
-                    implementation("org.jetbrains.kotlin:kotlin-stdlib-js")
+                    implementation(kotlin("stdlib-js"))
                 }
             }
             val jsTest by getting {
                 dependencies {
-                    implementation("org.jetbrains.kotlin:kotlin-test-js")
+                    implementation(kotlin("test-js"))
                 }
             }
 
-            val macosMain by getting { kotlin.srcDirs(nix64MainSourceSets) }
-            val macosTest by getting { kotlin.srcDir("src/cocoaTest/kotlin") }
-            val iosDevice64Main by getting { kotlin.srcDirs(nix64MainSourceSets) }
-            val iosDevice64Test by getting { kotlin.srcDir("src/cocoaTest/kotlin") }
-            val iosDevice32Main by getting { kotlin.srcDirs(nix32MainSourceSets) }
-            val iosDevice32Test by getting { kotlin.srcDir("src/cocoaTest/kotlin") }
-            val iosSimMain by getting { kotlin.srcDirs(nix64MainSourceSets) }
-            val iosSimTest by getting { kotlin.srcDir("src/cocoaTest/kotlin") }
+            val macosX64Main by getting { kotlin.srcDirs(nix64MainSourceSets) }
+            val macosX64Test by getting { kotlin.srcDir("src/cocoaTest/kotlin") }
+            val iosArm64Main by getting { kotlin.srcDirs(nix64MainSourceSets) }
+            val iosArm64Test by getting { kotlin.srcDir("src/cocoaTest/kotlin") }
+            val iosArm32Main by getting { kotlin.srcDirs(nix32MainSourceSets) }
+            val iosArm32Test by getting { kotlin.srcDir("src/cocoaTest/kotlin") }
+            val iosX64Main by getting { kotlin.srcDirs(nix64MainSourceSets) }
+            val iosX64Test by getting { kotlin.srcDir("src/cocoaTest/kotlin") }
         }
         if (HostManager.hostIsMingw || HostManager.hostIsMac) {
-            val mingwMain by getting {
+            val mingwX64Main by getting {
                 kotlin.srcDirs(
                     listOf(
                         "src/nativeMain/kotlin",
@@ -112,8 +111,8 @@ kotlin {
             }
         }
         if (HostManager.hostIsLinux || HostManager.hostIsMac) {
-            val linux64Main by getting { kotlin.srcDirs(nix64MainSourceSets) }
-            val linux32Main by getting { kotlin.srcDirs(nix32MainSourceSets) }
+            val linuxX64Main by getting { kotlin.srcDirs(nix64MainSourceSets) }
+            val linuxArm32HfpMain by getting { kotlin.srcDirs(nix32MainSourceSets) }
         }
     }
 }
@@ -154,17 +153,17 @@ checkTask.configure {
 }
 
 if (HostManager.hostIsMac) {
-    val linkDebugTestIosSim by tasks.getting(KotlinNativeLink::class)
+    val linkDebugTestIosX64 by tasks.getting(KotlinNativeLink::class)
     val testIosSim by tasks.registering(Exec::class) {
         group = "verification"
-        dependsOn(linkDebugTestIosSim)
+        dependsOn(linkDebugTestIosX64)
         executable = "xcrun"
         setArgs(listOf(
             "simctl",
             "spawn",
             "-s",
             "iPad Air 2",
-            linkDebugTestIosSim.outputFile.get()
+            linkDebugTestIosX64.outputFile.get()
         ))
     }
 
