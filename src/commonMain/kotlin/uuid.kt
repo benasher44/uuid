@@ -12,48 +12,43 @@ internal const val UUID_STRING_LENGTH = 36
 public typealias UUID = Uuid
 
 /**
- * Construct new [UUID] instance using the given data.
+ * Construct new [Uuid] instance using the given byte data.
  *
- * @param msb The 64 most significant bits of the [UUID].
- * @param lsb The 64 least significant bits of the [UUID].
+ * @param uuid The UUID bytes.
+ * @throws IllegalArgumentException, if uuid.count() is not 16
  */
 // @SinceKotlin("1.x")
 @Suppress("FunctionName")
-public fun Uuid(msb: Long, lsb: Long): Uuid =
-    Uuid(ByteArray(UUID_BYTES).also { bytes ->
-        (7 downTo 0).fold(msb) { x, i ->
-            bytes[i] = (x and 0xff).toByte()
-            x shr 8
-        }
-        (15 downTo 8).fold(lsb) { x, i ->
-            bytes[i] = (x and 0xff).toByte()
-            x shr 8
-        }
-    })
+public fun Uuid(uuid: ByteArray): Uuid {
+    require(uuid.count() == UUID_BYTES) {
+        "Invalid UUID bytes. Expected $UUID_BYTES bytes; found ${uuid.count()}"
+    }
+    val msb = (0 until 8).fold(0L) { m, i ->
+        (m shl 8) or uuid[i].toLong()
+    }
+    val lsb = (8 until 16).fold(0L) { l, i ->
+        (l shl 8) or uuid[i].toLong()
+    }
+    return Uuid(msb, lsb)
+}
 
 /**
  * A v4 RFC4122 UUID
  *
- * @property uuid The underlying UUID bytes
- * @constructor Constructs a new UUID from the given ByteArray
- * @throws IllegalArgumentException, if uuid.count() is not 16
- * */
-public class Uuid(val uuid: ByteArray) {
+ * @constructor Construct new [Uuid] instance from the most ([msb]) and least ([lsb]) significant bits
+ */
+public class Uuid(msb: Long, lsb: Long) {
     @Deprecated("use uuid4 instead", ReplaceWith("uuid4()"))
     constructor() : this(genUuid())
 
     /** The most significant 64 bits of this UUID's 128 bit value. */
-    val mostSignificantBits: Long by lazy {
-        (0..7).fold(0L) { bits, i ->
-            bits shl 8 or (uuid[i].toLong() and 0xff)
-        }
-    }
+    val mostSignificantBits: Long = msb
 
     /** The least significant 64 bits of this UUID's 128 bit value. */
-    val leastSignificantBits: Long by lazy {
-        (8..15).fold(0L) { bits, i ->
-            bits shl 8 or (uuid[i].toLong() and 0xff)
-        }
+    val leastSignificantBits: Long = lsb
+
+    init {
+        this.freeze()
     }
 
     /**
@@ -91,13 +86,6 @@ public class Uuid(val uuid: ByteArray) {
      */
     public val version: Int
         get() = ((mostSignificantBits shr 12) and 0x0f).toInt()
-
-    init {
-        require(uuid.count() == UUID_BYTES) {
-            "Invalid UUID bytes. Expected $UUID_BYTES bytes; found ${uuid.count()}"
-        }
-        this.freeze()
-    }
 
     companion object {
 
