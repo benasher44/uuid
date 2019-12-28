@@ -24,10 +24,10 @@ public fun Uuid(uuid: ByteArray): Uuid {
         "Invalid UUID bytes. Expected $UUID_BYTES bytes; found ${uuid.count()}"
     }
     val msb = (0 until 8).fold(0L) { m, i ->
-        (m shl 8) or uuid[i].toLong()
+        (m shl 8) or (uuid[i].toLong() and 0xff)
     }
     val lsb = (8 until 16).fold(0L) { l, i ->
-        (l shl 8) or uuid[i].toLong()
+        (l shl 8) or (uuid[i].toLong() and 0xff)
     }
     return Uuid(msb, lsb)
 }
@@ -37,16 +37,14 @@ public fun Uuid(uuid: ByteArray): Uuid {
  *
  * @constructor Construct new [Uuid] instance from the most ([msb]) and least ([lsb]) significant bits
  */
-public class Uuid(msb: Long, lsb: Long) {
-    @Deprecated("use uuid4 instead", ReplaceWith("uuid4()"))
-    constructor() : this(genUuid())
+public data class Uuid(
 
     /** The most significant 64 bits of this UUID's 128 bit value. */
-    val mostSignificantBits: Long = msb
+    val mostSignificantBits: Long,
 
     /** The least significant 64 bits of this UUID's 128 bit value. */
-    val leastSignificantBits: Long = lsb
-
+    val leastSignificantBits: Long
+) {
     init {
         this.freeze()
     }
@@ -88,17 +86,6 @@ public class Uuid(msb: Long, lsb: Long) {
         get() = ((mostSignificantBits shr 12) and 0x0f).toInt()
 
     companion object {
-
-        /** Generates a random UUID */
-        private fun genUuid(): ByteArray {
-            val bytes = getRandomUuidBytes()
-            // Set the version bit
-            bytes[6] = ((bytes[6].toInt() and 0x0F) or 0x40).toByte()
-
-            // Set the 0 and 1 bits
-            bytes[8] = ((bytes[8].toInt() and 0b00111111) or 0b10000000).toByte()
-            return bytes
-        }
 
         // Ranges of non-hyphen characters in a UUID string
         internal val uuidCharRanges: List<IntRange> = listOf(
@@ -186,6 +173,22 @@ public class Uuid(msb: Long, lsb: Long) {
     }
 
     /**
+     * Gets the Byte at [index], as if this were a [ByteArray]
+     */
+    internal fun byteAtIndex(index: Int): Byte {
+        val bits: Long
+        val offsetIndex: Int
+        if (index < 8) {
+            bits = this.mostSignificantBits
+            offsetIndex = index
+        } else {
+            bits = this.leastSignificantBits
+            offsetIndex = index - 8
+        }
+        return ((bits ushr ((7 - offsetIndex) * 8)) and 0xff).toByte()
+    }
+
+    /**
      * Converts the UUID to a UUID string, per RFC4122
      */
     override fun toString(): String {
@@ -193,7 +196,7 @@ public class Uuid(msb: Long, lsb: Long) {
         var charIndex = 0
         for (range in uuidByteRanges) {
             for (i in range) {
-                val octetPair = uuid[i]
+                val octetPair = byteAtIndex(i)
                 // convert the octet pair in this byte into 2 characters
                 val left = octetPair.toInt().shr(4) and 0b00001111
                 val right = octetPair.toInt() and 0b00001111
@@ -206,20 +209,11 @@ public class Uuid(msb: Long, lsb: Long) {
         }
         return String(characters)
     }
-
-    /**
-     * @return true if other is a UUID and its uuid bytes are equal to this one
-     */
-    override fun equals(other: Any?): Boolean {
-        if (other !is Uuid) return false
-        return other.uuid.contentEquals(uuid)
-    }
-
-    /**
-     * @return The hashCode of the uuid bytes
-     */
-    override fun hashCode(): Int = uuid.contentHashCode()
 }
+
+/** The a [ByteArray] containing the UUID bytes */
+val Uuid.uuid: ByteArray
+    get() = ByteArray(UUID_BYTES) { byteAtIndex(it) }
 
 /**
  * Set the [Uuid.version] on this big-endian [ByteArray]. The [Uuid.variant] is
