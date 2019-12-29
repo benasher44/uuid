@@ -8,6 +8,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 ## [0.0.7] - TBD
 ### Changed
 - Deprecate Uuid.parse() in favor of Uuid.fromString(), which returns a non-null Uuid or throws an error for an invalid string, in line with Java's UUID.fromString().
+- `uuidOf(msb: Long, lsb: Long)` function (#33)
 
 ## [0.0.6] - 2019-11-21
 ### Changed
@@ -24,7 +25,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 ### Changed
 - Kotlin version to 1.3.50 (#54)
 ### Deprecated
-- no-args constructor in favor of `uuid4` (#42)
+- no-args constructor in favor of `uuid4()` (#42)
 
 ## [0.0.3] - 2019-06-20
 ### Added
