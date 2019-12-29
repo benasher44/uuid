@@ -162,4 +162,13 @@ class UuidTest {
         assertEquals(14, uuidFrom("00000000-0000-e000-0000-000000000000").version, "future #9")
         assertEquals(15, uuidFrom("00000000-0000-f000-0000-000000000000").version, "future #10")
     }
+
+    @Test
+    fun test_comparison() {
+        assertEquals(-1, Uuid(0, 0).compareTo(Uuid(1, 1)))
+        assertEquals(-1, Uuid(0, 1).compareTo(Uuid(1, 1)))
+        assertEquals(0, Uuid(1, 0).compareTo(Uuid(1, 0)))
+        assertEquals(1, Uuid(1, 0).compareTo(Uuid(0, 0)))
+        assertEquals(1, Uuid(0, 1).compareTo(Uuid(0, 0)))
+    }
 }
