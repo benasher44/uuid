@@ -1,7 +1,6 @@
 @file:Suppress("RedundantVisibilityModifier")
 
-import com.benasher44.uuid.Uuid
-import com.benasher44.uuid.uuidFrom
+package com.benasher44.uuid
 
 @Deprecated("Use `Uuid` instead.", ReplaceWith("Uuid"))
 public typealias UUID = Uuid
