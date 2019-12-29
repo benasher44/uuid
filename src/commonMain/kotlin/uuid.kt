@@ -18,7 +18,7 @@ public typealias UUID = Uuid
  * @constructor Constructs a new UUID from the given ByteArray
  * @throws IllegalArgumentException, if uuid.count() is not 16
  */
-public class Uuid(val uuid: ByteArray) {
+public class Uuid @Deprecated("Use `uuidOf` instead.", ReplaceWith("uuidOf(uuid)")) constructor(val uuid: ByteArray) {
 
     /**
      * Construct new [Uuid] instance using the given data.
@@ -26,6 +26,7 @@ public class Uuid(val uuid: ByteArray) {
      * @param msb The 64 most significant bits of the [Uuid].
      * @param lsb The 64 least significant bits of the [Uuid].
      */
+    @Suppress("DEPRECATION")
     public constructor(msb: Long, lsb: Long) : this(fromBits(msb, lsb))
 
     /** The most significant 64 bits of this UUID's 128 bit value. */
@@ -111,14 +112,6 @@ public class Uuid(val uuid: ByteArray) {
         // Indices of the hyphen characters in a UUID string
         internal val hyphenIndices = listOf(8, 13, 18, 23)
 
-        /** @returns the Int representation of a given UUID character */
-        private fun halfByteFromChar(char: Char) = when (char) {
-            in '0'..'9' -> char.toInt() - 48
-            in 'a'..'f' -> char.toInt() - 87
-            in 'A'..'F' -> char.toInt() - 55
-            else -> null
-        }
-
         /**
          * Parses a UUID from a String
          *
@@ -126,49 +119,16 @@ public class Uuid(val uuid: ByteArray) {
          * @return a UUID, if the string is a valid UUID string
          */
         @Deprecated(
-            message = "Use Uuid.fromString() instead.",
-            replaceWith = ReplaceWith("Uuid.fromString(from)"),
+            message = "Use uuidFrom() instead.",
+            replaceWith = ReplaceWith("uuidFrom(from)"),
             level = WARNING
         )
         fun parse(from: String): Uuid? {
             return try {
-                fromString(from)
+                uuidFrom(from)
             } catch (_: Throwable) {
                 null
             }
-        }
-
-        /**
-         * Parses a UUID from a String
-         *
-         * @param from The String, from which to deserialize the UUID
-         * @return a UUID, if the string is a valid UUID string or throws an [IllegalArgumentException]
-         */
-        fun fromString(from: String): Uuid {
-            require(from.length == UUID_STRING_LENGTH) {
-                "Uuid string has invalid length: $from"
-            }
-            require(hyphenIndices.all { from[it] == '-' }) {
-                "Uuid string has invalid format: $from"
-            }
-
-            val bytes = ByteArray(UUID_BYTES)
-            var byte = 0
-            for (range in uuidCharRanges) {
-                var i = range.first
-                while (i < range.last) {
-                    // Collect each pair of UUID chars and their int representations
-                    val left = halfByteFromChar(from[i++])
-                    val right = halfByteFromChar(from[i++])
-                    require(left != null && right != null) {
-                        "Uuid string has invalid characters: $from"
-                    }
-
-                    // smash them together into a single byte
-                    bytes[byte++] = (left.shl(4) or right).toByte()
-                }
-            }
-            return Uuid(bytes)
         }
 
         /** The ranges of sections of UUID bytes, to be separated by hyphens */
@@ -249,5 +209,56 @@ internal inline fun ByteArray.setVersion(version: Int) = apply {
  * @see <a href="https://tools.ietf.org/html/rfc4122#section-4.4">RFC 4122: Section 4.4</a>
  */
 // @SinceKotlin("1.x")
+@Suppress("DEPRECATION")
 public fun uuid4(): Uuid =
     Uuid(getRandomUuidBytes().setVersion(4))
+
+/**
+ * Constructs a new [Uuid] from the given [bytes]
+ * @throws IllegalArgumentException, if bytes.count() is not 16
+ */
+@Suppress("DEPRECATION")
+public fun uuidOf(bytes: ByteArray): Uuid = Uuid(bytes)
+
+/** @returns the Int representation of a given UUID character */
+private fun halfByteFromChar(char: Char) = when (char) {
+    in '0'..'9' -> char.toInt() - 48
+    in 'a'..'f' -> char.toInt() - 87
+    in 'A'..'F' -> char.toInt() - 55
+    else -> null
+}
+
+/**
+ * Parses a UUID from a String
+ *
+ * @param string The String, from which to deserialize the UUID
+ * @return a UUID, if the string is a valid UUID
+ * @throws [IllegalArgumentException], if [string] is invalid
+ */
+public fun uuidFrom(string: String): Uuid {
+    require(string.length == UUID_STRING_LENGTH) {
+        "Uuid string has invalid length: $string"
+    }
+    require(Uuid.hyphenIndices.all { string[it] == '-' }) {
+        "Uuid string has invalid format: $string"
+    }
+
+    val bytes = ByteArray(UUID_BYTES)
+    var byte = 0
+    for (range in Uuid.uuidCharRanges) {
+        var i = range.first
+        while (i < range.last) {
+            // Collect each pair of UUID chars and their int representations
+            val left = halfByteFromChar(string[i++])
+            val right = halfByteFromChar(string[i++])
+            require(left != null && right != null) {
+                "Uuid string has invalid characters: $string"
+            }
+
+            // smash them together into a single byte
+            bytes[byte++] = (left.shl(4) or right).toByte()
+        }
+    }
+    @Suppress("DEPRECATION")
+    return Uuid(bytes)
+}

@@ -6,15 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [0.0.7] - TBD
+### Added
+- `uuidOf(bytes)` to construct a `Uuid` from a `ByteArray` (#67)
+- `uuidFrom(from)` to construct a `Uuid` from a `String` (#67)
 ### Changed
-- Deprecate Uuid.parse() in favor of Uuid.fromString(), which returns a non-null Uuid or throws an error for an invalid string, in line with Java's UUID.fromString().
+- Deprecate `Uuid.parse()` in favor of ~`Uuid.fromString()`~ (now `uuidFrom()`, which returns a non-null Uuid or throws an error for an invalid string, in line with Java's `UUID.fromString()`. (#59)
 - `Uuid(msb: Long, lsb: Long)` is now a constructor in stead of a free function (#66)
 - Removed empty `Uuid()` constructor (#66)
+- Deprecate `Uuid(bytes)`, which will eventually become `internal` (#67)
 
 ## [0.0.6] - 2019-11-21
 ### Changed
 - Upgrade to Kotlin 1.3.60 (#56)
-
 
 ## [0.0.5] - 2019-09-03
 ### Changed
