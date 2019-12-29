@@ -4,9 +4,31 @@
 package com.benasher44.uuid
 
 import kotlin.DeprecationLevel.WARNING
+import kotlin.native.concurrent.SharedImmutable
 
+// Number of bytes in a UUID
 internal const val UUID_BYTES = 16
+
+// Number of characters in a UUID string
 internal const val UUID_STRING_LENGTH = 36
+
+// Ranges of non-hyphen characters in a UUID string
+@SharedImmutable
+internal val UUID_CHAR_RANGES: List<IntRange> = listOf(
+    0 until 8,
+    9 until 13,
+    14 until 18,
+    19 until 23,
+    24 until 36
+)
+
+// Indices of the hyphen characters in a UUID string
+@SharedImmutable
+internal val UUID_HYPHEN_INDICES = listOf(8, 13, 18, 23)
+
+// UUID chars arranged from smallest to largest, so they can be indexed by their byte representations
+@SharedImmutable
+internal val UUID_CHARS = ('0'..'9') + ('a'..'f')
 
 @Deprecated("Use `Uuid` instead.", ReplaceWith("Uuid"))
 public typealias UUID = Uuid
@@ -100,18 +122,6 @@ public class Uuid @Deprecated("Use `uuidOf` instead.", ReplaceWith("uuidOf(uuid)
             }
         }
 
-        // Ranges of non-hyphen characters in a UUID string
-        internal val uuidCharRanges: List<IntRange> = listOf(
-            0 until 8,
-            9 until 13,
-            14 until 18,
-            19 until 23,
-            24 until 36
-        )
-
-        // Indices of the hyphen characters in a UUID string
-        internal val hyphenIndices = listOf(8, 13, 18, 23)
-
         /**
          * Parses a UUID from a String
          *
@@ -139,9 +149,6 @@ public class Uuid @Deprecated("Use `uuidOf` instead.", ReplaceWith("uuidOf(uuid)
             8 until 10,
             10 until 16
         )
-
-        /** The UUID chars arranged from smallest to largest, so they can be indexed by their byte representations */
-        internal val uuidChars = ('0'..'9') + ('a'..'f')
     }
 
     /**
@@ -156,8 +163,8 @@ public class Uuid @Deprecated("Use `uuidOf` instead.", ReplaceWith("uuidOf(uuid)
                 // convert the octet pair in this byte into 2 characters
                 val left = octetPair.toInt().shr(4) and 0b00001111
                 val right = octetPair.toInt() and 0b00001111
-                characters[charIndex++] = uuidChars[left]
-                characters[charIndex++] = uuidChars[right]
+                characters[charIndex++] = UUID_CHARS[left]
+                characters[charIndex++] = UUID_CHARS[right]
             }
             if (charIndex < UUID_STRING_LENGTH) {
                 characters[charIndex++] = '-'
@@ -239,13 +246,13 @@ public fun uuidFrom(string: String): Uuid {
     require(string.length == UUID_STRING_LENGTH) {
         "Uuid string has invalid length: $string"
     }
-    require(Uuid.hyphenIndices.all { string[it] == '-' }) {
+    require(UUID_HYPHEN_INDICES.all { string[it] == '-' }) {
         "Uuid string has invalid format: $string"
     }
 
     val bytes = ByteArray(UUID_BYTES)
     var byte = 0
-    for (range in Uuid.uuidCharRanges) {
+    for (range in UUID_CHAR_RANGES) {
         var i = range.first
         while (i < range.last) {
             // Collect each pair of UUID chars and their int representations

@@ -8,7 +8,7 @@ import kotlin.test.assertNull
 
 class UuidTest {
 
-    private val uuidChars = HashSet(Uuid.uuidChars)
+    private val uuidChars = HashSet(UUID_CHARS)
 
     private fun isValidUuidChar(char: Char) = uuidChars.contains(char)
 
@@ -17,8 +17,8 @@ class UuidTest {
         val uuid = uuid4()
         val uuidString = uuid.toString()
         assertEquals(uuidString.length, UUID_STRING_LENGTH)
-        assertNull(Uuid.hyphenIndices.find { uuidString[it] != '-' })
-        for (range in Uuid.uuidCharRanges) {
+        assertNull(UUID_HYPHEN_INDICES.find { uuidString[it] != '-' })
+        for (range in UUID_CHAR_RANGES) {
             assertNull(range.find { !isValidUuidChar(uuidString[it]) })
         }
     }
