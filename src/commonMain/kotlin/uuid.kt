@@ -3,7 +3,6 @@
 
 package com.benasher44.uuid
 
-import kotlin.DeprecationLevel.WARNING
 import kotlin.native.concurrent.SharedImmutable
 
 // Number of bytes in a UUID
@@ -30,9 +29,6 @@ internal val UUID_HYPHEN_INDICES = listOf(8, 13, 18, 23)
 @SharedImmutable
 internal val UUID_CHARS = ('0'..'9') + ('a'..'f')
 
-@Deprecated("Use `Uuid` instead.", ReplaceWith("Uuid"))
-public typealias UUID = Uuid
-
 /**
  * A RFC4122 UUID
  *
@@ -40,7 +36,7 @@ public typealias UUID = Uuid
  * @constructor Constructs a new UUID from the given ByteArray
  * @throws IllegalArgumentException, if uuid.count() is not 16
  */
-public class Uuid @Deprecated("Use `uuidOf` instead.", ReplaceWith("uuidOf(uuid)")) constructor(val uuid: ByteArray) {
+public class Uuid @Deprecated("Use `uuidOf` instead.", ReplaceWith("uuidOf(uuid)")) constructor(internal val uuidBytes: ByteArray) {
 
     /**
      * Construct new [Uuid] instance using the given data.
@@ -51,17 +47,23 @@ public class Uuid @Deprecated("Use `uuidOf` instead.", ReplaceWith("uuidOf(uuid)
     @Suppress("DEPRECATION")
     public constructor(msb: Long, lsb: Long) : this(fromBits(msb, lsb))
 
+    /**
+     * The UUID's raw bytes
+     */
+    public val bytes: ByteArray
+        get() = uuidBytes
+
     /** The most significant 64 bits of this UUID's 128 bit value. */
-    val mostSignificantBits: Long by lazy {
+    public val mostSignificantBits: Long by lazy {
         (0..7).fold(0L) { bits, i ->
-            bits shl 8 or (uuid[i].toLong() and 0xff)
+            bits shl 8 or (uuidBytes[i].toLong() and 0xff)
         }
     }
 
     /** The least significant 64 bits of this UUID's 128 bit value. */
-    val leastSignificantBits: Long by lazy {
+    public val leastSignificantBits: Long by lazy {
         (8..15).fold(0L) { bits, i ->
-            bits shl 8 or (uuid[i].toLong() and 0xff)
+            bits shl 8 or (uuidBytes[i].toLong() and 0xff)
         }
     }
 
@@ -102,8 +104,8 @@ public class Uuid @Deprecated("Use `uuidOf` instead.", ReplaceWith("uuidOf(uuid)
         get() = ((mostSignificantBits shr 12) and 0x0f).toInt()
 
     init {
-        require(uuid.count() == UUID_BYTES) {
-            "Invalid UUID bytes. Expected $UUID_BYTES bytes; found ${uuid.count()}"
+        require(uuidBytes.count() == UUID_BYTES) {
+            "Invalid UUID bytes. Expected $UUID_BYTES bytes; found ${uuidBytes.count()}"
         }
         this.freeze()
     }
@@ -119,25 +121,6 @@ public class Uuid @Deprecated("Use `uuidOf` instead.", ReplaceWith("uuidOf(uuid)
             (15 downTo 8).fold(lsb) { x, i ->
                 bytes[i] = (x and 0xff).toByte()
                 x shr 8
-            }
-        }
-
-        /**
-         * Parses a UUID from a String
-         *
-         * @param from The String, from which to deserialize the UUID
-         * @return a UUID, if the string is a valid UUID string
-         */
-        @Deprecated(
-            message = "Use uuidFrom() instead.",
-            replaceWith = ReplaceWith("uuidFrom(from)"),
-            level = WARNING
-        )
-        fun parse(from: String): Uuid? {
-            return try {
-                uuidFrom(from)
-            } catch (_: Throwable) {
-                null
             }
         }
 
@@ -159,7 +142,7 @@ public class Uuid @Deprecated("Use `uuidOf` instead.", ReplaceWith("uuidOf(uuid)
         var charIndex = 0
         for (range in uuidByteRanges) {
             for (i in range) {
-                val octetPair = uuid[i]
+                val octetPair = uuidBytes[i]
                 // convert the octet pair in this byte into 2 characters
                 val left = octetPair.toInt().shr(4) and 0b00001111
                 val right = octetPair.toInt() and 0b00001111
@@ -178,13 +161,13 @@ public class Uuid @Deprecated("Use `uuidOf` instead.", ReplaceWith("uuidOf(uuid)
      */
     override fun equals(other: Any?): Boolean {
         if (other !is Uuid) return false
-        return other.uuid.contentEquals(uuid)
+        return other.uuidBytes.contentEquals(uuidBytes)
     }
 
     /**
      * @return The hashCode of the uuid bytes
      */
-    override fun hashCode(): Int = uuid.contentHashCode()
+    override fun hashCode(): Int = uuidBytes.contentHashCode()
 }
 
 /**
