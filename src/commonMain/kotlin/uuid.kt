@@ -11,13 +11,18 @@ internal const val UUID_STRING_LENGTH = 36
 @Deprecated("Use `Uuid` instead.", ReplaceWith("Uuid"))
 public typealias UUID = Uuid
 
+// @SinceKotlin("1.x")
+@Suppress("FunctionName")
+@Deprecated("Use uuidOf instead", ReplaceWith("uuidOf()"))
+public fun Uuid(msb: Long, lsb: Long): Uuid = uuidOf(msb, lsb)
+
 /**
- * A v4 RFC4122 UUID
+ * A RFC4122 UUID
  *
  * @property uuid The underlying UUID bytes
  * @constructor Constructs a new UUID from the given ByteArray
  * @throws IllegalArgumentException, if uuid.count() is not 16
- * */
+ */
 public class Uuid(val uuid: ByteArray) {
     @Deprecated("use uuid4 instead", ReplaceWith("uuid4()"))
     constructor() : this(genUuid())
