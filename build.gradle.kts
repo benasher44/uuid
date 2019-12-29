@@ -60,11 +60,13 @@ kotlin {
         }
 
         val nix64MainSourceSets = listOf(
+            "src/nonJvmMain/kotlin",
             "src/nativeMain/kotlin",
             "src/nix64Main/kotlin"
         )
 
         val nix32MainSourceSets = listOf(
+            "src/nonJvmMain/kotlin",
             "src/nativeMain/kotlin",
             "src/nix32Main/kotlin"
         )
@@ -84,6 +86,7 @@ kotlin {
                 dependencies {
                     implementation(kotlin("stdlib-js"))
                 }
+                kotlin.srcDir("src/nonJvmMain/kotlin")
             }
             val jsTest by getting {
                 dependencies {
