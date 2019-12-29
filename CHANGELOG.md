@@ -8,8 +8,8 @@ project adheres to [Semantic Versioning](https://semver.org/).
 ## [0.0.7] - TBD
 ### Changed
 - Deprecate Uuid.parse() in favor of Uuid.fromString(), which returns a non-null Uuid or throws an error for an invalid string, in line with Java's UUID.fromString().
-- `uuidOf(msb: Long, lsb: Long)` function (#52)
-- Deprecated `Uuid(msb: Long, lsb: Long)` in favor of `uuidOf` (#64)
+- `Uuid(msb: Long, lsb: Long)` is now a constructor in stead of a free function (#66)
+- Removed empty `Uuid()` constructor (#66)
 
 ## [0.0.6] - 2019-11-21
 ### Changed
@@ -46,8 +46,3 @@ project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [0.0.1] - 2019-05-13
 - initial release
-
-[Unreleased]: https://github.com/benasher44/uuid/compare/0.0.3...HEAD
-[0.0.3]: https://github.com/benasher44/uuid/compare/0.0.2...0.0.3
-[0.0.2]: https://github.com/benasher44/uuid/compare/0.0.1...0.0.2
-[0.0.1]: https://github.com/benasher44/uuid/releases/tag/0.0.1
