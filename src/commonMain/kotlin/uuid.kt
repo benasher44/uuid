@@ -33,7 +33,7 @@ internal val UUID_CHARS = ('0'..'9') + ('a'..'f')
  * A RFC4122 UUID
  */
 // @SinceKotlin("1.x")
-public expect class Uuid {
+public expect class Uuid : Comparable<Uuid> {
 
     /**
      * Construct new [Uuid] instance using the given data.

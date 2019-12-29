@@ -9,7 +9,7 @@ package com.benasher44.uuid
  * @constructor Constructs a new UUID from the given ByteArray
  * @throws IllegalArgumentException, if uuid.count() is not 16
  */
-public actual class Uuid @Deprecated("Use `uuidOf` instead.", ReplaceWith("uuidOf(uuid)")) constructor(internal val uuidBytes: ByteArray) {
+public actual class Uuid @Deprecated("Use `uuidOf` instead.", ReplaceWith("uuidOf(uuid)")) constructor(internal val uuidBytes: ByteArray) : Comparable<Uuid> {
 
     @Suppress("DEPRECATION")
     public actual constructor(msb: Long, lsb: Long) : this(fromBits(msb, lsb))
@@ -87,6 +87,17 @@ public actual class Uuid @Deprecated("Use `uuidOf` instead.", ReplaceWith("uuidO
      * @return The hashCode of the uuid bytes
      */
     override fun hashCode(): Int = uuidBytes.contentHashCode()
+
+    /**
+     * @return The result of comparing [uuidBytes] between this and [other]
+     */
+    override fun compareTo(other: Uuid): Int {
+        for (i in (0 until UUID_BYTES)) {
+            val compareResult = uuidBytes[i].compareTo(other.uuidBytes[i])
+            if (compareResult != 0) return compareResult
+        }
+        return 0
+    }
 }
 
 public actual val Uuid.bytes: ByteArray
