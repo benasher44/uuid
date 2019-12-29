@@ -107,6 +107,7 @@ kotlin {
             val mingwX64Main by getting {
                 kotlin.srcDirs(
                     listOf(
+                        "src/nonJvmMain/kotlin",
                         "src/nativeMain/kotlin",
                         "src/mingwMain/kotlin"
                     )
