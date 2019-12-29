@@ -11,11 +11,6 @@ internal const val UUID_STRING_LENGTH = 36
 @Deprecated("Use `Uuid` instead.", ReplaceWith("Uuid"))
 public typealias UUID = Uuid
 
-// @SinceKotlin("1.x")
-@Suppress("FunctionName")
-@Deprecated("Use uuidOf instead", ReplaceWith("uuidOf()"))
-public fun Uuid(msb: Long, lsb: Long): Uuid = uuidOf(msb, lsb)
-
 /**
  * A RFC4122 UUID
  *
@@ -24,8 +19,14 @@ public fun Uuid(msb: Long, lsb: Long): Uuid = uuidOf(msb, lsb)
  * @throws IllegalArgumentException, if uuid.count() is not 16
  */
 public class Uuid(val uuid: ByteArray) {
-    @Deprecated("use uuid4 instead", ReplaceWith("uuid4()"))
-    constructor() : this(genUuid())
+
+    /**
+     * Construct new [Uuid] instance using the given data.
+     *
+     * @param msb The 64 most significant bits of the [Uuid].
+     * @param lsb The 64 least significant bits of the [Uuid].
+     */
+    public constructor(msb: Long, lsb: Long) : this(fromBits(msb, lsb))
 
     /** The most significant 64 bits of this UUID's 128 bit value. */
     val mostSignificantBits: Long by lazy {
@@ -86,15 +87,16 @@ public class Uuid(val uuid: ByteArray) {
 
     companion object {
 
-        /** Generates a random UUID */
-        private fun genUuid(): ByteArray {
-            val bytes = getRandomUuidBytes()
-            // Set the version bit
-            bytes[6] = ((bytes[6].toInt() and 0x0F) or 0x40).toByte()
-
-            // Set the 0 and 1 bits
-            bytes[8] = ((bytes[8].toInt() and 0b00111111) or 0b10000000).toByte()
-            return bytes
+        /** Creates the [ByteArray] from most and least significant bits */
+        private fun fromBits(msb: Long, lsb: Long) = ByteArray(UUID_BYTES).also { bytes ->
+            (7 downTo 0).fold(msb) { x, i ->
+                bytes[i] = (x and 0xff).toByte()
+                x shr 8
+            }
+            (15 downTo 8).fold(lsb) { x, i ->
+                bytes[i] = (x and 0xff).toByte()
+                x shr 8
+            }
         }
 
         // Ranges of non-hyphen characters in a UUID string
@@ -217,25 +219,6 @@ public class Uuid(val uuid: ByteArray) {
      */
     override fun hashCode(): Int = uuid.contentHashCode()
 }
-
-/**
- * Construct new [Uuid] instance using the given data.
- *
- * @param msb The 64 most significant bits of the [Uuid].
- * @param lsb The 64 least significant bits of the [Uuid].
- */
-// @SinceKotlin("1.x")
-public fun uuidOf(msb: Long, lsb: Long): Uuid =
-    Uuid(ByteArray(UUID_BYTES).also { bytes ->
-        (7 downTo 0).fold(msb) { x, i ->
-            bytes[i] = (x and 0xff).toByte()
-            x shr 8
-        }
-        (15 downTo 8).fold(lsb) { x, i ->
-            bytes[i] = (x and 0xff).toByte()
-            x shr 8
-        }
-    })
 
 /**
  * Set the [Uuid.version] on this big-endian [ByteArray]. The [Uuid.variant] is
