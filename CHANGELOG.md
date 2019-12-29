@@ -14,6 +14,7 @@ project adheres to [Semantic Versioning](https://semver.org/).
 - `Uuid(msb: Long, lsb: Long)` is now a constructor in stead of a free function (#66)
 - Removed empty `Uuid()` constructor (#66)
 - Deprecate `Uuid(bytes)`, which will eventually become `internal` (#67)
+- Deprecate `.uuid` in favor of `.bytes` (#69)
 
 ## [0.0.6] - 2019-11-21
 ### Changed

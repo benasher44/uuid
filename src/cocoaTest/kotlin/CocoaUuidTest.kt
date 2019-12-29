@@ -13,7 +13,7 @@ class CocoaUuidTest {
     @Test
     fun `UUID.toString() matches NSUUID`() {
         val uuidL = uuid4()
-        val nativeUuidString = uuidL.uuid.usePinned {
+        val nativeUuidString = uuidL.bytes.usePinned {
             NSUUID(it.addressOf(0).reinterpret()).UUIDString
         }.toLowerCase()
         assertEquals(uuidL.toString(), nativeUuidString)
@@ -27,7 +27,7 @@ class CocoaUuidTest {
         nativeBytes.usePinned {
             nativeUuid.getUUIDBytes(it.addressOf(0).reinterpret())
         }
-        assertTrue(uuidL.uuid.contentEquals(nativeBytes))
+        assertTrue(uuidL.bytes.contentEquals(nativeBytes))
     }
 
     @Test
