@@ -2,8 +2,6 @@
 
 package com.benasher44.uuid
 
-import kotlin.DeprecationLevel.WARNING
-
 /**
  * A RFC4122 UUID
  *
