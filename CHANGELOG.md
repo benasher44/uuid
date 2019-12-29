@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
-## [0.0.7] - TBD
+## [0.0.7] - 2019-12-29
 ### Added
 - `uuidOf(bytes)` to construct a `Uuid` from a `ByteArray` (#67)
 - `uuidFrom(from)` to construct a `Uuid` from a `String` (#67)
