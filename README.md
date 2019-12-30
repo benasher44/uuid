@@ -7,7 +7,7 @@
 K/N doesn't have a UUID yet. This brings a UUID that matches UUIDs on various platforms:
 
 - iOS/Mac: `NSUUID`
-- Java: `java.util.UUID` (specifically `randomUUID`)
+- Java: `java.util.UUID`
 
 ### `UUID`
 
