@@ -17,6 +17,12 @@ tasks.dokka {
 }
 
 kotlin {
+    targets.all {
+        compilations.all {
+            kotlinOptions.allWarningsAsErrors = true
+        }
+    }
+
     targets {
         if (HostManager.hostIsMac) {
             jvm {
@@ -46,6 +52,7 @@ kotlin {
             linuxArm32Hfp()
         }
     }
+
     sourceSets {
         commonMain {
             dependencies {
@@ -121,14 +128,6 @@ kotlin {
     }
 }
 
-kotlin {
-    targets.all {
-        compilations.all {
-            kotlinOptions.allWarningsAsErrors = true
-        }
-    }
-}
-
 val ktlintConfig by configurations.creating
 
 dependencies {
@@ -151,8 +150,7 @@ val ktlintformat by tasks.registering(JavaExec::class) {
     args = listOf("-F", "src/**/*.kt")
 }
 
-val checkTask = tasks.named("check")
-checkTask.configure {
+tasks.check {
     dependsOn(ktlint)
 }
 
@@ -161,17 +159,17 @@ if (HostManager.hostIsMac) {
     val testIosSim by tasks.registering(Exec::class) {
         group = "verification"
         dependsOn(linkDebugTestIosX64)
-        executable = "xcrun"
-        setArgs(listOf(
+        commandLine(
+            "xcrun",
             "simctl",
             "spawn",
             "-s",
             "iPad Air 2",
             linkDebugTestIosX64.outputFile.get()
-        ))
+        )
     }
 
-    checkTask.configure {
+    tasks.check {
         dependsOn(testIosSim)
     }
 }
