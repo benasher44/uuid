@@ -3,10 +3,10 @@ package com.benasher44.uuid
 import com.benasher44.uuid.ByteOrder.BIG_ENDIAN
 import com.benasher44.uuid.ByteOrder.LITTLE_ENDIAN
 import java.nio.ByteBuffer
-import java.nio.ByteOrder.nativeOrder
 import java.nio.ByteOrder as PlatformByteOrder
 import java.nio.ByteOrder.BIG_ENDIAN as NIO_BIG_ENDIAN
 import java.nio.ByteOrder.LITTLE_ENDIAN as NIO_LITTLE_ENDIAN
+import java.nio.ByteOrder.nativeOrder
 
 actual enum class ByteOrder {
     BIG_ENDIAN, LITTLE_ENDIAN;
