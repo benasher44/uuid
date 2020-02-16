@@ -8,10 +8,8 @@ import org.khronos.webgl.set
 actual enum class ByteOrder {
     BIG_ENDIAN, LITTLE_ENDIAN;
 
-    actual fun native() = native
-
-    private companion object {
-        private val native by lazy {
+    actual companion object {
+        actual val native by lazy {
             val array = Uint8Array(4)
             val view = Uint32Array(array.buffer)
             view[0] = 1

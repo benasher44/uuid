@@ -18,8 +18,10 @@ public expect enum class ByteOrder {
      */
     LITTLE_ENDIAN;
 
-    /**
-     * Get the native byte order of the underlying platform.
-     */
-    public fun native(): ByteOrder
+    public companion object {
+        /**
+         * Get the native byte order of the underlying platform.
+         */
+        public val native: ByteOrder
+    }
 }
