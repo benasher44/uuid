@@ -6,6 +6,6 @@ public actual enum class ByteOrder {
     BIG_ENDIAN, LITTLE_ENDIAN;
 
     actual fun native(): ByteOrder {
-        error("Not yet implemented")
+        throw NotImplementedError("Not yet implemented")
     }
 }
