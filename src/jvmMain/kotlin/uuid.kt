@@ -18,6 +18,15 @@ public actual fun uuidOf(bytes: ByteArray): Uuid {
 }
 
 // Implementation Notes:
+// - This algorithm could be implemented in the common module and reused for all
+//   targets. However, using two longs is not necessarily the best performing
+//   solution in other targets. JavaScript for instance does not have native
+//   support for 64 bit integers and they are always wrapped in an object
+//   (similar to a BigDecimal in Java), a org.khronos.webgl.Uint8ClampedArray is
+//   probably the best choice there. Native targets are probably better at
+//   dealing with byte arrays, or even directly using native functions… only
+//   careful benchmarking can tell and UUIDs are ALWAYS in the critical path of
+//   applications, hence, we want to have the best solution for each target.
 // - We are not using any constants but rather literal values because constants
 //   lead to code being generated that is accessible via reflection, but we do
 //   not want to leak anything.
