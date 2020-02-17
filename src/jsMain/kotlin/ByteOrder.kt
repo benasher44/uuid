@@ -5,11 +5,13 @@ import org.khronos.webgl.Uint8Array
 import org.khronos.webgl.get
 import org.khronos.webgl.set
 
-actual enum class ByteOrder {
+// @ExperimentalStdlibApi
+// @SinceKotlin("1.x")
+public actual enum class ByteOrder {
     BIG_ENDIAN, LITTLE_ENDIAN;
 
-    actual companion object {
-        actual val native by lazy {
+    public actual companion object {
+        public actual val native by lazy {
             val array = Uint8Array(4)
             val view = Uint32Array(array.buffer)
             view[0] = 1

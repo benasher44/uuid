@@ -4,28 +4,28 @@ import com.benasher44.uuid.ByteOrder.BIG_ENDIAN
 import com.benasher44.uuid.ByteOrder.LITTLE_ENDIAN
 import java.nio.ByteBuffer
 
-actual enum class ByteOrder {
+// @ExperimentalStdlibApi
+// @SinceKotlin("1.x")
+public actual enum class ByteOrder {
     BIG_ENDIAN, LITTLE_ENDIAN;
 
-    actual companion object {
-        actual inline val native: ByteOrder
+    /**
+     * Convert this [ByteOrder] to its [java.nio.ByteOrder] equivalent.
+     */
+    public fun toJavaByteOrder(): java.nio.ByteOrder =
+        when (this) {
+            BIG_ENDIAN -> java.nio.ByteOrder.BIG_ENDIAN
+            LITTLE_ENDIAN -> java.nio.ByteOrder.LITTLE_ENDIAN
+        }
+
+    public actual companion object {
+        public actual inline val native: ByteOrder
             get() = java.nio.ByteOrder.nativeOrder().toKotlinByteOrder()
     }
 }
 
 /**
- * Converts [ByteOrder] to its [java.nio.ByteOrder] equivalent.
- */
-// @ExperimentalStdlibApi
-// @SinceKotlin("1.x")
-public fun ByteOrder.toJavaByteOrder(): java.nio.ByteOrder =
-    when (this) {
-        BIG_ENDIAN -> java.nio.ByteOrder.BIG_ENDIAN
-        LITTLE_ENDIAN -> java.nio.ByteOrder.LITTLE_ENDIAN
-    }
-
-/**
- * Converts [java.nio.ByteOrder] to its [ByteOrder] equivalent.
+ * Convert this [java.nio.ByteOrder] to its [ByteOrder] equivalent.
  */
 // @ExperimentalStdlibApi
 // @SinceKotlin("1.x")
