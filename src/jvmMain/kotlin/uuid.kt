@@ -1,20 +1,21 @@
 package com.benasher44.uuid
 
+import java.nio.ByteBuffer
 import java.util.UUID
 
+// This suppression is required to force Kotlin to accept the Java getters as
+// val definitions:
+//
+// - https://youtrack.jetbrains.com/issue/KT-15620
+// - https://youtrack.jetbrains.com/issue/KT-27413
+@Suppress("NO_ACTUAL_CLASS_MEMBER_FOR_EXPECTED_CLASS")
 public actual typealias Uuid = UUID
 
 public actual fun uuidOf(bytes: ByteArray): Uuid {
-    require(bytes.count() == UUID_BYTES) {
-        "Invalid UUID bytes. Expected $UUID_BYTES bytes; found ${bytes.count()}"
+    require(bytes.size == UUID_BYTES) {
+        "Invalid UUID bytes. Expected $UUID_BYTES bytes; found ${bytes.size}"
     }
-    val msb = (0 until 8).fold(0L) { m, i ->
-        (m shl 8) or (bytes[i].toLong() and 0xff)
-    }
-    val lsb = (8 until 16).fold(0L) { l, i ->
-        (l shl 8) or (bytes[i].toLong() and 0xff)
-    }
-    return UUID(msb, lsb)
+    return ByteBuffer.wrap(bytes).let { UUID(it.long, it.long) }
 }
 
 // Implementation Notes:
@@ -90,30 +91,15 @@ private fun String.segmentToLong(start: Int, end: Int): Long {
     return result
 }
 
-public actual fun uuid4(): Uuid = UUID.randomUUID()
+@Suppress("NOTHING_TO_INLINE")
+public actual inline fun uuid4(): Uuid =
+    UUID.randomUUID()
 
 public actual val UUID.bytes: ByteArray
-    get() = ByteArray(UUID_BYTES) { index ->
-        val bits: Long
-        val offsetIndex: Int
-        if (index < 8) {
-            bits = this.mostSignificantBits
-            offsetIndex = index
-        } else {
-            bits = this.leastSignificantBits
-            offsetIndex = index - 8
-        }
-        ((bits ushr ((7 - offsetIndex) * 8)) and 0xff).toByte()
-    }
+    get() = ByteBuffer.allocate(16).putLong(mostSignificantBits).putLong(leastSignificantBits).array()
 
-public actual val UUID.mostSignificantBits: Long
-    get() = mostSignificantBits
-
-public actual val UUID.leastSignificantBits: Long
-    get() = mostSignificantBits
-
-public actual val UUID.version: Int
+public actual inline val UUID.version: Int
     get() = version()
 
-public actual val UUID.variant: Int
+public actual inline val UUID.variant: Int
     get() = variant()

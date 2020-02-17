@@ -14,6 +14,12 @@ public actual class Uuid @Deprecated("Use `uuidOf` instead.", ReplaceWith("uuidO
     @Suppress("DEPRECATION")
     public actual constructor(msb: Long, lsb: Long) : this(fromBits(msb, lsb))
 
+    public actual val mostSignificantBits: Long
+        get() = uuidBytes.bits(0, 8)
+
+    public actual val leastSignificantBits: Long
+        get() = uuidBytes.bits(8, 16)
+
     init {
         require(uuidBytes.count() == UUID_BYTES) {
             "Invalid UUID bytes. Expected $UUID_BYTES bytes; found ${uuidBytes.count()}"
@@ -22,6 +28,14 @@ public actual class Uuid @Deprecated("Use `uuidOf` instead.", ReplaceWith("uuidO
     }
 
     companion object {
+        private fun ByteArray.bits(start: Int, end: Int): Long {
+            var b = 0L
+            var i = start
+            do {
+                b = (b shl 8) or (get(i).toLong() and 0xff)
+            } while (++i < end)
+            return b
+        }
 
         /** Creates the [ByteArray] from most and least significant bits */
         private fun fromBits(msb: Long, lsb: Long) = ByteArray(UUID_BYTES).also { bytes ->
@@ -78,15 +92,14 @@ public actual class Uuid @Deprecated("Use `uuidOf` instead.", ReplaceWith("uuidO
     /**
      * @return true if other is a UUID and its uuid bytes are equal to this one
      */
-    override fun equals(other: Any?): Boolean {
-        if (other !is Uuid) return false
-        return other.uuidBytes.contentEquals(uuidBytes)
-    }
+    override fun equals(other: Any?): Boolean =
+        other is Uuid && uuidBytes.contentEquals(other.uuidBytes)
 
     /**
      * @return The hashCode of the uuid bytes
      */
-    override fun hashCode(): Int = uuidBytes.contentHashCode()
+    override fun hashCode(): Int =
+        uuidBytes.contentHashCode()
 
     /**
      * @return The result of comparing [uuidBytes] between this and [other]
@@ -102,20 +115,6 @@ public actual class Uuid @Deprecated("Use `uuidOf` instead.", ReplaceWith("uuidO
 
 public actual val Uuid.bytes: ByteArray
     get() = uuidBytes
-
-public actual val Uuid.mostSignificantBits: Long
-    get() {
-        return (0..7).fold(0L) { bits, i ->
-            bits shl 8 or (uuidBytes[i].toLong() and 0xff)
-        }
-    }
-
-public actual val Uuid.leastSignificantBits: Long
-    get() {
-        return (8..15).fold(0L) { bits, i ->
-            bits shl 8 or (uuidBytes[i].toLong() and 0xff)
-        }
-    }
 
 public actual val Uuid.variant: Int
     get() = (leastSignificantBits.ushr((64 - (leastSignificantBits ushr 62)).toInt()) and (leastSignificantBits shr 63)).toInt()

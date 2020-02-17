@@ -43,19 +43,17 @@ public expect class Uuid : Comparable<Uuid> {
      */
     // @SinceKotlin("1.x")
     public constructor(msb: Long, lsb: Long)
+
+    /** The most significant 64 bits of this UUID's 128 bit value. */
+    public val mostSignificantBits: Long
+
+    /** The least significant 64 bits of this UUID's 128 bit value. */
+    public val leastSignificantBits: Long
 }
 
 /** Gets the raw UUID bytes */
 // @SinceKotlin("1.x")
 public expect val Uuid.bytes: ByteArray
-
-/** The most significant 64 bits of this UUID's 128 bit value. */
-// @SinceKotlin("1.x")
-public expect val Uuid.mostSignificantBits: Long
-
-/** The least significant 64 bits of this UUID's 128 bit value. */
-// @SinceKotlin("1.x")
-public expect val Uuid.leastSignificantBits: Long
 
 /**
  * The variant of the [Uuid], determines the interpretation of the bits.
