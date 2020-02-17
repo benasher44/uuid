@@ -11,9 +11,9 @@ pr:
 strategy:
   matrix:
     linux:
-      imageName: 'ubuntu-16.04'
+      imageName: 'ubuntu-18.04'
     mac:
-      imageName: 'macos-10.14'
+      imageName: 'macos-10.15'
     windows:
       imageName: 'vs2017-win2016'
 
@@ -34,7 +34,7 @@ steps:
       targetType: inline
       script: 'sudo gem install bundler && bundle install --path=vendor/bundle && bundle exec danger --fail-on-errors=true'
       failOnStderr: true
-    condition: eq(variables['Agent.OS'], 'Linux')
+    condition: eq(variables['Agent.OS'], 'Darwin')
     displayName: 'Perform Danger Checks'
     env:
       DANGER_GITHUB_API_TOKEN: "$(DANGER_GITHUB_API_TOKEN)"
