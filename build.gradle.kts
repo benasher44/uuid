@@ -166,7 +166,7 @@ if (HostManager.hostIsMac) {
             "simctl",
             "spawn",
             "-s",
-            "iPad Air 2",
+            "iPhone 8",
             linkDebugTestIosX64.outputFile.get()
         ))
     }
