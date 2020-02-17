@@ -23,7 +23,7 @@ public expect enum class ByteOrder {
 
     public companion object {
         /**
-         * Get the native byte order of the underlying platform.
+         * Get the native byte order of this system.
          */
         public val native: ByteOrder
     }
