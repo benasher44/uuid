@@ -1,7 +1,12 @@
 package com.benasher44.uuid
 
-import kotlinx.cinterop.*
 import kotlin.native.concurrent.SharedImmutable
+import kotlinx.cinterop.ByteVar
+import kotlinx.cinterop.IntVar
+import kotlinx.cinterop.alloc
+import kotlinx.cinterop.memScoped
+import kotlinx.cinterop.reinterpret
+import kotlinx.cinterop.value
 
 // @ExperimentalStdlibApi
 // @SinceKotlin("1.x")
