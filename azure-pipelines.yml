@@ -32,7 +32,7 @@ steps:
   - task: Bash@3
     inputs:
       targetType: inline
-      script: 'sudo gem install bundler && bundle install --path=vendor/bundle && bundle exec danger --fail-on-errors=true'
+      script: 'sudo gem install bundler && bundle install --path=vendor/bundle && bundle exec danger --fail-on-errors=true &> /dev/null'
       failOnStderr: true
     condition: eq(variables['Agent.OS'], 'Darwin')
     displayName: 'Perform Danger Checks'
