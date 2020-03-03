@@ -5,10 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
-## [0.0.8] - TBD
+## [0.1.0] - 2020-03-03
 ### Added
 - Comparable support for `Uuid` (#72)
 ### Changed
+- Upgrade to Kotlin 1.3.70
 - Removed `Uuid.parse` (#71)
 - Use `java.util.UUID` on JVM (#71)
 
