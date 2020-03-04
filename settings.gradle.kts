@@ -1,8 +1,7 @@
 rootProject.name = "uuid"
-enableFeaturePreview("GRADLE_METADATA")
 
 buildCache {
-    local<DirectoryBuildCache> {
+    local {
         directory = "$rootDir/build/cache/"
         removeUnusedEntriesAfterDays = 30
     }
