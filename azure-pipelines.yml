@@ -43,6 +43,7 @@ steps:
     inputs:
       workingDirectory: ''
       gradleWrapperFile: 'gradlew'
+      gradleOptions: '--no-daemon'
       tasks: 'build'
     displayName: 'Build'
 
