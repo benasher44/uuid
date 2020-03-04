@@ -43,7 +43,6 @@ steps:
     inputs:
       workingDirectory: ''
       gradleWrapperFile: 'gradlew'
-      gradleOptions: '-Xmx3072m'
       tasks: 'build'
     displayName: 'Build'
 
@@ -56,7 +55,6 @@ steps:
     inputs:
       workingDirectory: ''
       gradleWrapperFile: 'gradlew'
-      gradleOptions: '-Xmx3072m'
       tasks: 'publishMac'
     condition: and(eq(variables['Agent.OS'], 'Darwin'), succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: 'Publish Mac Artifacts'
@@ -71,7 +69,6 @@ steps:
     inputs:
       workingDirectory: ''
       gradleWrapperFile: 'gradlew'
-      gradleOptions: '-Xmx3072m'
       tasks: 'publishLinux'
     condition: and(eq(variables['Agent.OS'], 'Linux'), succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: 'Publish Linux Artifacts'
@@ -86,7 +83,6 @@ steps:
     inputs:
       workingDirectory: ''
       gradleWrapperFile: 'gradlew'
-      gradleOptions: '-Xmx3072m'
       tasks: 'publishWindows'
     condition: and(eq(variables['Agent.OS'], 'Windows_NT'), succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     displayName: 'Publish Windows Artifacts'
