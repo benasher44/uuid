@@ -43,7 +43,7 @@ steps:
     inputs:
       workingDirectory: ''
       gradleWrapperFile: 'gradlew'
-      gradleOptions: '-Xmx4096M'
+      gradleOptions: '-Xmx4096m'
       tasks: 'build'
     displayName: 'Build'
 
