@@ -43,8 +43,8 @@ steps:
     inputs:
       workingDirectory: ''
       gradleWrapperFile: 'gradlew'
-      gradleOptions: '-Xmx4096m --debug'
-      tasks: 'compileTestKotlinMacosX64'
+      gradleOptions: '-Xmx4096m -Dorg.gradle.daemon.debug=true'
+      tasks: 'build'
     displayName: 'Build'
 
   - task: DownloadSecureFile@1
