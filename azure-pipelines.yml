@@ -21,6 +21,11 @@ pool:
   vmImage: $(imageName)
 
 steps:
+  - bash: sudo /usr/sbin/system_profiler SPHardwareDataType
+    condition: eq(variables['Agent.OS'], 'Darwin')
+    displayName: 'Print System Info'
+
+  
   - bash: sudo apt install build-essential ruby
     condition: eq(variables['Agent.OS'], 'Linux')
     displayName: 'Install build dependencies'
