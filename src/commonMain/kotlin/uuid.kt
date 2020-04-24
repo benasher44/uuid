@@ -1,5 +1,5 @@
 @file:kotlin.jvm.JvmName("UuidUtil")
-@file:Suppress("RedundantVisibilityModifier", "MemberVisibilityCanBePrivate")
+@file:Suppress("MemberVisibilityCanBePrivate")
 
 package com.benasher44.uuid
 

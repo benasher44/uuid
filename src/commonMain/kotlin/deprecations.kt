@@ -1,5 +1,3 @@
-@file:Suppress("RedundantVisibilityModifier")
-
 package com.benasher44.uuid
 
 @Deprecated("Use `Uuid` instead.", ReplaceWith("Uuid"))

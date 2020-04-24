@@ -3,5 +3,7 @@
 build/
 out/
 .bundle
+!.idea/codeStyles
+!.idea/inspectionProfiles
 
 local.properties

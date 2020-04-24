@@ -126,6 +126,7 @@ kotlin {
         compilations.all {
             kotlinOptions.allWarningsAsErrors = true
         }
+        compilations.getByName("main").kotlinOptions.freeCompilerArgs += listOf("-Xexplicit-api=strict")
     }
 }
 
