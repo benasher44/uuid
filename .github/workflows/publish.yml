@@ -1,3 +1,4 @@
+name: master
 on:
   push:
     branches:
@@ -18,19 +19,19 @@ jobs:
         uses: actions/cache@v1
         with:
           path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Cache konan
         uses: actions/cache@v1
         with:
           path: ~/.konan
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
 
       - name: Publish Mac Artifacts
-        if: matrix.os == 'mac-latest'
+        if: matrix.os == 'macOS-latest'
         run: ./gradlew publishMac --no-daemon --stacktrace
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
