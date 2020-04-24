@@ -1,0 +1,62 @@
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [macOS-latest, windows-latest, ubuntu-latest]
+    runs-on: ${{matrix.os}}
+    steps:
+      - name: Checkout the repo
+        uses: actions/checkout@v2
+      - name: Validate Gradle Wrapper
+        uses: gradle/wrapper-validation-action@v1
+      - name: Cache gradle
+        uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+      - name: Cache konan
+        uses: actions/cache@v1
+        with:
+          path: ~/.konan
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+       # Danger
+
+      - name: Setup Ruby
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.6'
+      - name: Install bundler
+        if: matrix.os == 'ubuntu-latest'
+        run: gem install bundler
+      - name: Cache bundle
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: ruby-bundle-${{ hashFiles('Gemfile.lock') }}
+      - name: bundle install
+        if: matrix.os == 'ubuntu-latest'
+        run: bundle install --path=vendor/bundle
+      - name: Danger
+        if: matrix.os == 'ubuntu-latest'
+        env:
+          DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
+        run: bundle exec danger --fail-on-errors=true &> /dev/null
+
+
+      - name: Build
+        run: ./gradlew build --no-daemon --stacktrace
+
+env:
+  GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx3g"
