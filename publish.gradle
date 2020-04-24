@@ -153,6 +153,12 @@ signing {
     sign(publishing.publications)
 }
 
+
+
+tasks.withType(Sign) {
+    onlyIf { isReleaseBuild() }
+}
+
 tasks.register('publishMac') {
     dependsOn 'publishIosArm32PublicationToMavenRepository'
     dependsOn 'publishIosArm64PublicationToMavenRepository'
