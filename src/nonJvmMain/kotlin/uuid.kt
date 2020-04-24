@@ -1,4 +1,4 @@
-@file:Suppress("RedundantVisibilityModifier", "MemberVisibilityCanBePrivate")
+@file:Suppress("MemberVisibilityCanBePrivate")
 
 package com.benasher44.uuid
 
@@ -27,7 +27,7 @@ public actual class Uuid @Deprecated("Use `uuidOf` instead.", ReplaceWith("uuidO
         this.freeze()
     }
 
-    companion object {
+    private companion object {
         private fun ByteArray.bits(start: Int, end: Int): Long {
             var b = 0L
             var i = start
