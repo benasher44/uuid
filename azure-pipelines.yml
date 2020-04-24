@@ -24,16 +24,6 @@ steps:
     condition: eq(variables['Agent.OS'], 'Windows_NT')
     displayName: 'Install build dependencies'
 
-  - task: Bash@3
-    inputs:
-      targetType: inline
-      script: 'sudo gem install bundler && bundle install --path=vendor/bundle && bundle exec danger --fail-on-errors=true &> /dev/null'
-      failOnStderr: true
-    condition: eq(variables['Agent.OS'], 'Darwin')
-    displayName: 'Perform Danger Checks'
-    env:
-      DANGER_GITHUB_API_TOKEN: "$(DANGER_GITHUB_API_TOKEN)"
-
   - task: Gradle@2
     inputs:
       workingDirectory: ''
