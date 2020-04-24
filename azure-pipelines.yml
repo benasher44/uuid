@@ -3,11 +3,6 @@ trigger:
     include:
       - 'master'
 
-pr:
-  branches:
-    include:
-      - '*'
-
 strategy:
   matrix:
     linux:
