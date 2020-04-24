@@ -156,7 +156,6 @@ signing {
 
 
 tasks.withType(Sign) {
-    println(it)
     onlyIf { isReleaseBuild() }
 }
 
