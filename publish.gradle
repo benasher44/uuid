@@ -1,9 +1,3 @@
-buildscript {
-    ext."signing.keyId" = System.getenv("SIGNING_KEYID")
-    ext."signing.password" = System.getenv("SIGNING_PASSWORD")
-    ext."signing.secretKeyRingFile" = System.getenv("SIGNING_KEYRING")
-}
-
 group GROUP
 version VERSION
 
@@ -152,6 +146,10 @@ publishing {
 
 signing {
     required { isReleaseBuild() }
+    def signingKeyId = System.getenv("SIGNING_KEYID")
+    def signingKey = System.getenv("SIGNING_KEY")
+    def signingPassword = System.getenv("SIGNING_PASSWORD")
+    useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
     sign(publishing.publications)
 }
 
