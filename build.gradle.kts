@@ -1,4 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinNativeLink
 import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
@@ -31,32 +30,19 @@ kotlin {
                     }
                 }
             }
-            macosX64 {
-                compilations.getByName("main").cinterops.create("swap")
-            }
-            iosX64 {
-                compilations.getByName("main").cinterops.create("swap")
-            }
-            iosArm64 {
-                compilations.getByName("main").cinterops.create("swap")
-            }
-            iosArm32 {
-                compilations.getByName("main").cinterops.create("swap")
-            }
+            macosX64()
+            iosX64()
+            iosArm64()
+            iosArm32()
         }
         if (HostManager.hostIsMingw || HostManager.hostIsMac) {
             mingwX64 {
-                compilations.getByName("main").cinterops.create("swap")
                 binaries.findTest(DEBUG)!!.linkerOpts = mutableListOf("-Wl,--subsystem,windows")
             }
         }
         if (HostManager.hostIsLinux || HostManager.hostIsMac) {
-            linuxX64 {
-                compilations.getByName("main").cinterops.create("swap")
-            }
-            linuxArm32Hfp {
-                compilations.getByName("main").cinterops.create("swap")
-            }
+            linuxX64()
+            linuxArm32Hfp()
         }
     }
     sourceSets {
@@ -72,13 +58,13 @@ kotlin {
             }
         }
 
-        val nix64MainSourceSets = listOf(
+        val nix64MainSourceDirs = listOf(
             "src/nonJvmMain/kotlin",
             "src/nativeMain/kotlin",
             "src/nix64Main/kotlin"
         )
 
-        val nix32MainSourceSets = listOf(
+        val nix32MainSourceDirs = listOf(
             "src/nonJvmMain/kotlin",
             "src/nativeMain/kotlin",
             "src/nix32Main/kotlin"
@@ -107,14 +93,22 @@ kotlin {
                 }
             }
 
-            val macosX64Main by getting { kotlin.srcDirs(nix64MainSourceSets) }
-            val macosX64Test by getting { kotlin.srcDir("src/cocoaTest/kotlin") }
-            val iosArm64Main by getting { kotlin.srcDirs(nix64MainSourceSets) }
-            val iosArm64Test by getting { kotlin.srcDir("src/cocoaTest/kotlin") }
-            val iosArm32Main by getting { kotlin.srcDirs(nix32MainSourceSets) }
-            val iosArm32Test by getting { kotlin.srcDir("src/cocoaTest/kotlin") }
-            val iosX64Main by getting {kotlin.srcDirs(nix64MainSourceSets) }
-            val iosX64Test by getting { kotlin.srcDir("src/cocoaTest/kotlin") }
+            val appleMain32SourceDirs = listOf(
+                "src/appleMain/kotlin"
+            ) + nix32MainSourceDirs
+
+            val appleMain64SourceDirs = listOf(
+                "src/appleMain/kotlin"
+            ) + nix64MainSourceDirs
+
+            val macosX64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
+            val macosX64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
+            val iosArm64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
+            val iosArm64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
+            val iosArm32Main by getting { kotlin.srcDirs(appleMain32SourceDirs) }
+            val iosArm32Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
+            val iosX64Main by getting {kotlin.srcDirs(nix64MainSourceDirs) }
+            val iosX64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
         }
         if (HostManager.hostIsMingw || HostManager.hostIsMac) {
             val mingwX64Main by getting {
@@ -128,8 +122,8 @@ kotlin {
             }
         }
         if (HostManager.hostIsLinux || HostManager.hostIsMac) {
-            val linuxX64Main by getting { kotlin.srcDirs(nix64MainSourceSets) }
-            val linuxArm32HfpMain by getting { kotlin.srcDirs(nix32MainSourceSets) }
+            val linuxX64Main by getting { kotlin.srcDirs(nix64MainSourceDirs) }
+            val linuxArm32HfpMain by getting { kotlin.srcDirs(nix32MainSourceDirs) }
         }
     }
 }
