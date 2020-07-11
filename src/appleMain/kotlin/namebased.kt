@@ -13,7 +13,7 @@ import platform.Foundation.appendBytes
 private class AppleHasher(
     private val digestFunc: (NSMutableData) -> ByteArray,
     override val version: Int
-): UuidHasher {
+) : UuidHasher {
     private val data = NSMutableData()
 
     override fun update(input: ByteArray) {
@@ -37,7 +37,6 @@ private class AppleHasher(
                 }
             }
         }
-
 
         fun md5Digest(data: NSMutableData): ByteArray {
             return ByteArray(CC_MD5_DIGEST_LENGTH).also { bytes ->

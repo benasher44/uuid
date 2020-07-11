@@ -5,7 +5,7 @@ import java.security.MessageDigest
 private class JvmHasher(
     algorithmName: String,
     override val version: Int
-): UuidHasher {
+) : UuidHasher {
     private val digest = MessageDigest.getInstance(algorithmName)
 
     override fun update(input: ByteArray) {
