@@ -31,19 +31,32 @@ kotlin {
                     }
                 }
             }
-            macosX64()
-            iosX64()
-            iosArm64()
-            iosArm32()
+            macosX64 {
+                compilations.getByName("main").cinterops.create("swap")
+            }
+            iosX64 {
+                compilations.getByName("main").cinterops.create("swap")
+            }
+            iosArm64 {
+                compilations.getByName("main").cinterops.create("swap")
+            }
+            iosArm32 {
+                compilations.getByName("main").cinterops.create("swap")
+            }
         }
         if (HostManager.hostIsMingw || HostManager.hostIsMac) {
-            mingwX64() {
+            mingwX64 {
+                compilations.getByName("main").cinterops.create("swap")
                 binaries.findTest(DEBUG)!!.linkerOpts = mutableListOf("-Wl,--subsystem,windows")
             }
         }
         if (HostManager.hostIsLinux || HostManager.hostIsMac) {
-            linuxX64()
-            linuxArm32Hfp()
+            linuxX64 {
+                compilations.getByName("main").cinterops.create("swap")
+            }
+            linuxArm32Hfp {
+                compilations.getByName("main").cinterops.create("swap")
+            }
         }
     }
     sourceSets {
@@ -100,7 +113,7 @@ kotlin {
             val iosArm64Test by getting { kotlin.srcDir("src/cocoaTest/kotlin") }
             val iosArm32Main by getting { kotlin.srcDirs(nix32MainSourceSets) }
             val iosArm32Test by getting { kotlin.srcDir("src/cocoaTest/kotlin") }
-            val iosX64Main by getting { kotlin.srcDirs(nix64MainSourceSets) }
+            val iosX64Main by getting {kotlin.srcDirs(nix64MainSourceSets) }
             val iosX64Test by getting { kotlin.srcDir("src/cocoaTest/kotlin") }
         }
         if (HostManager.hostIsMingw || HostManager.hostIsMac) {
