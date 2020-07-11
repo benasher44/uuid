@@ -20,7 +20,7 @@ private class AppleHasher(
         input.usePinned {
             data.appendBytes(
                 it.addressOf(0),
-                input.size.toUInt()
+                input.size.toULong()
             )
         }
     }
@@ -33,7 +33,7 @@ private class AppleHasher(
         fun sha1Digest(data: NSMutableData): ByteArray {
             return ByteArray(CC_SHA1_DIGEST_LENGTH).also { bytes ->
                 bytes.usePinned {
-                    CC_SHA1(data.mutableBytes, data.length, it.addressOf(0).reinterpret())
+                    CC_SHA1(data.mutableBytes, data.length.toUInt(), it.addressOf(0).reinterpret())
                 }
             }
         }
@@ -41,7 +41,7 @@ private class AppleHasher(
         fun md5Digest(data: NSMutableData): ByteArray {
             return ByteArray(CC_MD5_DIGEST_LENGTH).also { bytes ->
                 bytes.usePinned {
-                    CC_MD5(data.mutableBytes, data.length, it.addressOf(0).reinterpret())
+                    CC_MD5(data.mutableBytes, data.length.toUInt(), it.addressOf(0).reinterpret())
                 }
             }
         }

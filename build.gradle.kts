@@ -107,7 +107,7 @@ kotlin {
             val iosArm64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
             val iosArm32Main by getting { kotlin.srcDirs(appleMain32SourceDirs) }
             val iosArm32Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
-            val iosX64Main by getting {kotlin.srcDirs(nix64MainSourceDirs) }
+            val iosX64Main by getting {kotlin.srcDirs(appleMain64SourceDirs) }
             val iosX64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
         }
         if (HostManager.hostIsMingw || HostManager.hostIsMac) {
