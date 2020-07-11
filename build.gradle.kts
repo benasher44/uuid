@@ -165,3 +165,33 @@ checkTask.configure {
 }
 
 apply(from = "publish.gradle")
+
+/// Generate PROJECT_DIR_ROOT for referencing local mocks in tests
+
+val projectDirGenRoot = "$buildDir/generated/projectdir/kotlin"
+val generateProjDirValTask = tasks.register("generateProjectDirectoryVal") {
+    doLast {
+        mkdir(projectDirGenRoot)
+        val projDirFile = File("$projectDirGenRoot/projdir.kt")
+        projDirFile.writeText("")
+        projDirFile.appendText("""
+            |package com.benasher44.uuid
+            |
+            |import kotlin.native.concurrent.SharedImmutable
+            |
+            |@SharedImmutable
+            |internal const val PROJECT_DIR_ROOT = "${projectDir.absolutePath}"
+            |
+        """.trimMargin())
+    }
+}
+
+kotlin.sourceSets.named("commonTest") {
+    this.kotlin.srcDir(projectDirGenRoot)
+}
+// Ensure this runs before any test compile task
+tasks.withType<AbstractCompile>().configureEach {
+    if (name.toLowerCase().contains("test")) {
+        dependsOn(generateProjDirValTask)
+    }
+}

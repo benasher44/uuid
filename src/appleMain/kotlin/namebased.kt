@@ -7,22 +7,17 @@ import platform.CoreCrypto.CC_MD5
 import platform.CoreCrypto.CC_MD5_DIGEST_LENGTH
 import platform.CoreCrypto.CC_SHA1
 import platform.CoreCrypto.CC_SHA1_DIGEST_LENGTH
-import platform.Foundation.NSMutableData
-import platform.Foundation.appendBytes
 
 private class AppleHasher(
-    private val digestFunc: (NSMutableData) -> ByteArray,
+    private val digestFunc: (ByteArray) -> ByteArray,
     override val version: Int
 ) : UuidHasher {
-    private val data = NSMutableData()
+    private var data = ByteArray(0)
 
     override fun update(input: ByteArray) {
-        input.usePinned {
-            data.appendBytes(
-                it.addressOf(0),
-                input.size.toULong()
-            )
-        }
+        val prevLength = data.size
+        data = data.copyOf(data.size + input.size)
+        input.copyInto(data, prevLength)
     }
 
     override fun digest(): ByteArray {
@@ -30,18 +25,22 @@ private class AppleHasher(
     }
 
     companion object {
-        fun sha1Digest(data: NSMutableData): ByteArray {
+        fun sha1Digest(data: ByteArray): ByteArray {
             return ByteArray(CC_SHA1_DIGEST_LENGTH).also { bytes ->
-                bytes.usePinned {
-                    CC_SHA1(data.mutableBytes, data.length.toUInt(), it.addressOf(0).reinterpret())
+                bytes.usePinned { digestPin ->
+                    data.usePinned { dataPin ->
+                        CC_SHA1(dataPin.addressOf(0), data.size.toUInt(), digestPin.addressOf(0).reinterpret())
+                    }
                 }
             }
         }
 
-        fun md5Digest(data: NSMutableData): ByteArray {
+        fun md5Digest(data: ByteArray): ByteArray {
             return ByteArray(CC_MD5_DIGEST_LENGTH).also { bytes ->
-                bytes.usePinned {
-                    CC_MD5(data.mutableBytes, data.length.toUInt(), it.addressOf(0).reinterpret())
+                bytes.usePinned { digestPin ->
+                    data.usePinned { dataPin ->
+                        CC_MD5(dataPin.addressOf(0), data.size.toUInt(), digestPin.addressOf(0).reinterpret())
+                    }
                 }
             }
         }

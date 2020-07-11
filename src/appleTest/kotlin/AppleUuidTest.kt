@@ -65,7 +65,7 @@ private fun enumerateUuid5Data(enumerationLambda: (namespace: Uuid, name: String
 }
 
 private fun enumerateData(path: String, enumerationLambda: (namespace: Uuid, name: String, result: Uuid) -> Unit) {
-    val data = NSData.dataWithContentsOfFile(path)!!
+    val data = NSData.dataWithContentsOfFile("$PROJECT_DIR_ROOT/$path")!!
     val str = memScoped {
         data.bytes!!.getPointer(this)
             .reinterpret<ByteVar>()
