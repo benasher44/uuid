@@ -2,7 +2,9 @@ package com.benasher44.uuid
 
 import kotlin.test.assertEquals
 import org.junit.Test
+import java.io.File
 
+@ExperimentalStdlibApi
 class JvmUuidTest {
 
     @Test
@@ -29,5 +31,35 @@ class JvmUuidTest {
 
         assertEquals(platformUuid.mostSignificantBits, uuidL.mostSignificantBits)
         assertEquals(platformUuid.leastSignificantBits, uuidL.leastSignificantBits)
+    }
+
+    @Test
+    fun `test uuid5`() {
+        enumerateUuid5Data { namespace, name, result ->
+            assertEquals(result, uuid5Of(namespace, name))
+        }
+    }
+
+    @Test
+    fun `test uuid3`() {
+        enumerateUuid3Data { namespace, name, result ->
+            assertEquals(result, uuid3Of(namespace, name))
+        }
+    }
+}
+
+private fun enumerateUuid3Data(enumerationLambda: (namespace: Uuid, name: String, result: Uuid) -> Unit) {
+    enumerateData("src/commonTest/data/uuid3.txt", enumerationLambda)
+}
+
+private fun enumerateUuid5Data(enumerationLambda: (namespace: Uuid, name: String, result: Uuid) -> Unit) {
+    enumerateData("src/commonTest/data/uuid5.txt", enumerationLambda)
+}
+
+private fun enumerateData(path: String, enumerationLambda: (namespace: Uuid, name: String, result: Uuid) -> Unit) {
+    for (row in File("$PROJECT_DIR_ROOT/$path").readLines()) {
+        if (row.isEmpty()) continue
+        val (namespaceStr, name, resultStr) = row.split(",")
+        enumerationLambda(uuidFrom(namespaceStr), name, uuidFrom(resultStr))
     }
 }

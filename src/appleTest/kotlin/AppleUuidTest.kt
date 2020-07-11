@@ -57,11 +57,11 @@ class CocoaUuidTest {
 }
 
 private fun enumerateUuid3Data(enumerationLambda: (namespace: Uuid, name: String, result: Uuid) -> Unit) {
-    enumerateData("src/appleTest/data/uuid3.txt", enumerationLambda)
+    enumerateData("src/commonTest/data/uuid3.txt", enumerationLambda)
 }
 
 private fun enumerateUuid5Data(enumerationLambda: (namespace: Uuid, name: String, result: Uuid) -> Unit) {
-    enumerateData("src/appleTest/data/uuid5.txt", enumerationLambda)
+    enumerateData("src/commonTest/data/uuid5.txt", enumerationLambda)
 }
 
 private fun enumerateData(path: String, enumerationLambda: (namespace: Uuid, name: String, result: Uuid) -> Unit) {
