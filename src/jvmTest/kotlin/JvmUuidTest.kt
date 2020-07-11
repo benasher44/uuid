@@ -1,8 +1,8 @@
 package com.benasher44.uuid
 
+import java.io.File
 import kotlin.test.assertEquals
 import org.junit.Test
-import java.io.File
 
 @ExperimentalStdlibApi
 class JvmUuidTest {

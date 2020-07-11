@@ -166,7 +166,7 @@ public interface UuidHasher {
  * @param name withing the namespace for the "Name-Based" UUID
  * @param hasher interface that implements a hashing algorithm
  * @return New version 3 or 5 [UUID][Uuid].
- * @sample com.benasher44.uuid.UuidTest.uuid5_generation
+ * @sample com.benasher44.uuid.uuid5Of
  * @see <a href="https://tools.ietf.org/html/rfc4122#section-4.3">RFC 4122: Section 4.3</a>
  */
 @ExperimentalStdlibApi
