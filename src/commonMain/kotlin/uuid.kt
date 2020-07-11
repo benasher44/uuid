@@ -171,19 +171,14 @@ public interface UuidHasher {
  */
 @ExperimentalStdlibApi
 public fun nameBasedUuidOf(namespace: Uuid, name: String, hasher: UuidHasher): Uuid {
-    val namespaceBytes = namespace.bytes.copyOf()
-    namespaceBytes.swapIntByteOrderAt(0)
-    namespaceBytes.swapShortByteOrderAt(4)
-    namespaceBytes.swapShortByteOrderAt(6)
-    hasher.update(namespaceBytes)
+    hasher.update(namespace.bytes)
     hasher.update(name.encodeToByteArray())
     val hashedBytes = hasher.digest()
-    hashedBytes.swapIntByteOrderAt(0)
-    hashedBytes.swapShortByteOrderAt(4)
-    hashedBytes.swapShortByteOrderAt(6)
-    hashedBytes[7] = hasher.version.shl(4).toByte()
+    hashedBytes[6] = hashedBytes[6]
+        .and(0b00001111) // clear the 4 most sig bits
+        .or(hasher.version.shl(4).toByte())
     hashedBytes[8] = hashedBytes[8]
-        .and(0b00111111) // clear the most sig bits
-        .or(0b1011111) // set most sig to 10
+        .and(0b00111111) // clear the 2 most sig bits
+        .or(-0b10000000) // set 2 most sig to 10
     return uuidOf(hashedBytes.copyOf(UUID_BYTES))
 }

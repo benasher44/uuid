@@ -73,6 +73,7 @@ private fun enumerateData(path: String, enumerationLambda: (namespace: Uuid, nam
             .decodeToString()
     }
     for (row in str.split("\n")) {
+        if (row.isEmpty()) continue
         val (namespaceStr, name, resultStr) = row.split(",")
         enumerationLambda(uuidFrom(namespaceStr), name, uuidFrom(resultStr))
     }
