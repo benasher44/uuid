@@ -73,17 +73,14 @@ private class MingwHasher(
             val pbHashObj = alloc<PBYTEVar>()
 
             try {
-
-                var status: Int
-
-                status = BCryptOpenAlgorithmProvider(alg.ptr, algorithmName, null, 0)
+                var status = BCryptOpenAlgorithmProvider(alg.ptr, algorithmName, null, 0)
                 check(status >= 0) { "BCryptOpenAlgorithmProvider failed with code $status" }
 
                 val cbHashObj = alloc<DWORDVar>()
                 val cbData = alloc<DWORDVar>()
                 status = BCryptGetProperty(
-                    alg.ptr,
-                    "KeyObjectLength",
+                    alg.value,
+                    "ObjectLength",
                     cbHashObj.reinterpret<UCHARVar>().ptr,
                     sizeOf<DWORDVar>().toUInt(),
                     cbData.ptr,
@@ -97,7 +94,7 @@ private class MingwHasher(
 
                 val cbHash = alloc<DWORDVar>()
                 status = BCryptGetProperty(
-                    alg.ptr,
+                    alg.value,
                     "HashDigestLength",
                     cbHash.reinterpret<UCHARVar>().ptr,
                     sizeOf<DWORDVar>().toUInt(),
@@ -106,29 +103,29 @@ private class MingwHasher(
                 )
                 check(status >= 0) { "BCryptGetProperty for HashDigestLength failed with code $status" }
 
-                status = BCryptCreateHash(alg.ptr, hash.ptr, pbHashObj.value, cbHashObj.value, null, 0, 0)
+                status = BCryptCreateHash(alg.value, hash.ptr, pbHashObj.value, cbHashObj.value, null, 0, 0)
                 check(status >= 0) { "BCryptCreateHash failed with code $status" }
 
                 data.usePinned {
-                    status = BCryptHashData(hash.ptr, it.addressOf(0).reinterpret(), data.size.toUInt(), 0)
+                    status = BCryptHashData(hash.value, it.addressOf(0).reinterpret(), data.size.toUInt(), 0)
                 }
                 check(status >= 0) { "BCryptHashData failed with code $status" }
 
                 ByteArray(cbHash.value.toInt()).also { bytes ->
                     bytes.usePinned {
-                        status = BCryptFinishHash(hash.ptr, it.addressOf(0).reinterpret(), cbHash.value, 0)
+                        status = BCryptFinishHash(hash.value, it.addressOf(0).reinterpret(), cbHash.value, 0)
                     }
                     check(status >= 0) { "BCryptFinishHash failed with code $status" }
                 }
             } finally {
                 if (alg.value != null) {
-                    BCryptCloseAlgorithmProvider(alg.ptr, 0)
+                    BCryptCloseAlgorithmProvider(alg.value, 0)
                 }
                 if (hash.value != null) {
-                    BCryptDestroyHash(hash.ptr)
+                    BCryptDestroyHash(hash.value)
                 }
                 if (pbHashObj.value != null) {
-                    HeapFree(GetProcessHeap(), 0, pbHashObj.ptr)
+                    HeapFree(GetProcessHeap(), 0, pbHashObj.value)
                 }
             }
         }
