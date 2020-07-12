@@ -3,6 +3,8 @@
 
 package com.benasher44.uuid
 
+import kotlin.experimental.and
+import kotlin.experimental.or
 import kotlin.native.concurrent.SharedImmutable
 
 // Number of bytes in a UUID
@@ -122,3 +124,61 @@ public expect fun uuidOf(bytes: ByteArray): Uuid
  */
 // @SinceKotlin("1.x")
 public expect fun uuid4(): Uuid
+
+/**
+ * Interface for computing a hash for a "Name-Based" UUID
+ */
+public interface UuidHasher {
+
+    /**
+     * The UUID version, for which this
+     * hash algorithm is being used:
+     * - 3 for MD5
+     * - 5 for SHA-1
+     */
+    public val version: Int
+
+    /**
+     * Updates the hash's digest with more bytes
+     * @param input to update the hasher's digest
+     */
+    public fun update(input: ByteArray)
+
+    /**
+     * Completes the hash computation and returns the result
+     * @note The hasher should not be used after this call
+     */
+    public fun digest(): ByteArray
+}
+
+/**
+ * Constructs a "Name-Based" version 3 or 5 [UUID][Uuid].
+ *
+ * Version 3 and 5 UUIDs are created by combining a name and
+ * a namespace using a hash function. This library may provide
+ * such hash functions in the future, but it adds a significant
+ * maintenance burden to support for native, JS, and JVM. Until then:
+ *
+ * - Provide a MD5 [UuidHasher] to get a v3 UUID
+ * - Provide a SHA-1 [UuidHasher] to get a v5 UUID
+ *
+ * @param namespace for the "Name-Based" UUID
+ * @param name withing the namespace for the "Name-Based" UUID
+ * @param hasher interface that implements a hashing algorithm
+ * @return New version 3 or 5 [UUID][Uuid].
+ * @sample com.benasher44.uuid.uuid5Of
+ * @see <a href="https://tools.ietf.org/html/rfc4122#section-4.3">RFC 4122: Section 4.3</a>
+ */
+@ExperimentalStdlibApi
+public fun nameBasedUuidOf(namespace: Uuid, name: String, hasher: UuidHasher): Uuid {
+    hasher.update(namespace.bytes)
+    hasher.update(name.encodeToByteArray())
+    val hashedBytes = hasher.digest()
+    hashedBytes[6] = hashedBytes[6]
+        .and(0b00001111) // clear the 4 most sig bits
+        .or(hasher.version.shl(4).toByte())
+    hashedBytes[8] = hashedBytes[8]
+        .and(0b00111111) // clear the 2 most sig bits
+        .or(-0b10000000) // set 2 most sig to 10
+    return uuidOf(hashedBytes.copyOf(UUID_BYTES))
+}
