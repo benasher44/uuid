@@ -180,7 +180,7 @@ val generateProjDirValTask = tasks.register("generateProjectDirectoryVal") {
             |import kotlin.native.concurrent.SharedImmutable
             |
             |@SharedImmutable
-            |internal const val PROJECT_DIR_ROOT = "${projectDir.absolutePath}"
+            |internal const val PROJECT_DIR_ROOT = ""${'"'}${projectDir.absolutePath}""${'"'}
             |
         """.trimMargin())
     }
