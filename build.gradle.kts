@@ -120,6 +120,9 @@ kotlin {
                     )
                 )
             }
+            val mingwX64Test by getting {
+                kotlin.srcDir("src/mingwTest/kotlin")
+            }
         }
         if (HostManager.hostIsLinux || HostManager.hostIsMac) {
             val linuxX64Main by getting { kotlin.srcDirs(nix64MainSourceDirs) }
