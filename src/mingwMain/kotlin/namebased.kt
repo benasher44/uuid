@@ -67,6 +67,7 @@ private class MingwHasher(
     }
 
     override fun digest(): ByteArray {
+        // implementation from https://docs.microsoft.com/en-us/windows/win32/seccng/creating-a-hash-with-cng
         return memScoped {
             val alg = alloc<BCRYPT_ALG_HANDLEVar>()
             val hash = alloc<BCRYPT_HASH_HANDLEVar>()
