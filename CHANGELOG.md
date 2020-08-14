@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.2.0] - 2020-08-14
+### Added
+- Upgradee to 1.4.0 (#92)
+
 ## [0.1.1] - 2020-07-12
 ### Added
 - Add namespaced UUIDs v3 and v5 (#87)
