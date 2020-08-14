@@ -86,7 +86,7 @@ public actual class Uuid @Deprecated("Use `uuidOf` instead.", ReplaceWith("uuidO
                 characters[charIndex++] = '-'
             }
         }
-        return String(characters)
+        return characters.concatToString()
     }
 
     /**

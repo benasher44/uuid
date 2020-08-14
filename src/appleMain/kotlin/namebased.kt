@@ -19,7 +19,6 @@ import platform.CoreCrypto.CC_SHA1_DIGEST_LENGTH
  * @return New version 3 [UUID][Uuid].
  * @see <a href="https://tools.ietf.org/html/rfc4122#section-4.3">RFC 4122: Section 4.3</a>
  */
-@ExperimentalStdlibApi
 public fun uuid3Of(namespace: Uuid, name: String): Uuid =
     nameBasedUuidOf(namespace, name, AppleHasher(AppleHasher.Companion::md5Digest, 3))
 
@@ -34,7 +33,6 @@ public fun uuid3Of(namespace: Uuid, name: String): Uuid =
  * @return New version 5 [UUID][Uuid].
  * @see <a href="https://tools.ietf.org/html/rfc4122#section-4.3">RFC 4122: Section 4.3</a>
  */
-@ExperimentalStdlibApi
 public fun uuid5Of(namespace: Uuid, name: String): Uuid =
     nameBasedUuidOf(namespace, name, AppleHasher(AppleHasher.Companion::sha1Digest, 5))
 

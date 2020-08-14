@@ -35,7 +35,6 @@ import platform.windows.UCHARVar
  * @return New version 3 [UUID][Uuid].
  * @see <a href="https://tools.ietf.org/html/rfc4122#section-4.3">RFC 4122: Section 4.3</a>
  */
-@ExperimentalStdlibApi
 public fun uuid3Of(namespace: Uuid, name: String): Uuid =
     nameBasedUuidOf(namespace, name, MingwHasher("MD5", 3))
 
@@ -50,7 +49,6 @@ public fun uuid3Of(namespace: Uuid, name: String): Uuid =
  * @return New version 5 [UUID][Uuid].
  * @see <a href="https://tools.ietf.org/html/rfc4122#section-4.3">RFC 4122: Section 4.3</a>
  */
-@ExperimentalStdlibApi
 public fun uuid5Of(namespace: Uuid, name: String): Uuid =
     nameBasedUuidOf(namespace, name, MingwHasher("SHA1", 5))
 
