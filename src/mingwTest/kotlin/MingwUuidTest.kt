@@ -1,7 +1,5 @@
 package com.benasher44.uuid
 
-import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlinx.cinterop.UIntVar
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.alloc
@@ -19,8 +17,9 @@ import platform.windows.INVALID_HANDLE_VALUE
 import platform.windows.LARGE_INTEGER
 import platform.windows.OPEN_EXISTING
 import platform.windows.ReadFile
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
-@ExperimentalStdlibApi
 class MingwUuidTest {
 
     @Test
@@ -56,8 +55,10 @@ private fun enumerateData(path: String, enumerationLambda: (namespace: Uuid, nam
 }
 
 private fun loadString(path: String): String {
-    val handle = CreateFileW(path, GENERIC_READ, FILE_SHARE_READ, null,
-        OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, null)
+    val handle = CreateFileW(
+        path, GENERIC_READ, FILE_SHARE_READ, null,
+        OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, null
+    )
     check(handle != INVALID_HANDLE_VALUE) { "Error: ${GetLastError()}" }
 
     return try {

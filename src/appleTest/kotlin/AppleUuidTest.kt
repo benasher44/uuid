@@ -1,9 +1,5 @@
 package com.benasher44.uuid
 
-import kotlin.native.concurrent.isFrozen
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 import kotlinx.cinterop.ByteVar
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.memScoped
@@ -13,8 +9,11 @@ import kotlinx.cinterop.usePinned
 import platform.Foundation.NSData
 import platform.Foundation.NSUUID
 import platform.Foundation.dataWithContentsOfFile
+import kotlin.native.concurrent.isFrozen
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
-@ExperimentalStdlibApi
 class CocoaUuidTest {
     @Test
     fun `UUID.toString() matches NSUUID`() {

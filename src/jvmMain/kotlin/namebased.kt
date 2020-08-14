@@ -13,7 +13,6 @@ import java.security.MessageDigest
  * @return New version 3 [UUID][Uuid].
  * @see <a href="https://tools.ietf.org/html/rfc4122#section-4.3">RFC 4122: Section 4.3</a>
  */
-@ExperimentalStdlibApi
 public fun uuid3Of(namespace: Uuid, name: String): Uuid =
     nameBasedUuidOf(namespace, name, JvmHasher("MD5", 3))
 
@@ -28,7 +27,6 @@ public fun uuid3Of(namespace: Uuid, name: String): Uuid =
  * @return New version 5 [UUID][Uuid].
  * @see <a href="https://tools.ietf.org/html/rfc4122#section-4.3">RFC 4122: Section 4.3</a>
  */
-@ExperimentalStdlibApi
 public fun uuid5Of(namespace: Uuid, name: String): Uuid =
     nameBasedUuidOf(namespace, name, JvmHasher("SHA-1", 5))
 
