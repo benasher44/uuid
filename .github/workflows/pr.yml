@@ -17,14 +17,14 @@ jobs:
       - name: Validate Gradle Wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: Cache gradle
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
       - name: Cache konan
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ~/.konan
           key: ${{ runner.os }}-gradle-${{ hashFiles('*.gradle.kts') }}
@@ -43,7 +43,7 @@ jobs:
         run: gem install bundler
       - name: Cache bundle
         if: matrix.os == 'ubuntu-latest'
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: vendor/bundle
           key: ruby-bundle-${{ hashFiles('Gemfile.lock') }}
