@@ -48,6 +48,12 @@ kotlin {
         }
     }
     sourceSets {
+        commonMain {
+            dependencies {
+                // can remove this onc https://youtrack.jetbrains.com/issue/KT-40333 is fixed
+                implementation(kotlin("stdlib-common"))
+            }
+        }
         commonTest {
             dependencies {
                 implementation(kotlin("test-multiplatform"))
