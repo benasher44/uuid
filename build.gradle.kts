@@ -116,11 +116,11 @@ kotlin {
 }
 
 kotlin {
+    explicitApi()
     targets.all {
         compilations.all {
             kotlinOptions.allWarningsAsErrors = true
         }
-        compilations.getByName("main").kotlinOptions.freeCompilerArgs += listOf("-Xexplicit-api=strict")
     }
 }
 
