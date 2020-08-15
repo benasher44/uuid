@@ -29,6 +29,8 @@ kotlin {
                         metaInfo = true
                     }
                 }
+                browser()
+                nodejs()
             }
             macosX64()
             iosX64()
@@ -46,15 +48,9 @@ kotlin {
         }
     }
     sourceSets {
-        commonMain {
-            dependencies {
-                implementation(kotlin("stdlib-common"))
-            }
-        }
         commonTest {
             dependencies {
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
+                implementation(kotlin("test-multiplatform"))
             }
         }
 
@@ -71,26 +67,8 @@ kotlin {
         )
 
         if (HostManager.hostIsMac) {
-            val jvmMain by getting {
-                dependencies {
-                    implementation(kotlin("stdlib"))
-                }
-            }
-            val jvmTest by getting {
-                dependencies {
-                    implementation(kotlin("test-junit"))
-                }
-            }
             val jsMain by getting {
-                dependencies {
-                    implementation(kotlin("stdlib-js"))
-                }
                 kotlin.srcDir("src/nonJvmMain/kotlin")
-            }
-            val jsTest by getting {
-                dependencies {
-                    implementation(kotlin("test-js"))
-                }
             }
 
             val appleMain32SourceDirs = listOf(
@@ -107,7 +85,7 @@ kotlin {
             val iosArm64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
             val iosArm32Main by getting { kotlin.srcDirs(appleMain32SourceDirs) }
             val iosArm32Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
-            val iosX64Main by getting {kotlin.srcDirs(appleMain64SourceDirs) }
+            val iosX64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
             val iosX64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
         }
         if (HostManager.hostIsMingw || HostManager.hostIsMac) {
@@ -159,7 +137,7 @@ val ktlintformat by tasks.registering(JavaExec::class) {
     description = "Fix Kotlin code style deviations."
     classpath = ktlintConfig
     main = "com.pinterest.ktlint.Main"
-    args = listOf("-F", "src/**/*.kt")
+    args = listOf("-F", "src/**/*.kt", "*.kts")
 }
 
 val checkTask = tasks.named("check")
@@ -169,7 +147,7 @@ checkTask.configure {
 
 apply(from = "publish.gradle")
 
-/// Generate PROJECT_DIR_ROOT for referencing local mocks in tests
+// Generate PROJECT_DIR_ROOT for referencing local mocks in tests
 
 val projectDirGenRoot = "$buildDir/generated/projectdir/kotlin"
 val generateProjDirValTask = tasks.register("generateProjectDirectoryVal") {
@@ -177,7 +155,8 @@ val generateProjDirValTask = tasks.register("generateProjectDirectoryVal") {
         mkdir(projectDirGenRoot)
         val projDirFile = File("$projectDirGenRoot/projdir.kt")
         projDirFile.writeText("")
-        projDirFile.appendText("""
+        projDirFile.appendText(
+            """
             |package com.benasher44.uuid
             |
             |import kotlin.native.concurrent.SharedImmutable
@@ -185,7 +164,8 @@ val generateProjDirValTask = tasks.register("generateProjectDirectoryVal") {
             |@SharedImmutable
             |internal const val PROJECT_DIR_ROOT = ""${'"'}${projectDir.absolutePath}""${'"'}
             |
-        """.trimMargin())
+        """.trimMargin()
+        )
     }
 }
 
