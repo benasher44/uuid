@@ -21,7 +21,7 @@ kotlin {
             jvm {
                 // Intentionally left blank.
             }
-            js {
+            js(BOTH) {
                 compilations.all {
                     kotlinOptions {
                         sourceMap = true
