@@ -22,6 +22,7 @@ kotlin {
                 // Intentionally left blank.
             }
             js(BOTH) {
+                binaries.executable()
                 compilations.all {
                     kotlinOptions {
                         sourceMap = true
