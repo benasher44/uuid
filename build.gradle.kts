@@ -36,6 +36,11 @@ kotlin {
             iosX64()
             iosArm64()
             iosArm32()
+            watchosArm32()
+            watchosArm64()
+            watchosX86()
+            tvosArm64()
+            tvosX64()
         }
         if (HostManager.hostIsMingw || HostManager.hostIsMac) {
             mingwX64 {
@@ -93,6 +98,16 @@ kotlin {
             val iosArm32Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
             val iosX64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
             val iosX64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
+            val watchosArm32Main by getting { kotlin.srcDirs(appleMain32SourceDirs) }
+            val watchosArm32Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
+            val watchosArm64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
+            val watchosArm64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
+            val watchosX86Main by getting { kotlin.srcDirs(appleMain32SourceDirs) }
+            val watchosX86Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
+            val tvosArm64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
+            val tvosArm64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
+            val tvosX64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
+            val tvosX64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
         }
         if (HostManager.hostIsMingw || HostManager.hostIsMac) {
             val mingwX64Main by getting {
