@@ -53,7 +53,7 @@ jobs:
       - name: Danger
         if: matrix.os == 'ubuntu-latest'
         env:
-          DANGER_GITHUB_API_TOKEN: ${{ secrets.DANGER_GITHUB_API_TOKEN }}
+          DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: bundle exec danger --fail-on-errors=true &> /dev/null
 
 
