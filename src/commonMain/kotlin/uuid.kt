@@ -15,7 +15,7 @@ internal const val UUID_STRING_LENGTH = 36
 
 // Ranges of non-hyphen characters in a UUID string
 @SharedImmutable
-internal val UUID_CHAR_RANGES: List<IntRange> = listOf(
+internal val  UUID_CHAR_RANGES: List<IntRange> = listOf(
     0 until 8,
     9 until 13,
     14 until 18,
