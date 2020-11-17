@@ -34,6 +34,7 @@ import platform.posix.O_RDONLY
 import platform.posix.close
 import platform.posix.open
 
+// from https://man7.org/linux/man-pages/man2/open.2.html#ERRORS
 private val errorCodes = setOf(
     EACCES,
     EBADF,
