@@ -1,4 +1,4 @@
-name: master
+name: deploy
 on: workflow_dispatch
 
 jobs:
