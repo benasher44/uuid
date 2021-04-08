@@ -93,6 +93,7 @@ task javadocsJar(type: Jar, dependsOn: dokka) {
 
 publishing {
   publications.all {
+    artifact javadocsJar
 
     pom.withXml {
       def root = asNode()
