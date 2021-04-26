@@ -20,7 +20,7 @@ class CocoaUuidTest {
         val uuidL = uuid4()
         val nativeUuidString = uuidL.bytes.usePinned {
             NSUUID(it.addressOf(0).reinterpret()).UUIDString
-        }.toLowerCase()
+        }.lowercase()
         assertEquals(uuidL.toString(), nativeUuidString)
     }
 

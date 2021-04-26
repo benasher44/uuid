@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.2.4] - 2021-04-26
+### Changed
+- Upgrade to Kotlin 1.5.0 (#113)
+
+## [0.2.3] - 2020-11-23
+
 ## [0.2.4] - 2021-04-08
 ### Added
 - Support HMPP (#110)
