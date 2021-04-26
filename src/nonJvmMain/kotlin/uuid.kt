@@ -51,9 +51,9 @@ public actual class Uuid @Deprecated("Use `uuidOf` instead.", ReplaceWith("uuidO
 
         /** @returns the Int representation of a given UUID character */
         private fun halfByteFromChar(char: Char) = when (char) {
-            in '0'..'9' -> char.toInt() - 48
-            in 'a'..'f' -> char.toInt() - 87
-            in 'A'..'F' -> char.toInt() - 55
+            in '0'..'9' -> char.code - 48
+            in 'a'..'f' -> char.code - 87
+            in 'A'..'F' -> char.code - 55
             else -> null
         }
 
@@ -141,9 +141,9 @@ public actual fun uuidOf(bytes: ByteArray): Uuid = Uuid(bytes)
 
 /** Returns the Int representation of a given UUID character */
 private fun halfByteFromChar(char: Char) = when (char) {
-    in '0'..'9' -> char.toInt() - 48
-    in 'a'..'f' -> char.toInt() - 87
-    in 'A'..'F' -> char.toInt() - 55
+    in '0'..'9' -> char.code - 48
+    in 'a'..'f' -> char.code - 87
+    in 'A'..'F' -> char.code - 55
     else -> null
 }
 

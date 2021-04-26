@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
-    kotlin("multiplatform") version "1.4.32"
+    kotlin("multiplatform") version "1.5.0"
     id("org.jetbrains.dokka") version "0.9.18"
     id("maven-publish")
     id("signing")
@@ -55,13 +55,13 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                // can remove this onc https://youtrack.jetbrains.com/issue/KT-40333 is fixed
+                // can remove this once https://youtrack.jetbrains.com/issue/KT-40333 is fixed
                 implementation(kotlin("stdlib-common"))
             }
         }
         commonTest {
             dependencies {
-                implementation(kotlin("test-multiplatform"))
+                implementation(kotlin("test"))
             }
         }
 
