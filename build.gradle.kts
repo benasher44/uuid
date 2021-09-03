@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
-    kotlin("multiplatform") version "1.5.0"
+    kotlin("multiplatform") version "1.5.30"
     id("org.jetbrains.dokka") version "0.9.18"
     id("maven-publish")
     id("signing")
@@ -33,14 +33,18 @@ kotlin {
                 nodejs()
             }
             macosX64()
+            macosArm64()
             iosX64()
             iosArm64()
             iosArm32()
+            iosSimulatorArm64()
             watchosArm32()
             watchosArm64()
             watchosX86()
+            watchosSimulatorArm64()
             tvosArm64()
             tvosX64()
+            tvosSimulatorArm64()
         }
         if (HostManager.hostIsMingw || HostManager.hostIsMac) {
             mingwX64 {
@@ -92,22 +96,30 @@ kotlin {
 
             val macosX64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
             val macosX64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
+            val macosArm64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
+            val macosArm64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
             val iosArm64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
             val iosArm64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
             val iosArm32Main by getting { kotlin.srcDirs(appleMain32SourceDirs) }
             val iosArm32Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
             val iosX64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
             val iosX64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
+            val iosSimulatorArm64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
+            val iosSimulatorArm64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
             val watchosArm32Main by getting { kotlin.srcDirs(appleMain32SourceDirs) }
             val watchosArm32Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
             val watchosArm64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
             val watchosArm64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
             val watchosX86Main by getting { kotlin.srcDirs(appleMain32SourceDirs) }
             val watchosX86Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
+            val watchosSimulatorArm64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
+            val watchosSimulatorArm64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
             val tvosArm64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
             val tvosArm64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
             val tvosX64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
             val tvosX64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
+            val tvosSimulatorArm64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
+            val tvosSimulatorArm64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
         }
         if (HostManager.hostIsMingw || HostManager.hostIsMac) {
             val mingwX64Main by getting {
@@ -143,7 +155,7 @@ kotlin {
 val ktlintConfig by configurations.creating
 
 dependencies {
-    ktlintConfig("com.pinterest:ktlint:0.41.0")
+    ktlintConfig("com.pinterest:ktlint:0.42.1")
 }
 
 val ktlint by tasks.registering(JavaExec::class) {
