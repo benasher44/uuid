@@ -8,7 +8,7 @@ plugins {
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
 }
 
 tasks.dokka {
@@ -134,7 +134,8 @@ kotlin {
     explicitApi()
     targets.all {
         compilations.all {
-            kotlinOptions.allWarningsAsErrors = true
+            // https://youtrack.jetbrains.com/issue/KT-46257
+            kotlinOptions.allWarningsAsErrors = !HostManager.hostIsLinux
         }
     }
 }
