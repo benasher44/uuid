@@ -132,12 +132,10 @@ kotlin {
 
 kotlin {
     explicitApi()
-    // https://youtrack.jetbrains.com/issue/KT-46257
-    if (!HostManager.hostIsLinux) {
-        targets.all {
-            compilations.all {
-                kotlinOptions.allWarningsAsErrors = true
-            }
+    targets.all {
+        compilations.all {
+            // https://youtrack.jetbrains.com/issue/KT-46257
+            kotlinOptions.allWarningsAsErrors = !HostManager.hostIsLinux
         }
     }
 }
