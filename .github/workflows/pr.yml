@@ -31,31 +31,14 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-       # Danger
+      - name: List Tasks
+        run: ./gradlew tasks --no-daemon --stacktrace
 
-      - name: Setup Ruby
-        if: matrix.os == 'ubuntu-latest'
-        uses: actions/setup-ruby@v1
-        with:
-          ruby-version: '2.6'
-      - name: Install bundler
-        if: matrix.os == 'ubuntu-latest'
-        run: gem install bundler
-      - name: Cache bundle
-        if: matrix.os == 'ubuntu-latest'
-        uses: actions/cache@v2
-        with:
-          path: vendor/bundle
-          key: ruby-bundle-${{ hashFiles('Gemfile.lock') }}
-      - name: bundle install
-        if: matrix.os == 'ubuntu-latest'
-        run: bundle install --path=vendor/bundle
-      - name: Danger
-        if: matrix.os == 'ubuntu-latest'
-        env:
-          DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: bundle exec danger --fail-on-errors=true &> /dev/null
+       # ktlint
 
+      - name: ktlint
+        if: matrix.os == 'ubuntu-latest'
+        run: ./gradlew ktlint --no-daemon --stacktrace
 
       - name: Build
         run: ./gradlew build --no-daemon --stacktrace
