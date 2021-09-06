@@ -53,6 +53,12 @@ kotlin {
         }
     }
     sourceSets {
+        commonMain {
+            dependencies {
+                // can remove this once https://youtrack.jetbrains.com/issue/KT-40333 is fixed
+                implementation(kotlin("stdlib-common"))
+            }
+        }
         commonTest {
             dependencies {
                 implementation(kotlin("test"))
