@@ -135,7 +135,7 @@ kotlin {
     targets.all {
         compilations.all {
             // https://youtrack.jetbrains.com/issue/KT-46257
-            kotlinOptions.allWarningsAsErrors = !HostManager.hostIsLinux
+            kotlinOptions.allWarningsAsErrors = HostManager.hostIsMac
         }
     }
 }
