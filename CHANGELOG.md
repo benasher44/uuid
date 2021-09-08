@@ -5,15 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [0.3.1] - 2021-09-07
 ### Changed
-- Upgrade to Kotlin 1.5.30 (#117)
-- Add Apple Silicon targets: `iosSimulatorArm64`, `macosArm64`, `tvosSimulatorArm64`, `watchosSimulatorArm64` (#117) 
+- Upgrade to Kotlin 1.5.30 (#118)
+- Add Apple Silicon targets: `iosSimulatorArm64`, `macosArm64`, `tvosSimulatorArm64`, `watchosSimulatorArm64` (#118) 
 
 ## [0.3.0] - 2021-04-26
 ### Changed
 - Upgrade to Kotlin 1.5.0 (#113)
-- 
 ## [0.2.4] - 2021-04-08
 ### Added
 - Support HMPP (#110)
