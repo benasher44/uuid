@@ -24,7 +24,7 @@ In your build.gradle(.kts):
 - Add `mavenCentral()` to your repositories
 - Add `implementation "com.benasher44:uuid:<version>"` as a dependency in your `commonMain` `sourceSets`.
 
-This library publishes gradle module metadata, so you should have `enableFeaturePreview("GRADLE_METADATA")` in your settings.gradle(.kts).
+This library publishes gradle module metadata. If you're using Gradle prior to version 6, you should have `enableFeaturePreview("GRADLE_METADATA")` in your settings.gradle(.kts).
 
 ### Future Goals
 
