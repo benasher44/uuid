@@ -16,7 +16,7 @@ import kotlin.test.assertTrue
 
 class CocoaUuidTest {
     @Test
-    fun `UUID.toString() matches NSUUID`() {
+    fun `UUID toString matches NSUUID`() {
         val uuidL = uuid4()
         val nativeUuidString = uuidL.bytes.usePinned {
             NSUUID(it.addressOf(0).reinterpret()).UUIDString
