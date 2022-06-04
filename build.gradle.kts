@@ -111,6 +111,8 @@ kotlin {
             val watchosArm32Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
             val watchosArm64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
             val watchosArm64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
+            val watchosX64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
+            val watchosX64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
             val watchosX86Main by getting { kotlin.srcDirs(appleMain32SourceDirs) }
             val watchosX86Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
             val watchosSimulatorArm64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
