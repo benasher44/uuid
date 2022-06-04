@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.4.1] - 2022-06-04
+### Changed
+- Add `watchosX64` target (#123)
+- Upgrade to Kotlin 1.6.21 (#125)
+
 ## [0.4.0] - 2022-01-13
 ### Changed
 - Upgrade to Kotlin 1.6.10 (#122)
