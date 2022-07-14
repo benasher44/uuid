@@ -1,7 +1,8 @@
+import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompileTool
 import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
-    kotlin("multiplatform") version "1.6.21"
+    kotlin("multiplatform") version "1.7.10"
     id("org.jetbrains.dokka") version "0.9.18"
     id("maven-publish")
     id("signing")
@@ -209,9 +210,17 @@ val generateProjDirValTask = tasks.register("generateProjectDirectoryVal") {
 kotlin.sourceSets.named("commonTest") {
     this.kotlin.srcDir(projectDirGenRoot)
 }
+
 // Ensure this runs before any test compile task
 tasks.withType<AbstractCompile>().configureEach {
     if (name.toLowerCase().contains("test")) {
         dependsOn(generateProjDirValTask)
     }
 }
+
+tasks.withType<AbstractKotlinCompileTool<*>>().configureEach {
+    if (name.toLowerCase().contains("test")) {
+        dependsOn(generateProjDirValTask)
+    }
+}
+
