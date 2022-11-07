@@ -18,21 +18,21 @@ tasks.dokka {
 
 kotlin {
     targets {
-        if (HostManager.hostIsMac) {
-            jvm {
-                // Intentionally left blank.
-            }
-            js {
-                compilations.all {
-                    kotlinOptions {
-                        sourceMap = true
-                        moduleKind = "umd"
-                        metaInfo = true
-                    }
+        js(BOTH) {
+            compilations.all {
+                kotlinOptions {
+                    sourceMap = true
+                    moduleKind = "umd"
+                    metaInfo = true
                 }
-                browser()
-                nodejs()
             }
+            browser()
+            nodejs()
+        }
+        jvm {
+            // Intentionally left blank.
+        }
+        if (HostManager.hostIsMac) {
             macosX64()
             macosArm64()
             iosX64()
