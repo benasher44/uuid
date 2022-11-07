@@ -77,52 +77,55 @@ kotlin {
         val nix64Test by creating { dependsOn(nativeTest) }
         val nix32Main by creating { dependsOn(nativeMain) }
         val nix32Test by creating { dependsOn(nativeTest) }
-        val appleMain by creating { dependsOn(nativeMain) }
-        val appleTest by creating { dependsOn(nativeTest) }
-        val apple64Main by creating {
-            dependsOn(appleMain)
-            dependsOn(nix64Main)
+
+        if (HostManager.hostIsMac) {
+            val appleMain by creating { dependsOn(nativeMain) }
+            val appleTest by creating { dependsOn(nativeTest) }
+            val apple64Main by creating {
+                dependsOn(appleMain)
+                dependsOn(nix64Main)
+            }
+            val apple64Test by creating {
+                dependsOn(appleTest)
+                dependsOn(nix64Test)
+            }
+            val apple32Main by creating {
+                dependsOn(appleMain)
+                dependsOn(nix32Main)
+            }
+            val apple32Test by creating {
+                dependsOn(appleTest)
+                dependsOn(nix32Test)
+            }
+            val iosX64Main by getting { dependsOn(apple64Main) }
+            val iosX64Test by getting { dependsOn(apple64Test) }
+            val iosArm64Main by getting { dependsOn(apple64Main) }
+            val iosArm64Test by getting { dependsOn(apple64Test) }
+            val macosX64Main by getting { dependsOn(apple64Main) }
+            val macosX64Test by getting { dependsOn(apple64Test) }
+            val macosArm64Main by getting { dependsOn(apple64Main) }
+            val macosArm64Test by getting { dependsOn(apple64Test) }
+            val iosArm32Main by getting { dependsOn(apple32Main) }
+            val iosArm32Test by getting { dependsOn(apple32Test) }
+            val iosSimulatorArm64Main by getting { dependsOn(apple64Main) }
+            val iosSimulatorArm64Test by getting { dependsOn(apple64Test) }
+            val watchosArm32Main by getting { dependsOn(apple32Main) }
+            val watchosArm32Test by getting { dependsOn(apple32Test) }
+            val watchosArm64Main by getting { dependsOn(apple64Main) }
+            val watchosArm64Test by getting { dependsOn(apple64Test) }
+            val watchosX64Main by getting { dependsOn(apple64Main) }
+            val watchosX64Test by getting { dependsOn(apple64Test) }
+            val watchosX86Main by getting { dependsOn(apple32Main) }
+            val watchosX86Test by getting { dependsOn(apple32Test) }
+            val watchosSimulatorArm64Main by getting { dependsOn(apple64Main) }
+            val watchosSimulatorArm64Test by getting { dependsOn(apple64Test) }
+            val tvosArm64Main by getting { dependsOn(apple64Main) }
+            val tvosArm64Test by getting { dependsOn(apple64Test) }
+            val tvosX64Main by getting { dependsOn(apple64Main) }
+            val tvosX64Test by getting { dependsOn(apple64Test) }
+            val tvosSimulatorArm64Main by getting { dependsOn(apple64Main) }
+            val tvosSimulatorArm64Test by getting { dependsOn(apple64Test) }
         }
-        val apple64Test by creating {
-            dependsOn(appleTest)
-            dependsOn(nix64Test)
-        }
-        val apple32Main by creating {
-            dependsOn(appleMain)
-            dependsOn(nix32Main)
-        }
-        val apple32Test by creating {
-            dependsOn(appleTest)
-            dependsOn(nix32Test)
-        }
-        val iosX64Main by getting { dependsOn(apple64Main) }
-        val iosX64Test by getting { dependsOn(apple64Test) }
-        val iosArm64Main by getting { dependsOn(apple64Main) }
-        val iosArm64Test by getting { dependsOn(apple64Test) }
-        val macosX64Main by getting { dependsOn(apple64Main) }
-        val macosX64Test by getting { dependsOn(apple64Test) }
-        val macosArm64Main by getting { dependsOn(apple64Main) }
-        val macosArm64Test by getting { dependsOn(apple64Test) }
-        val iosArm32Main by getting { dependsOn(apple32Main) }
-        val iosArm32Test by getting { dependsOn(apple32Test) }
-        val iosSimulatorArm64Main by getting { dependsOn(apple64Main) }
-        val iosSimulatorArm64Test by getting { dependsOn(apple64Test) }
-        val watchosArm32Main by getting { dependsOn(apple32Main) }
-        val watchosArm32Test by getting { dependsOn(apple32Test) }
-        val watchosArm64Main by getting { dependsOn(apple64Main) }
-        val watchosArm64Test by getting { dependsOn(apple64Test) }
-        val watchosX64Main by getting { dependsOn(apple64Main) }
-        val watchosX64Test by getting { dependsOn(apple64Test) }
-        val watchosX86Main by getting { dependsOn(apple32Main) }
-        val watchosX86Test by getting { dependsOn(apple32Test) }
-        val watchosSimulatorArm64Main by getting { dependsOn(apple64Main) }
-        val watchosSimulatorArm64Test by getting { dependsOn(apple64Test) }
-        val tvosArm64Main by getting { dependsOn(apple64Main) }
-        val tvosArm64Test by getting { dependsOn(apple64Test) }
-        val tvosX64Main by getting { dependsOn(apple64Main) }
-        val tvosX64Test by getting { dependsOn(apple64Test) }
-        val tvosSimulatorArm64Main by getting { dependsOn(apple64Main) }
-        val tvosSimulatorArm64Test by getting { dependsOn(apple64Test) }
 
         if (HostManager.hostIsMingw || HostManager.hostIsMac) {
             val mingwMain by creating { dependsOn(nativeMain) }
