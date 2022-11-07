@@ -18,40 +18,47 @@ tasks.dokka {
 
 kotlin {
     targets {
-        jvm {
-            // Intentionally left blank.
-        }
-        js(BOTH) {
-            compilations.all {
-                kotlinOptions {
-                    sourceMap = true
-                    moduleKind = "umd"
-                    metaInfo = true
-                }
+        if (HostManager.hostIsMac) {
+            jvm {
+                // Intentionally left blank.
             }
-            browser()
-            nodejs()
+            js(BOTH) {
+                compilations.all {
+                    kotlinOptions {
+                        sourceMap = true
+                        moduleKind = "umd"
+                        metaInfo = true
+                    }
+                }
+                browser()
+                nodejs()
+            }
+            macosX64()
+            macosArm64()
+            iosX64()
+            iosArm64()
+            iosArm32()
+            iosSimulatorArm64()
+            watchosArm32()
+            watchosArm64()
+            watchosX86()
+            watchosX64()
+            watchosSimulatorArm64()
+            tvosArm64()
+            tvosX64()
+            tvosSimulatorArm64()
         }
-        macosX64()
-        macosArm64()
-        iosX64()
-        iosArm64()
-        iosArm32()
-        iosSimulatorArm64()
-        watchosArm32()
-        watchosArm64()
-        watchosX86()
-        watchosX64()
-        watchosSimulatorArm64()
-        tvosArm64()
-        tvosX64()
-        tvosSimulatorArm64()
-        linuxX64()
-        linuxArm32Hfp()
-        mingwX64 {
-            binaries.findTest(DEBUG)!!.linkerOpts = mutableListOf("-Wl,--subsystem,windows")
+        if (HostManager.hostIsMingw || HostManager.hostIsMac) {
+            mingwX64 {
+                binaries.findTest(DEBUG)!!.linkerOpts = mutableListOf("-Wl,--subsystem,windows")
+            }
+        }
+        if (HostManager.hostIsLinux || HostManager.hostIsMac) {
+            linuxX64()
+            linuxArm32Hfp()
         }
     }
+
     sourceSets {
         val commonMain by getting
         val commonTest by getting {
@@ -70,10 +77,6 @@ kotlin {
         val nix64Test by creating { dependsOn(nativeTest) }
         val nix32Main by creating { dependsOn(nativeMain) }
         val nix32Test by creating { dependsOn(nativeTest) }
-        val linuxX64Main by getting { dependsOn(nix64Main) }
-        val linuxX64Test by getting { dependsOn(nix64Test) }
-        val linuxArm32HfpMain by getting { dependsOn(nix32Main) }
-        val linuxArm32HfpTest by getting { dependsOn(nix32Test) }
         val appleMain by creating { dependsOn(nativeMain) }
         val appleTest by creating { dependsOn(nativeTest) }
         val apple64Main by creating {
@@ -121,10 +124,19 @@ kotlin {
         val tvosSimulatorArm64Main by getting { dependsOn(apple64Main) }
         val tvosSimulatorArm64Test by getting { dependsOn(apple64Test) }
 
-        val mingwMain by creating { dependsOn(nativeMain) }
-        val mingwTest by creating { dependsOn(nativeTest) }
-        val mingwX64Main by getting { dependsOn(mingwMain) }
-        val mingwX64Test by getting { dependsOn(mingwTest) }
+        if (HostManager.hostIsMingw || HostManager.hostIsMac) {
+            val mingwMain by creating { dependsOn(nativeMain) }
+            val mingwTest by creating { dependsOn(nativeTest) }
+            val mingwX64Main by getting { dependsOn(mingwMain) }
+            val mingwX64Test by getting { dependsOn(mingwTest) }
+        }
+
+        if (HostManager.hostIsLinux || HostManager.hostIsMac) {
+            val linuxX64Main by getting { dependsOn(nix64Main) }
+            val linuxX64Test by getting { dependsOn(nix64Test) }
+            val linuxArm32HfpMain by getting { dependsOn(nix32Main) }
+            val linuxArm32HfpTest by getting { dependsOn(nix32Test) }
+        }
     }
 }
 
