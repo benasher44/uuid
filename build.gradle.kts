@@ -18,131 +18,113 @@ tasks.dokka {
 
 kotlin {
     targets {
-        if (HostManager.hostIsMac) {
-            jvm {
-                // Intentionally left blank.
-            }
-            js(BOTH) {
-                compilations.all {
-                    kotlinOptions {
-                        sourceMap = true
-                        moduleKind = "umd"
-                        metaInfo = true
-                    }
+        jvm {
+            // Intentionally left blank.
+        }
+        js(BOTH) {
+            compilations.all {
+                kotlinOptions {
+                    sourceMap = true
+                    moduleKind = "umd"
+                    metaInfo = true
                 }
-                browser()
-                nodejs()
             }
-            macosX64()
-            macosArm64()
-            iosX64()
-            iosArm64()
-            iosArm32()
-            iosSimulatorArm64()
-            watchosArm32()
-            watchosArm64()
-            watchosX86()
-            watchosX64()
-            watchosSimulatorArm64()
-            tvosArm64()
-            tvosX64()
-            tvosSimulatorArm64()
+            browser()
+            nodejs()
         }
-        if (HostManager.hostIsMingw || HostManager.hostIsMac) {
-            mingwX64 {
-                binaries.findTest(DEBUG)!!.linkerOpts = mutableListOf("-Wl,--subsystem,windows")
-            }
-        }
-        if (HostManager.hostIsLinux || HostManager.hostIsMac) {
-            linuxX64()
-            linuxArm32Hfp()
+        macosX64()
+        macosArm64()
+        iosX64()
+        iosArm64()
+        iosArm32()
+        iosSimulatorArm64()
+        watchosArm32()
+        watchosArm64()
+        watchosX86()
+        watchosX64()
+        watchosSimulatorArm64()
+        tvosArm64()
+        tvosX64()
+        tvosSimulatorArm64()
+        linuxX64()
+        linuxArm32Hfp()
+        mingwX64 {
+            binaries.findTest(DEBUG)!!.linkerOpts = mutableListOf("-Wl,--subsystem,windows")
         }
     }
     sourceSets {
-        commonMain {
-            dependencies {
-                // can remove this once https://youtrack.jetbrains.com/issue/KT-40333 is fixed
-                implementation(kotlin("stdlib-common"))
-            }
-        }
-        commonTest {
+        val commonMain by getting
+        val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
             }
         }
 
-        val nix64MainSourceDirs = listOf(
-            "src/nonJvmMain/kotlin",
-            "src/nativeMain/kotlin",
-            "src/nix64Main/kotlin"
-        )
-
-        val nix32MainSourceDirs = listOf(
-            "src/nonJvmMain/kotlin",
-            "src/nativeMain/kotlin",
-            "src/nix32Main/kotlin"
-        )
-
-        if (HostManager.hostIsMac) {
-            val jsMain by getting {
-                kotlin.srcDir("src/nonJvmMain/kotlin")
-            }
-
-            val appleMain32SourceDirs = listOf(
-                "src/appleMain/kotlin"
-            ) + nix32MainSourceDirs
-
-            val appleMain64SourceDirs = listOf(
-                "src/appleMain/kotlin"
-            ) + nix64MainSourceDirs
-
-            val macosX64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
-            val macosX64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
-            val macosArm64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
-            val macosArm64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
-            val iosArm64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
-            val iosArm64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
-            val iosArm32Main by getting { kotlin.srcDirs(appleMain32SourceDirs) }
-            val iosArm32Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
-            val iosX64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
-            val iosX64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
-            val iosSimulatorArm64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
-            val iosSimulatorArm64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
-            val watchosArm32Main by getting { kotlin.srcDirs(appleMain32SourceDirs) }
-            val watchosArm32Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
-            val watchosArm64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
-            val watchosArm64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
-            val watchosX64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
-            val watchosX64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
-            val watchosX86Main by getting { kotlin.srcDirs(appleMain32SourceDirs) }
-            val watchosX86Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
-            val watchosSimulatorArm64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
-            val watchosSimulatorArm64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
-            val tvosArm64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
-            val tvosArm64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
-            val tvosX64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
-            val tvosX64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
-            val tvosSimulatorArm64Main by getting { kotlin.srcDirs(appleMain64SourceDirs) }
-            val tvosSimulatorArm64Test by getting { kotlin.srcDir("src/appleTest/kotlin") }
+        val nonJvmMain by creating { dependsOn(commonMain) }
+        val nonJvmTest by creating { dependsOn(commonTest) }
+        val jsMain by getting { dependsOn(nonJvmMain) }
+        val jsTest by getting { dependsOn(nonJvmTest) }
+        val nativeMain by creating { dependsOn(nonJvmMain) }
+        val nativeTest by creating { dependsOn(nonJvmTest) }
+        val nix64Main by creating { dependsOn(nativeMain) }
+        val nix64Test by creating { dependsOn(nativeTest) }
+        val nix32Main by creating { dependsOn(nativeMain) }
+        val nix32Test by creating { dependsOn(nativeTest) }
+        val linuxX64Main by getting { dependsOn(nix64Main) }
+        val linuxX64Test by getting { dependsOn(nix64Test) }
+        val linuxArm32HfpMain by getting { dependsOn(nix32Main) }
+        val linuxArm32HfpTest by getting { dependsOn(nix32Test) }
+        val appleMain by creating { dependsOn(nativeMain) }
+        val appleTest by creating { dependsOn(nativeTest) }
+        val apple64Main by creating {
+            dependsOn(appleMain)
+            dependsOn(nix64Main)
         }
-        if (HostManager.hostIsMingw || HostManager.hostIsMac) {
-            val mingwX64Main by getting {
-                kotlin.srcDirs(
-                    listOf(
-                        "src/nonJvmMain/kotlin",
-                        "src/nativeMain/kotlin",
-                        "src/mingwMain/kotlin"
-                    )
-                )
-            }
-            val mingwX64Test by getting {
-                kotlin.srcDir("src/mingwTest/kotlin")
-            }
+        val apple64Test by creating {
+            dependsOn(appleTest)
+            dependsOn(nix64Test)
         }
-        if (HostManager.hostIsLinux || HostManager.hostIsMac) {
-            val linuxX64Main by getting { kotlin.srcDirs(nix64MainSourceDirs) }
-            val linuxArm32HfpMain by getting { kotlin.srcDirs(nix32MainSourceDirs) }
+        val apple32Main by creating {
+            dependsOn(appleMain)
+            dependsOn(nix32Main)
         }
+        val apple32Test by creating {
+            dependsOn(appleTest)
+            dependsOn(nix32Test)
+        }
+        val iosX64Main by getting { dependsOn(apple64Main) }
+        val iosX64Test by getting { dependsOn(apple64Test) }
+        val iosArm64Main by getting { dependsOn(apple64Main) }
+        val iosArm64Test by getting { dependsOn(apple64Test) }
+        val macosX64Main by getting { dependsOn(apple64Main) }
+        val macosX64Test by getting { dependsOn(apple64Test) }
+        val macosArm64Main by getting { dependsOn(apple64Main) }
+        val macosArm64Test by getting { dependsOn(apple64Test) }
+        val iosArm32Main by getting { dependsOn(apple32Main) }
+        val iosArm32Test by getting { dependsOn(apple32Test) }
+        val iosSimulatorArm64Main by getting { dependsOn(apple64Main) }
+        val iosSimulatorArm64Test by getting { dependsOn(apple64Test) }
+        val watchosArm32Main by getting { dependsOn(apple32Main) }
+        val watchosArm32Test by getting { dependsOn(apple32Test) }
+        val watchosArm64Main by getting { dependsOn(apple64Main) }
+        val watchosArm64Test by getting { dependsOn(apple64Test) }
+        val watchosX64Main by getting { dependsOn(apple64Main) }
+        val watchosX64Test by getting { dependsOn(apple64Test) }
+        val watchosX86Main by getting { dependsOn(apple32Main) }
+        val watchosX86Test by getting { dependsOn(apple32Test) }
+        val watchosSimulatorArm64Main by getting { dependsOn(apple64Main) }
+        val watchosSimulatorArm64Test by getting { dependsOn(apple64Test) }
+        val tvosArm64Main by getting { dependsOn(apple64Main) }
+        val tvosArm64Test by getting { dependsOn(apple64Test) }
+        val tvosX64Main by getting { dependsOn(apple64Main) }
+        val tvosX64Test by getting { dependsOn(apple64Test) }
+        val tvosSimulatorArm64Main by getting { dependsOn(apple64Main) }
+        val tvosSimulatorArm64Test by getting { dependsOn(apple64Test) }
+
+        val mingwMain by creating { dependsOn(nativeMain) }
+        val mingwTest by creating { dependsOn(nativeTest) }
+        val mingwX64Main by getting { dependsOn(mingwMain) }
+        val mingwX64Test by getting { dependsOn(mingwTest) }
     }
 }
 
