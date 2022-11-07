@@ -22,7 +22,7 @@ kotlin {
             jvm {
                 // Intentionally left blank.
             }
-            js(BOTH) {
+            js(IR) {
                 compilations.all {
                     kotlinOptions {
                         sourceMap = true
