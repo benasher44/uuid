@@ -5,9 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
-## [0.6.0] - 2022-11-07
+## [0.6.0] - 2022-11-08
 ### Changed
 - Rework source sets to form a rich hierarchy (#130)
+- Upgrade to Kotlin 1.7.20 (#131)
 
 ## [0.5.0] - 2022-07-13
 ### Changed
