@@ -55,6 +55,7 @@ kotlin {
         }
         if (HostManager.hostIsLinux || HostManager.hostIsMac) {
             linuxX64()
+            linuxArm64()
             linuxArm32Hfp()
         }
     }
@@ -137,6 +138,8 @@ kotlin {
         if (HostManager.hostIsLinux || HostManager.hostIsMac) {
             val linuxX64Main by getting { dependsOn(nix64Main) }
             val linuxX64Test by getting { dependsOn(nix64Test) }
+            val linuxArm64Main by getting { dependsOn(nix64Main) }
+            val linuxArm64Test by getting { dependsOn(nix64Test) }
             val linuxArm32HfpMain by getting { dependsOn(nix32Main) }
             val linuxArm32HfpTest by getting { dependsOn(nix32Test) }
         }
