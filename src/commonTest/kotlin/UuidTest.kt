@@ -1,5 +1,6 @@
 package com.benasher44.uuid
 
+import kotlinx.serialization.json.Json
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
@@ -170,5 +171,13 @@ class UuidTest {
         assertEquals(0, Uuid(1, 0).compareTo(Uuid(1, 0)))
         assertEquals(1, Uuid(1, 0).compareTo(Uuid(0, 0)))
         assertEquals(1, Uuid(0, 1).compareTo(Uuid(0, 0)))
+    }
+
+    @Test
+    fun test_serialization() {
+        val original = uuidFrom("cd4b25f2-9575-4340-844e-f2de6901713b")
+        val encoded = Json.encodeToString(Uuid.serializer(), original)
+        val decoded = Json.decodeFromString(Uuid.serializer(), encoded)
+        assertEquals(original, decoded)
     }
 }
