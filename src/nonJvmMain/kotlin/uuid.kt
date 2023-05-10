@@ -2,6 +2,8 @@
 
 package com.benasher44.uuid
 
+import kotlinx.serialization.Serializable
+
 /**
  * A RFC4122 UUID
  *
@@ -9,6 +11,7 @@ package com.benasher44.uuid
  * @constructor Constructs a new UUID from the given ByteArray
  * @throws IllegalArgumentException, if uuid.count() is not 16
  */
+@Serializable(with = UuidSerializer::class)
 public actual class Uuid @Deprecated("Use `uuidOf` instead.", ReplaceWith("uuidOf(uuid)")) constructor(internal val uuidBytes: ByteArray) : Comparable<Uuid> {
 
     @Suppress("DEPRECATION")
@@ -27,7 +30,7 @@ public actual class Uuid @Deprecated("Use `uuidOf` instead.", ReplaceWith("uuidO
         this.freeze()
     }
 
-    private companion object {
+    public companion object {
         private fun ByteArray.bits(start: Int, end: Int): Long {
             var b = 0L
             var i = start

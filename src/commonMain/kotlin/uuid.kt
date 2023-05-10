@@ -3,6 +3,7 @@
 
 package com.benasher44.uuid
 
+import kotlinx.serialization.Serializable
 import kotlin.experimental.and
 import kotlin.experimental.or
 import kotlin.native.concurrent.SharedImmutable
@@ -35,6 +36,7 @@ internal val UUID_CHARS = ('0'..'9') + ('a'..'f')
  * A RFC4122 UUID
  */
 // @SinceKotlin("1.x")
+@Serializable(with = UuidSerializer::class)
 public expect class Uuid : Comparable<Uuid> {
 
     /**

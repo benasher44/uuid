@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
     kotlin("multiplatform") version "1.8.10"
+    kotlin("plugin.serialization") version "1.8.10"
     id("org.jetbrains.dokka") version "0.9.18"
     id("maven-publish")
     id("signing")
@@ -61,7 +62,11 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
