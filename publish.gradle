@@ -159,6 +159,7 @@ tasks.register('publishMac') {
     dependsOn 'publishWatchosArm32PublicationToMavenRepository'
     dependsOn 'publishWatchosArm64PublicationToMavenRepository'
     dependsOn 'publishWatchosSimulatorArm64PublicationToMavenRepository'
+    dependsOn 'publishWatchosDeviceArm64PublicationToMavenRepository'
     dependsOn 'publishWatchosX64PublicationToMavenRepository'
     dependsOn 'publishWatchosX86PublicationToMavenRepository'
     dependsOn 'publishMacosArm64PublicationToMavenRepository'
