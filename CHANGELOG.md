@@ -5,9 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [0.7.1] - 2023-06-01
 ### Changed
-- Add `watchosDeviceArm64` target (#137)
+- Add support for watchosDeviceArm64 (#137)
+- Upgrade Kotlin to 1.8.21 (#139)
 
 ## [0.7.0] - 2023-02-25
 ### Changed
