@@ -1,8 +1,9 @@
 import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompileTool
+import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
 import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
-    kotlin("multiplatform") version "1.8.21"
+    kotlin("multiplatform") version "1.9.0"
     id("org.jetbrains.dokka") version "0.9.18"
     id("maven-publish")
     id("signing")
@@ -18,7 +19,7 @@ tasks.dokka {
 
 kotlin {
     targets {
-        js(BOTH) {
+        js(IR) {
             compilations.all {
                 kotlinOptions {
                     sourceMap = true
@@ -31,6 +32,9 @@ kotlin {
         }
         jvm {
             // Intentionally left blank.
+        }
+        wasm {
+            d8()
         }
         if (HostManager.hostIsMac) {
             macosX64()
@@ -72,6 +76,7 @@ kotlin {
         val nonJvmMain by creating { dependsOn(commonMain) }
         val nonJvmTest by creating { dependsOn(commonTest) }
         val jsMain by getting { dependsOn(nonJvmMain) }
+        val wasmMain by getting { dependsOn(nonJvmMain) }
         val jsTest by getting { dependsOn(nonJvmTest) }
         val nativeMain by creating { dependsOn(nonJvmMain) }
         val nativeTest by creating { dependsOn(nonJvmTest) }
@@ -157,6 +162,10 @@ kotlin {
             kotlinOptions.allWarningsAsErrors = HostManager.hostIsMac
         }
     }
+}
+
+tasks.withType<KotlinNativeCompile>().configureEach {
+    compilerOptions.freeCompilerArgs.add("-opt-in=kotlinx.cinterop.ExperimentalForeignApi")
 }
 
 val ktlintConfig by configurations.creating

@@ -1,3 +1,4 @@
+
 package com.benasher44.uuid
 
 import kotlinx.cinterop.ByteVar
