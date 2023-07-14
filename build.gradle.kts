@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
     kotlin("multiplatform") version "1.9.0"
-    id("org.jetbrains.dokka") version "0.9.18"
+    id("org.jetbrains.dokka") version "1.8.20"
     id("maven-publish")
     id("signing")
 }
@@ -13,8 +13,12 @@ repositories {
     mavenCentral()
 }
 
-tasks.dokka {
-    samples = listOf("src/commonTest/kotlin")
+tasks.dokkaHtml {
+    dokkaSourceSets {
+        configureEach {
+            samples.from("src/commonTest/kotlin")
+        }
+    }
 }
 
 kotlin {
@@ -178,7 +182,7 @@ val ktlint by tasks.registering(JavaExec::class) {
     group = "verification"
     description = "Check Kotlin code style."
     classpath = ktlintConfig
-    main = "com.pinterest.ktlint.Main"
+    mainClass.set("com.pinterest.ktlint.Main")
     args = listOf("src/**/*.kt")
 }
 
@@ -186,7 +190,7 @@ val ktlintformat by tasks.registering(JavaExec::class) {
     group = "formatting"
     description = "Fix Kotlin code style deviations."
     classpath = ktlintConfig
-    main = "com.pinterest.ktlint.Main"
+    mainClass.set("com.pinterest.ktlint.Main")
     args = listOf("-F", "src/**/*.kt", "*.kts")
 }
 

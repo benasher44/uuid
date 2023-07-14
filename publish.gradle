@@ -1,65 +1,6 @@
 group GROUP
 version VERSION
 
-dokka {
-  impliedPlatforms = ['Common'] // This will force platform tags for all non-common sources e.g. 'JVM'
-  kotlinTasks {
-    // dokka fails to retrieve sources from MPP-tasks so they must be set empty to avoid exception
-    // use sourceRoot instead (see below)
-    []
-  }
-  packageOptions {
-    prefix = GROUP
-  }
-  sourceRoot {
-    // assuming there is only a single source dir...
-    path = kotlin.sourceSets.commonMain.kotlin.srcDirs[0]
-    platforms = ['Common']
-  }
-  if (kotlin.sourceSets.getNames().contains('jvmMain')) {
-    sourceRoot {
-      // assuming there is only a single source dir...
-      path = kotlin.sourceSets.jvmMain.kotlin.srcDirs[0]
-      platforms = ['JVM']
-    }
-  }
-  if (kotlin.sourceSets.getNames().contains('jsMain')) {
-    sourceRoot {
-      // assuming there is only a single source dir...
-      path = kotlin.sourceSets.jsMain.kotlin.srcDirs[0]
-      platforms = ['js']
-    }
-  }
-  if (kotlin.sourceSets.getNames().contains('nativeMain')) {
-    sourceRoot {
-      // assuming there is only a single source dir...
-      path = kotlin.sourceSets.nativeMain.kotlin.srcDirs[0]
-      platforms = ['native']
-    }
-  }
-  if (kotlin.sourceSets.getNames().contains('nix32Main')) {
-    sourceRoot {
-      // assuming there is only a single source dir...
-      path = kotlin.sourceSets.nix32Main.kotlin.srcDirs[0]
-      platforms = ['native']
-    }
-  }
-  if (kotlin.sourceSets.getNames().contains('nix64Main')) {
-    sourceRoot {
-      // assuming there is only a single source dir...
-      path = kotlin.sourceSets.nix64Main.kotlin.srcDirs[0]
-      platforms = ['native']
-    }
-  }
-  if (kotlin.sourceSets.getNames().contains('mingwMain')) {
-    sourceRoot {
-      // assuming there is only a single source dir...
-      path = kotlin.sourceSets.mingwMain.kotlin.srcDirs[0]
-      platforms = ['native']
-    }
-  }
-}
-
 def isReleaseBuild() {
   return VERSION.contains('SNAPSHOT') == false
 }
@@ -82,9 +23,9 @@ def getRepositoryPassword() {
   return System.getenv('SONATYPE_PASSWORD') ?: ''
 }
 
-task javadocsJar(type: Jar, dependsOn: dokka) {
-  classifier = 'javadoc'
-  from dokka.outputDirectory
+task javadocsJar(type: Jar, dependsOn: dokkaHtml) {
+  archiveClassifier = 'javadoc'
+  from dokkaHtml.outputDirectory
 }
 
 publishing {
