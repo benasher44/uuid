@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompileTool
 import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
@@ -236,3 +237,8 @@ tasks.withType<AbstractKotlinCompileTool<*>>().configureEach {
     }
 }
 
+tasks.withType<KotlinJvmCompile>().configureEach {
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+}
