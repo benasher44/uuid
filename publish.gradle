@@ -142,10 +142,8 @@ signing {
     sign(publishing.publications)
 }
 
-
-
 tasks.withType(Sign) {
-    onlyIf { isReleaseBuild() }
+    onlyIf { isReleaseBuild() && (System.getenv("SIGNING_KEYID") != null) }
 }
 
 tasks.register('publishMac') {
