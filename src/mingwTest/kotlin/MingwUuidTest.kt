@@ -3,6 +3,7 @@ package com.benasher44.uuid
 import kotlinx.cinterop.UIntVar
 import kotlinx.cinterop.addressOf
 import kotlinx.cinterop.alloc
+import kotlinx.cinterop.convert
 import kotlinx.cinterop.memScoped
 import kotlinx.cinterop.ptr
 import kotlinx.cinterop.usePinned
@@ -56,8 +57,8 @@ private fun enumerateData(path: String, enumerationLambda: (namespace: Uuid, nam
 
 private fun loadString(path: String): String {
     val handle = CreateFileW(
-        path, GENERIC_READ, FILE_SHARE_READ, null,
-        OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, null
+        path, GENERIC_READ, FILE_SHARE_READ.convert(), null,
+        OPEN_EXISTING.convert(), FILE_ATTRIBUTE_NORMAL.convert(), null
     )
     check(handle != INVALID_HANDLE_VALUE) { "Error: ${GetLastError()}" }
 
