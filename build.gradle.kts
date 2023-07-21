@@ -31,7 +31,11 @@ kotlin {
             nodejs()
         }
         jvm {
-            // Intentionally left blank.
+            compilations.all {
+                kotlinOptions {
+                    jvmTarget = "1.8"
+                }
+            }
         }
         wasm {
             d8()
@@ -235,4 +239,3 @@ tasks.withType<AbstractKotlinCompileTool<*>>().configureEach {
         dependsOn(generateProjDirValTask)
     }
 }
-
