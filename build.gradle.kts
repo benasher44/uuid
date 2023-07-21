@@ -1,6 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.AbstractKotlinCompileTool
 import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
-import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
 import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
@@ -31,7 +30,13 @@ kotlin {
             browser()
             nodejs()
         }
-        jvm()
+        jvm {
+            compilations.all {
+                kotlinOptions {
+                    jvmTarget = "1.8"
+                }
+            }
+        }
         wasm {
             d8()
         }
@@ -232,11 +237,5 @@ tasks.withType<AbstractCompile>().configureEach {
 tasks.withType<AbstractKotlinCompileTool<*>>().configureEach {
     if (name.toLowerCase().contains("test")) {
         dependsOn(generateProjDirValTask)
-    }
-}
-
-tasks.withType<KotlinJvmCompile>().configureEach {
-    kotlinOptions {
-        jvmTarget = "1.8"
     }
 }
