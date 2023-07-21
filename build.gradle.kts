@@ -31,9 +31,7 @@ kotlin {
             browser()
             nodejs()
         }
-        jvm {
-            // Intentionally left blank.
-        }
+        jvm()
         wasm {
             d8()
         }
