@@ -52,7 +52,7 @@ class UuidTest {
     fun parsing_throws_when_passed_invalid_length_of_string() {
         assertFailsWith<IllegalArgumentException>(
             message = "Uuid string has invalid length: c480d6ab-cb0c-427b-a9a6",
-            block = { uuidFrom("c480d6ab-cb0c-427b-a9a6") }
+            block = { uuidFrom("c480d6ab-cb0c-427b-a9a6") },
         )
     }
 
@@ -60,7 +60,7 @@ class UuidTest {
     fun parsing_throws_when_passed_invalid_format_of_string() {
         assertFailsWith<IllegalArgumentException>(
             message = "Uuid string has invalid format: c480d6abcb0c427ba9a619c5f8a146bd",
-            block = { uuidFrom("c480d6abcb0c427ba9a619c5f8a146bd") }
+            block = { uuidFrom("c480d6abcb0c427ba9a619c5f8a146bd") },
         )
     }
 
@@ -68,7 +68,7 @@ class UuidTest {
     fun parsing_throws_when_passed_invalid_characters_in_string() {
         assertFailsWith<IllegalArgumentException>(
             message = "Uuid string has invalid characters ghijklmn-opqr-stuv-wxyz-GHIJKLMNOPQR",
-            block = { uuidFrom("ghijklmn-opqr-stuv-wxyz-GHIJKLMNOPQR") }
+            block = { uuidFrom("ghijklmn-opqr-stuv-wxyz-GHIJKLMNOPQR") },
         )
     }
 

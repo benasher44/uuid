@@ -88,7 +88,6 @@ tasks.withType(Sign) {
 }
 
 tasks.register('publishMac') {
-    dependsOn 'publishIosArm32PublicationToMavenRepository'
     dependsOn 'publishIosArm64PublicationToMavenRepository'
     dependsOn 'publishIosSimulatorArm64PublicationToMavenRepository'
     dependsOn 'publishIosX64PublicationToMavenRepository'
@@ -100,12 +99,12 @@ tasks.register('publishMac') {
     dependsOn 'publishWatchosSimulatorArm64PublicationToMavenRepository'
     dependsOn 'publishWatchosDeviceArm64PublicationToMavenRepository'
     dependsOn 'publishWatchosX64PublicationToMavenRepository'
-    dependsOn 'publishWatchosX86PublicationToMavenRepository'
     dependsOn 'publishMacosArm64PublicationToMavenRepository'
     dependsOn 'publishMacosX64PublicationToMavenRepository'
     dependsOn 'publishJvmPublicationToMavenRepository'
     dependsOn 'publishJsPublicationToMavenRepository'
     dependsOn 'publishKotlinMultiplatformPublicationToMavenRepository'
+    dependsOn 'publishWasmPublicationToMavenRepository'
 }
 
 tasks.register('publishWindows') {
@@ -115,5 +114,4 @@ tasks.register('publishWindows') {
 tasks.register('publishLinux') {
     dependsOn 'publishLinuxX64PublicationToMavenRepository'
     dependsOn 'publishLinuxArm64PublicationToMavenRepository'
-    dependsOn 'publishLinuxArm32HfpPublicationToMavenRepository'
 }

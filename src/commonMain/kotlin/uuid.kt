@@ -20,7 +20,7 @@ internal val UUID_CHAR_RANGES: List<IntRange> = listOf(
     9 until 13,
     14 until 18,
     19 until 23,
-    24 until 36
+    24 until 36,
 )
 
 // Indices of the hyphen characters in a UUID string

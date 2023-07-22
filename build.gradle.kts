@@ -49,11 +49,9 @@ kotlin {
             macosArm64()
             iosX64()
             iosArm64()
-            iosArm32()
             iosSimulatorArm64()
             watchosArm32()
             watchosArm64()
-            watchosX86()
             watchosX64()
             watchosSimulatorArm64()
             watchosDeviceArm64()
@@ -69,7 +67,6 @@ kotlin {
         if (HostManager.hostIsLinux || HostManager.hostIsMac) {
             linuxX64()
             linuxArm64()
-            linuxArm32Hfp()
         }
     }
 
@@ -120,8 +117,6 @@ kotlin {
             val macosX64Test by getting { dependsOn(apple64Test) }
             val macosArm64Main by getting { dependsOn(apple64Main) }
             val macosArm64Test by getting { dependsOn(apple64Test) }
-            val iosArm32Main by getting { dependsOn(apple32Main) }
-            val iosArm32Test by getting { dependsOn(apple32Test) }
             val iosSimulatorArm64Main by getting { dependsOn(apple64Main) }
             val iosSimulatorArm64Test by getting { dependsOn(apple64Test) }
             val watchosArm32Main by getting { dependsOn(apple32Main) }
@@ -130,8 +125,6 @@ kotlin {
             val watchosArm64Test by getting { dependsOn(apple64Test) }
             val watchosX64Main by getting { dependsOn(apple64Main) }
             val watchosX64Test by getting { dependsOn(apple64Test) }
-            val watchosX86Main by getting { dependsOn(apple32Main) }
-            val watchosX86Test by getting { dependsOn(apple32Test) }
             val watchosSimulatorArm64Main by getting { dependsOn(apple64Main) }
             val watchosSimulatorArm64Test by getting { dependsOn(apple64Test) }
             val watchosDeviceArm64Main by getting { dependsOn(apple64Main) }
@@ -156,20 +149,12 @@ kotlin {
             val linuxX64Test by getting { dependsOn(nix64Test) }
             val linuxArm64Main by getting { dependsOn(nix64Main) }
             val linuxArm64Test by getting { dependsOn(nix64Test) }
-            val linuxArm32HfpMain by getting { dependsOn(nix32Main) }
-            val linuxArm32HfpTest by getting { dependsOn(nix32Test) }
         }
     }
 }
 
 kotlin {
     explicitApi()
-    targets.all {
-        compilations.all {
-            // https://youtrack.jetbrains.com/issue/KT-46257
-            kotlinOptions.allWarningsAsErrors = HostManager.hostIsMac
-        }
-    }
 }
 
 tasks.withType<KotlinNativeCompile>().configureEach {
@@ -179,7 +164,7 @@ tasks.withType<KotlinNativeCompile>().configureEach {
 val ktlintConfig by configurations.creating
 
 dependencies {
-    ktlintConfig("com.pinterest:ktlint:0.42.1")
+    ktlintConfig("com.pinterest:ktlint:0.50.0")
 }
 
 val ktlint by tasks.registering(JavaExec::class) {
@@ -222,7 +207,7 @@ val generateProjDirValTask = tasks.register("generateProjectDirectoryVal") {
             |@SharedImmutable
             |internal const val PROJECT_DIR_ROOT = ""${'"'}${projectDir.absolutePath}""${'"'}
             |
-        """.trimMargin()
+            """.trimMargin(),
         )
     }
 }
@@ -233,13 +218,13 @@ kotlin.sourceSets.named("commonTest") {
 
 // Ensure this runs before any test compile task
 tasks.withType<AbstractCompile>().configureEach {
-    if (name.toLowerCase().contains("test")) {
+    if (name.lowercase().contains("test")) {
         dependsOn(generateProjDirValTask)
     }
 }
 
 tasks.withType<AbstractKotlinCompileTool<*>>().configureEach {
-    if (name.toLowerCase().contains("test")) {
+    if (name.lowercase().contains("test")) {
         dependsOn(generateProjDirValTask)
     }
 }

@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.8.0] - 2023-07-22
+### Changed
+- Bump Kotlin to 1.9.0 and add wasm target (#140)
+- Add kotlin-js-store to source control (#141)
+- Do not try to sign if no signing key is configured (#141)
+- Bump Gradle and Dokka (#143)
+- Compile for Java8 by default (#144)
+- Removed deprecated K/N targets (#145)
+
 ## [0.7.1] - 2023-06-01
 ### Changed
 - Add support for watchosDeviceArm64 (#137)

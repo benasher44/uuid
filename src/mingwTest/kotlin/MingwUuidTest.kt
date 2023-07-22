@@ -57,8 +57,13 @@ private fun enumerateData(path: String, enumerationLambda: (namespace: Uuid, nam
 
 private fun loadString(path: String): String {
     val handle = CreateFileW(
-        path, GENERIC_READ, FILE_SHARE_READ.convert(), null,
-        OPEN_EXISTING.convert(), FILE_ATTRIBUTE_NORMAL.convert(), null
+        path,
+        GENERIC_READ,
+        FILE_SHARE_READ.convert(),
+        null,
+        OPEN_EXISTING.convert(),
+        FILE_ATTRIBUTE_NORMAL.convert(),
+        null,
     )
     check(handle != INVALID_HANDLE_VALUE) { "Error: ${GetLastError()}" }
 
