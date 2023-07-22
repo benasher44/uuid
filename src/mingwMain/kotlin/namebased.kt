@@ -55,7 +55,7 @@ public fun uuid5Of(namespace: Uuid, name: String): Uuid =
 
 private class MingwHasher(
     private val algorithmName: String,
-    override val version: Int
+    override val version: Int,
 ) : UuidHasher {
     private var data = ByteArray(0)
 
@@ -84,7 +84,7 @@ private class MingwHasher(
                     cbHashObj.reinterpret<UCHARVar>().ptr,
                     sizeOf<DWORDVar>().toUInt(),
                     cbData.ptr,
-                    0u
+                    0u,
                 )
                 check(status >= 0) { "BCryptGetProperty for KeyObjectLength failed with code $status" }
 
@@ -99,7 +99,7 @@ private class MingwHasher(
                     cbHash.reinterpret<UCHARVar>().ptr,
                     sizeOf<DWORDVar>().toUInt(),
                     cbData.ptr,
-                    0u
+                    0u,
                 )
                 check(status >= 0) { "BCryptGetProperty for HashDigestLength failed with code $status" }
 

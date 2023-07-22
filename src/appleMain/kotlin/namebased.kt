@@ -39,7 +39,7 @@ public fun uuid5Of(namespace: Uuid, name: String): Uuid =
 
 private class AppleHasher(
     private val digestFunc: (ByteArray) -> ByteArray,
-    override val version: Int
+    override val version: Int,
 ) : UuidHasher {
     private var data = ByteArray(0)
 
