@@ -80,14 +80,15 @@ signing {
     def signingKey = System.getenv("SIGNING_KEY")
     def signingPassword = System.getenv("SIGNING_PASSWORD")
     useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
-}
-
-publishing.publications.configureEach {
-    signing.sign(this)
+    sign(publishing.publications)
 }
 
 tasks.withType(Sign) {
     onlyIf { isReleaseBuild() && (System.getenv("SIGNING_KEYID") != null) }
+}
+
+tasks.withType(AbstractPublishToMaven) {
+    dependsOn(tasks.withType(Sign))
 }
 
 tasks.register('publishMac') {
