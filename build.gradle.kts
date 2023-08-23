@@ -22,9 +22,6 @@ tasks.dokkaHtml {
 }
 
 kotlin {
-    kotlin {
-        coreLibrariesVersion = "1.7.21"
-    }
     targets {
         js(IR) {
             compilations.all {
@@ -76,7 +73,11 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.21")
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
