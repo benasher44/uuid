@@ -22,6 +22,9 @@ tasks.dokkaHtml {
 }
 
 kotlin {
+    kotlin {
+        coreLibrariesVersion = "1.7.21"
+    }
     targets {
         js(IR) {
             compilations.all {
@@ -38,6 +41,8 @@ kotlin {
             compilations.all {
                 kotlinOptions {
                     jvmTarget = "1.8"
+                    apiVersion = "1.7"
+                    languageVersion = "1.7"
                 }
             }
         }
