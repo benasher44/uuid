@@ -38,6 +38,8 @@ kotlin {
             compilations.all {
                 kotlinOptions {
                     jvmTarget = "1.8"
+                    apiVersion = "1.7"
+                    languageVersion = "1.7"
                 }
             }
         }
@@ -71,7 +73,11 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.21")
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
@@ -81,7 +87,12 @@ kotlin {
         val nonJvmMain by creating { dependsOn(commonMain) }
         val nonJvmTest by creating { dependsOn(commonTest) }
         val jsMain by getting { dependsOn(nonJvmMain) }
-        val wasmMain by getting { dependsOn(nonJvmMain) }
+        val wasmMain by getting {
+            dependsOn(nonJvmMain)
+            dependencies {
+                implementation("org.jetbrains.kotlin:kotlin-stdlib-wasm")
+            }
+        }
         val jsTest by getting { dependsOn(nonJvmTest) }
         val nativeMain by creating { dependsOn(nonJvmMain) }
         val nativeTest by creating { dependsOn(nonJvmTest) }
