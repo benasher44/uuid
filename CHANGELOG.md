@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.8.2]
+### Changed
+- Bump kotlin to 1.9.20
+- Rename "wasm" target to "wasmJs" (required by kotlin 1.9.20)
+
 ## [0.8.1] - 2023-08-25
 ### Changed
 - Set apiVersion and languageVersion on the JVM for better compatibility (#147)
