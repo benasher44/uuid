@@ -46,7 +46,9 @@ kotlin {
         wasmJs {
             d8()
         }
-        wasmWasi()
+        wasmWasi {
+            nodejs()
+        }
         if (HostManager.hostIsMac) {
             macosX64()
             macosArm64()
@@ -89,6 +91,7 @@ kotlin {
         val nonJvmTest by creating { dependsOn(commonTest) }
         val jsMain by getting { dependsOn(nonJvmMain) }
         val wasmJsMain by getting { dependsOn(nonJvmMain) }
+        val wasmWasiMain by getting { dependsOn(nonJvmMain) }
         val jsTest by getting { dependsOn(nonJvmTest) }
         val nativeMain by creating { dependsOn(nonJvmMain) }
         val nativeTest by creating { dependsOn(nonJvmTest) }
@@ -166,6 +169,10 @@ kotlin {
 
 tasks.withType<KotlinNativeCompile>().configureEach {
     compilerOptions.freeCompilerArgs.add("-opt-in=kotlinx.cinterop.ExperimentalForeignApi")
+}
+
+plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin> {
+    the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().nodeVersion = "20.11.1"
 }
 
 val ktlintConfig by configurations.creating
