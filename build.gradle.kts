@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
 import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
-    kotlin("multiplatform") version "1.9.20"
+    kotlin("multiplatform") version "1.9.23"
     id("org.jetbrains.dokka") version "1.8.20"
     id("maven-publish")
     id("signing")
@@ -46,6 +46,7 @@ kotlin {
         wasmJs {
             d8()
         }
+        wasmWasi()
         if (HostManager.hostIsMac) {
             macosX64()
             macosArm64()
