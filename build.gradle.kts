@@ -46,9 +46,6 @@ kotlin {
         wasmJs {
             d8()
         }
-        wasmWasi {
-            nodejs()
-        }
         if (HostManager.hostIsMac) {
             macosX64()
             macosArm64()
@@ -69,9 +66,12 @@ kotlin {
                 binaries.findTest(DEBUG)!!.linkerOpts = mutableListOf("-Wl,--subsystem,windows")
             }
         }
-        if (HostManager.hostIsLinux || HostManager.hostIsMac) {
+        if (HostManager.hostIsLinux) {
             linuxX64()
             linuxArm64()
+            wasmWasi {
+                nodejs()
+            }
         }
     }
 
@@ -91,7 +91,6 @@ kotlin {
         val nonJvmTest by creating { dependsOn(commonTest) }
         val jsMain by getting { dependsOn(nonJvmMain) }
         val wasmJsMain by getting { dependsOn(nonJvmMain) }
-        val wasmWasiMain by getting { dependsOn(nonJvmMain) }
         val jsTest by getting { dependsOn(nonJvmTest) }
         val nativeMain by creating { dependsOn(nonJvmMain) }
         val nativeTest by creating { dependsOn(nonJvmTest) }
@@ -154,11 +153,12 @@ kotlin {
             val mingwX64Test by getting { dependsOn(mingwTest) }
         }
 
-        if (HostManager.hostIsLinux || HostManager.hostIsMac) {
+        if (HostManager.hostIsLinux) {
             val linuxX64Main by getting { dependsOn(nix64Main) }
             val linuxX64Test by getting { dependsOn(nix64Test) }
             val linuxArm64Main by getting { dependsOn(nix64Main) }
             val linuxArm64Test by getting { dependsOn(nix64Test) }
+            val wasmWasiMain by getting { dependsOn(nonJvmMain) }
         }
     }
 }
@@ -171,8 +171,18 @@ tasks.withType<KotlinNativeCompile>().configureEach {
     compilerOptions.freeCompilerArgs.add("-opt-in=kotlinx.cinterop.ExperimentalForeignApi")
 }
 
-plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin> {
-    the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().nodeVersion = "20.11.1"
+if (HostManager.hostIsLinux) {
+    plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin> {
+        the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().download = true
+        the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().nodeVersion =
+            "21.0.0-v8-canary20231024d0ddc81258"
+        the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().nodeDownloadBaseUrl =
+            "https://nodejs.org/download/v8-canary"
+    }
+
+    tasks.withType<org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask>().configureEach {
+        args.add("--ignore-engines")
+    }
 }
 
 val ktlintConfig by configurations.creating
