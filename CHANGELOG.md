@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 project adheres to [Semantic Versioning](https://semver.org/).
 
+## [0.8.3] - 2024-03-16
+### Changed
+- Bump kotlin to 1.9.23
+- Add wasmWasi support
+
 ## [0.8.2] - 2023-11-10
 ### Changed
 - Bump kotlin to 1.9.20

@@ -118,4 +118,5 @@ tasks.register('publishWindows') {
 tasks.register('publishLinux') {
     dependsOn 'publishLinuxX64PublicationToMavenRepository'
     dependsOn 'publishLinuxArm64PublicationToMavenRepository'
+    dependsOn 'publishWasmWasiPublicationToMavenRepository'
 }

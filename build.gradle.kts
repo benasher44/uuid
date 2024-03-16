@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinNativeCompile
 import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
-    kotlin("multiplatform") version "1.9.20"
+    kotlin("multiplatform") version "1.9.23"
     id("org.jetbrains.dokka") version "1.8.20"
     id("maven-publish")
     id("signing")
@@ -66,9 +66,12 @@ kotlin {
                 binaries.findTest(DEBUG)!!.linkerOpts = mutableListOf("-Wl,--subsystem,windows")
             }
         }
-        if (HostManager.hostIsLinux || HostManager.hostIsMac) {
+        if (HostManager.hostIsLinux) {
             linuxX64()
             linuxArm64()
+            wasmWasi {
+                nodejs()
+            }
         }
     }
 
@@ -150,11 +153,12 @@ kotlin {
             val mingwX64Test by getting { dependsOn(mingwTest) }
         }
 
-        if (HostManager.hostIsLinux || HostManager.hostIsMac) {
+        if (HostManager.hostIsLinux) {
             val linuxX64Main by getting { dependsOn(nix64Main) }
             val linuxX64Test by getting { dependsOn(nix64Test) }
             val linuxArm64Main by getting { dependsOn(nix64Main) }
             val linuxArm64Test by getting { dependsOn(nix64Test) }
+            val wasmWasiMain by getting { dependsOn(nonJvmMain) }
         }
     }
 }
@@ -165,6 +169,20 @@ kotlin {
 
 tasks.withType<KotlinNativeCompile>().configureEach {
     compilerOptions.freeCompilerArgs.add("-opt-in=kotlinx.cinterop.ExperimentalForeignApi")
+}
+
+if (HostManager.hostIsLinux) {
+    plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin> {
+        the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().download = true
+        the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().nodeVersion =
+            "21.0.0-v8-canary20231024d0ddc81258"
+        the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().nodeDownloadBaseUrl =
+            "https://nodejs.org/download/v8-canary"
+    }
+
+    tasks.withType<org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask>().configureEach {
+        args.add("--ignore-engines")
+    }
 }
 
 val ktlintConfig by configurations.creating
