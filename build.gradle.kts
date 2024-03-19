@@ -46,31 +46,30 @@ kotlin {
         wasmJs {
             d8()
         }
-        if (HostManager.hostIsMac) {
-            macosX64()
-            macosArm64()
-            iosX64()
-            iosArm64()
-            iosSimulatorArm64()
-            watchosArm32()
-            watchosArm64()
-            watchosX64()
-            watchosSimulatorArm64()
-            watchosDeviceArm64()
-            tvosArm64()
-            tvosX64()
-            tvosSimulatorArm64()
+        macosX64()
+        macosArm64()
+        iosX64()
+        iosArm64()
+        iosSimulatorArm64()
+        watchosArm32()
+        watchosArm64()
+        watchosX64()
+        watchosSimulatorArm64()
+        watchosDeviceArm64()
+        tvosArm64()
+        tvosX64()
+        tvosSimulatorArm64()
+        mingwX64 {
+            binaries.findTest(DEBUG)!!.linkerOpts = mutableListOf("-Wl,--subsystem,windows")
         }
-        if (HostManager.hostIsMingw || HostManager.hostIsMac) {
-            mingwX64 {
-                binaries.findTest(DEBUG)!!.linkerOpts = mutableListOf("-Wl,--subsystem,windows")
-            }
-        }
-        if (HostManager.hostIsLinux) {
-            linuxX64()
-            linuxArm64()
-            wasmWasi {
-                nodejs()
+        linuxX64()
+        linuxArm64()
+        wasmWasi {
+            nodejs {
+                testTask {
+                    // skip on windows, since there doesn't seem to be a canary node version for use on windows
+                    this.enabled = !HostManager.hostIsMingw
+                }
             }
         }
     }
@@ -98,68 +97,59 @@ kotlin {
         val nix64Test by creating { dependsOn(nativeTest) }
         val nix32Main by creating { dependsOn(nativeMain) }
         val nix32Test by creating { dependsOn(nativeTest) }
-
-        if (HostManager.hostIsMac) {
-            val appleMain by creating { dependsOn(nativeMain) }
-            val appleTest by creating { dependsOn(nativeTest) }
-            val apple64Main by creating {
-                dependsOn(appleMain)
-                dependsOn(nix64Main)
-            }
-            val apple64Test by creating {
-                dependsOn(appleTest)
-                dependsOn(nix64Test)
-            }
-            val apple32Main by creating {
-                dependsOn(appleMain)
-                dependsOn(nix32Main)
-            }
-            val apple32Test by creating {
-                dependsOn(appleTest)
-                dependsOn(nix32Test)
-            }
-            val iosX64Main by getting { dependsOn(apple64Main) }
-            val iosX64Test by getting { dependsOn(apple64Test) }
-            val iosArm64Main by getting { dependsOn(apple64Main) }
-            val iosArm64Test by getting { dependsOn(apple64Test) }
-            val macosX64Main by getting { dependsOn(apple64Main) }
-            val macosX64Test by getting { dependsOn(apple64Test) }
-            val macosArm64Main by getting { dependsOn(apple64Main) }
-            val macosArm64Test by getting { dependsOn(apple64Test) }
-            val iosSimulatorArm64Main by getting { dependsOn(apple64Main) }
-            val iosSimulatorArm64Test by getting { dependsOn(apple64Test) }
-            val watchosArm32Main by getting { dependsOn(apple32Main) }
-            val watchosArm32Test by getting { dependsOn(apple32Test) }
-            val watchosArm64Main by getting { dependsOn(apple64Main) }
-            val watchosArm64Test by getting { dependsOn(apple64Test) }
-            val watchosX64Main by getting { dependsOn(apple64Main) }
-            val watchosX64Test by getting { dependsOn(apple64Test) }
-            val watchosSimulatorArm64Main by getting { dependsOn(apple64Main) }
-            val watchosSimulatorArm64Test by getting { dependsOn(apple64Test) }
-            val watchosDeviceArm64Main by getting { dependsOn(apple64Main) }
-            val watchosDeviceArm64Test by getting { dependsOn(apple64Test) }
-            val tvosArm64Main by getting { dependsOn(apple64Main) }
-            val tvosArm64Test by getting { dependsOn(apple64Test) }
-            val tvosX64Main by getting { dependsOn(apple64Main) }
-            val tvosX64Test by getting { dependsOn(apple64Test) }
-            val tvosSimulatorArm64Main by getting { dependsOn(apple64Main) }
-            val tvosSimulatorArm64Test by getting { dependsOn(apple64Test) }
+        val appleMain by creating { dependsOn(nativeMain) }
+        val appleTest by creating { dependsOn(nativeTest) }
+        val apple64Main by creating {
+            dependsOn(appleMain)
+            dependsOn(nix64Main)
         }
-
-        if (HostManager.hostIsMingw || HostManager.hostIsMac) {
-            val mingwMain by creating { dependsOn(nativeMain) }
-            val mingwTest by creating { dependsOn(nativeTest) }
-            val mingwX64Main by getting { dependsOn(mingwMain) }
-            val mingwX64Test by getting { dependsOn(mingwTest) }
+        val apple64Test by creating {
+            dependsOn(appleTest)
+            dependsOn(nix64Test)
         }
-
-        if (HostManager.hostIsLinux) {
-            val linuxX64Main by getting { dependsOn(nix64Main) }
-            val linuxX64Test by getting { dependsOn(nix64Test) }
-            val linuxArm64Main by getting { dependsOn(nix64Main) }
-            val linuxArm64Test by getting { dependsOn(nix64Test) }
-            val wasmWasiMain by getting { dependsOn(nonJvmMain) }
+        val apple32Main by creating {
+            dependsOn(appleMain)
+            dependsOn(nix32Main)
         }
+        val apple32Test by creating {
+            dependsOn(appleTest)
+            dependsOn(nix32Test)
+        }
+        val iosX64Main by getting { dependsOn(apple64Main) }
+        val iosX64Test by getting { dependsOn(apple64Test) }
+        val iosArm64Main by getting { dependsOn(apple64Main) }
+        val iosArm64Test by getting { dependsOn(apple64Test) }
+        val macosX64Main by getting { dependsOn(apple64Main) }
+        val macosX64Test by getting { dependsOn(apple64Test) }
+        val macosArm64Main by getting { dependsOn(apple64Main) }
+        val macosArm64Test by getting { dependsOn(apple64Test) }
+        val iosSimulatorArm64Main by getting { dependsOn(apple64Main) }
+        val iosSimulatorArm64Test by getting { dependsOn(apple64Test) }
+        val watchosArm32Main by getting { dependsOn(apple32Main) }
+        val watchosArm32Test by getting { dependsOn(apple32Test) }
+        val watchosArm64Main by getting { dependsOn(apple64Main) }
+        val watchosArm64Test by getting { dependsOn(apple64Test) }
+        val watchosX64Main by getting { dependsOn(apple64Main) }
+        val watchosX64Test by getting { dependsOn(apple64Test) }
+        val watchosSimulatorArm64Main by getting { dependsOn(apple64Main) }
+        val watchosSimulatorArm64Test by getting { dependsOn(apple64Test) }
+        val watchosDeviceArm64Main by getting { dependsOn(apple64Main) }
+        val watchosDeviceArm64Test by getting { dependsOn(apple64Test) }
+        val tvosArm64Main by getting { dependsOn(apple64Main) }
+        val tvosArm64Test by getting { dependsOn(apple64Test) }
+        val tvosX64Main by getting { dependsOn(apple64Main) }
+        val tvosX64Test by getting { dependsOn(apple64Test) }
+        val tvosSimulatorArm64Main by getting { dependsOn(apple64Main) }
+        val tvosSimulatorArm64Test by getting { dependsOn(apple64Test) }
+        val mingwMain by creating { dependsOn(nativeMain) }
+        val mingwTest by creating { dependsOn(nativeTest) }
+        val mingwX64Main by getting { dependsOn(mingwMain) }
+        val mingwX64Test by getting { dependsOn(mingwTest) }
+        val linuxX64Main by getting { dependsOn(nix64Main) }
+        val linuxX64Test by getting { dependsOn(nix64Test) }
+        val linuxArm64Main by getting { dependsOn(nix64Main) }
+        val linuxArm64Test by getting { dependsOn(nix64Test) }
+        val wasmWasiMain by getting { dependsOn(nonJvmMain) }
     }
 }
 
@@ -171,7 +161,8 @@ tasks.withType<KotlinNativeCompile>().configureEach {
     compilerOptions.freeCompilerArgs.add("-opt-in=kotlinx.cinterop.ExperimentalForeignApi")
 }
 
-if (HostManager.hostIsLinux) {
+if (!HostManager.hostIsMingw) {
+    // doesn't seem to be a canary version for use on windows
     plugins.withType<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootPlugin> {
         the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().download = true
         the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().nodeVersion =
@@ -179,10 +170,10 @@ if (HostManager.hostIsLinux) {
         the<org.jetbrains.kotlin.gradle.targets.js.nodejs.NodeJsRootExtension>().nodeDownloadBaseUrl =
             "https://nodejs.org/download/v8-canary"
     }
+}
 
-    tasks.withType<org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask>().configureEach {
-        args.add("--ignore-engines")
-    }
+tasks.withType<org.jetbrains.kotlin.gradle.targets.js.npm.tasks.KotlinNpmInstallTask>().configureEach {
+    args.add("--ignore-engines")
 }
 
 val ktlintConfig by configurations.creating
