@@ -1,7 +1,7 @@
 # A Kotlin Multiplatform UUID
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.benasher44/uuid.svg?label=mavenCentral%28%29)](https://search.maven.org/artifact/com.benasher44/uuid)
-[![Build Status](https://github.com/benasher44/uuid/workflows/master/badge.svg)](https://github.com/benasher44/uuid/actions?query=workflow%3Amaster)
+[![Build Status](https://github.com/benasher44/uuid/actions/workflows/publish.yml/badge.svg)](https://github.com/benasher44/uuid/actions/workflows/publish.yml)
 [![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](CODE_OF_CONDUCT.md)
 
 K/N doesn't have a UUID yet. This brings a UUID that matches UUIDs on various platforms:
